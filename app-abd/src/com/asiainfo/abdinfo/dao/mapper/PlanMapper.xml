@@ -1,0 +1,58 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.asiainfo.abdinfo.dao.PlanDao">
+	
+	
+	<!-- 弄类型跟项目名称 -->
+	<select id="makePlan" resultType="com.asiainfo.abdinfo.po.DayPlan">
+	select ID as id,
+	      parent_id as parentID,
+	       Name as name,
+	       sort  as sort
+	  from plantype 
+    WHERE  Department=(SELECT 部门 from datacenter_personnel WHERE 人员编码=#{staffCode}) AND STATUS=1
+    ORDER BY parent_id ,sort
+	</select>
+	
+	
+	<!-- 日数据中插入数据-->
+	<insert id="insertPlanRecord" useGeneratedKeys="false">
+    INSERT INTO plan_record 
+	(staffCode,planTime,currentTime,type,projectName,timeLong,planContent)
+	VALUES
+    <foreach collection="list" item="item" index="index"  separator=",">   
+      (
+       #{staffCode},
+       #{planTime},
+       now(),
+       #{item.type},
+       #{item.projectName},
+       #{item.timeLong},
+       #{item.planContent}	
+      )
+   			
+    </foreach>
+	</insert>
+	
+	<!-- 数据反查 -->
+	<select id="selectPlan" resultType="com.asiainfo.abdinfo.po.PlanData">
+	SELECT ID,type,projectName,timeLong,planContent from plan_record
+     WHERE staffCode=#{staffCode} AND planTime=#{planTime}
+	</select>
+	
+	<!-- 删除数据库中的数据 -->
+	<delete id="delectPlan" parameterType="String">
+	DELETE FROM plan_record WHERE id =#{id} 
+	</delete>
+	
+	
+</mapper>
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,45 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.asiainfo.abdinfo.dao.PersonnelMapper">
+	
+	<select id="findAllPer" resultType="com.asiainfo.abdinfo.po.Personnel"> 
+		select 人员编码  as usercode,
+  姓名  as username,部门  as department,事业部    as division, 事业部id  as dvsid,职称  as jobname,岗位  as jobs,职位  as position,
+  数据级别  as datalevel,开始日期  as startdate,特殊状态  as state,权限  as permissions,备注  as comment  from datacenter_personnel datacenter_personnel	
+	</select>
+
+	<select id="findByCode" resultType="com.asiainfo.abdinfo.po.Personnel"> 
+		select 人员编码  as usercode,
+  姓名  as username,部门  as department,事业部    as division, 事业部id  as dvsid,职称  as jobname,岗位  as jobs,职位  as position,
+  数据级别  as datalevel,开始日期  as startdate,特殊状态  as state,权限  as permissions,备注  as comment  from datacenter_personnel
+where 人员编码=#{usercode}
+	</select>
+
+	<select id="findBybm" resultType="com.asiainfo.abdinfo.po.Personnel"> 
+		select 人员编码  as usercode,
+  姓名  as username,部门  as department,事业部    as division, 事业部id  as dvsid,职称  as jobname,岗位  as jobs,职位  as position,
+  数据级别  as datalevel,开始日期  as startdate,特殊状态  as state,权限  as permissions,备注  as comment  from datacenter_personnel	
+		where 部门=#{bumen}
+	</select>
+
+	<select id="findbycode" resultType="com.asiainfo.abdinfo.po.NewLoginBean.NewLogin">
+		select
+		员工编码 as staffCode,
+		微信名 as nickName,
+		性别 as
+		gender,
+		城市 as city,
+		省份 as province,
+		国家 as country,
+		头像 as avatarUrl
+		from
+		USERTABLE where 员工编码=#{staffcode}
+	</select>
+	
+	<select id="findBysyb" resultType="com.asiainfo.abdinfo.po.Personnel"> 
+		select 人员编码  as usercode,
+  姓名  as username,部门  as department,事业部    as division, 事业部id  as dvsid,职称  as jobname,岗位  as jobs,职位  as position,
+  数据级别  as datalevel,开始日期  as startdate,特殊状态  as state,权限  as permissions,备注  as comment  from datacenter_personnel	
+		where 事业部=#{bumen}
+	</select>
+</mapper>

@@ -1,0 +1,16 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.asiainfo.abdinfo.dao.FeedBackDao">
+
+
+   <!-- 插入意见反馈 -->
+	<insert id="insertFeedBack" useGeneratedKeys="true" keyProperty="id">
+	  INSERT INTO FeedBack (staffCode,content,currentTime) VALUES (#{staffCode},#{content},NOW())
+	</insert>
+	
+	<insert id="insertFeedBackImg">
+	INSERT INTO FeedBack_img(foreign_id,path)VALUES(#{foreign},#{path})
+	</insert>
+	
+	
+</mapper>

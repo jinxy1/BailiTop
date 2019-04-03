@@ -1,0 +1,55 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.asiainfo.abdinfo.dao.WX">
+	<!-- 公告内容 -->
+	
+	<insert id="add1">
+		insert into 用户访问留(date,visit_uv_new,visit_uv) values(#{ref_date},#{visit_uv_new},#{visit_uv})
+	</insert>
+	<insert id="add2">
+		insert into 访问趋势表(ref_date,session_cnt,visit_pv,visit_uv,visit_uv_new,stay_time_session,visit_depth) 
+		values(#{ref_date},#{session_cnt},#{visit_pv},#{visit_uv},#{visit_uv_new},#{stay_time_session},#{visit_depth})
+		<!-- <foreach collection="vTrendings" item="vTrending" separator=",">
+			(#{vTrending.ref_date},#{vTrending.session_cnt},#{vTrending.visit_pv},#{vTrending.visit_uv},#{vTrending.visit_uv_new},#{vTrending.stay_time_uv},#{vTrending.stay_time_session},#{visit_depth})
+		</foreach> -->
+	</insert>
+	<insert id="add3">
+		insert into 访问小程序数据概况(ref_date,visit_total,share_pv,share_uv) 
+		values(#{ref_date},#{visit_total},#{share_pv},#{share_uv})
+	</insert>
+	<insert id="add4">
+		insert into 小程序新增或活跃用户的画像分布数据内容(ref_date,name,type,visit_uv_type,value) 
+		values
+		<foreach collection="dParams" item="dParam" separator=",">
+			(#{ref_date},
+			#{dParam.name},
+			#{type},
+			#{visit_uv_type},
+			#{dParam.value})
+		</foreach>
+	</insert>
+	<insert id="add5">
+		insert into 单个页面访问数据(
+		ref_date,
+		page_path,
+		page_visit_pv,
+		page_visit_uv,
+		page_staytime_pv,
+		entrypage_pv,
+		exitpage_pv,
+		page_share_pv,
+		page_share_uv) 
+		values
+		<foreach collection="list" item="param" separator=",">
+			(#{ref_date},
+			#{param.page_path},
+			#{param.page_visit_pv},
+			#{param.page_visit_uv},
+			#{param.page_staytime_pv},
+			#{param.entrypage_pv},
+			#{param.exitpage_pv},
+			#{param.page_share_pv},
+			#{param.page_share_uv})
+		</foreach>
+	</insert>
+</mapper>

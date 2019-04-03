@@ -1,0 +1,158 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.asiainfo.abdinfo.dao.ReadClockDao">
+	<!-- mybatis中最关键的标签：resultMap -->
+
+	<!-- 计划读书日期为应该读的书 -->
+
+	<select id="findReadIndex" parameterType="java.util.Map"
+		resultType="com.asiainfo.abdinfo.po.ReadClock">
+		select rp.staffCode,
+		dp.姓名 as staffName,
+		dp.岗位 as staffJobs,
+		bb.id as
+		bookID,
+		bb.clockBook,
+		rp.clockDate,
+		rd.clockDay,
+		rd.clockDirectory,
+		REPLACE(REPLACE(content,CHAR(10),'\n'),CHAR(13),'\n') content,
+		dp.部门 as
+		department,
+		rp.actualReading,
+		rp.ReadingFeeling,
+		rp.actualReading,
+		rp.num,
+		sg.struggleName,
+        sg.struggleId
+		from
+		Reading_plancontent rp
+		left join
+		Reading_detail rd on
+		rp.ChapterId=rd.id
+		left join
+		books bb on rd.BookId=bb.id
+		left join
+		datacenter_personnel dp on rp.staffCode=dp.人员编码
+		LEFT JOIN
+        struggle sg ON rp.staffCode=sg.staffCode
+		where
+		rp.staffCode=#{staffCode}
+		<if test="clockDate != null">
+			and rp.clockDate=#{clockDate}
+		</if>
+
+		<if test="beginClockDate !=null and endClockDate !=null">
+			and clockDate <![CDATA[>=]]>
+			#{beginClockDate} and clockDate<![CDATA[<=]]>#{endClockDate}
+		</if>
+
+		<if test="clockDirectory !=null">
+			and rd.clockDirectory=#{clockDirectory}
+		</if>
+
+	</select>
+
+
+	<!-- count(rp.读书时间) 以读 rp.章节ID 需读 bb.书名 读的本书 -->
+	<select id="findCount" parameterType="java.util.Map"
+		resultType="com.asiainfo.abdinfo.po.ReadCount">
+		select count(DISTINCT rp.actualReading) as readEnd,
+		count(DISTINCT rp.ChapterId) as
+		needRead,
+		count(DISTINCT bb.clockBook)
+		as alreadyBook
+		from
+		Reading_plancontent rp , BOOKS bb
+		where
+		rp.staffCode=#{staffCode}
+	</select>
+
+	<!-- 判断有多少人上线 -->
+	<select id="findCountPeople" parameterType="java.util.Map"
+		resultType="String">
+		select count(*) from Reading_plancontent
+		where clockDate=#{clockDate} AND ReadingFeeling !=''
+	</select>
+
+	<!-- 更新数据即插入数据 -->
+	<update id="updateBook" parameterType="java.util.Map">
+		UPDATE
+		Reading_plancontent
+		SET actualReading =
+		now(),timeLength=#{timeLength},ReadingFeeling=#{feeling},num=#{num}
+		WHERE staffCode=#{staffCode}
+		and clockDate=#{clockDate}
+	</update>
+
+   
+ 
+	
+	<!-- 查询读书心得积分的数据 -->
+	<select id="selectIntegralRead" resultType="String">
+	select IFNULL(integral,0)  from reading_plancontent where staffCode=#{staffCode} AND clockDate=#{clockDate}
+	</select>
+	
+	
+	
+	
+	
+	
+	<!-- 绘制积分图案 -->
+	<select id="selectIconLevel" parameterType="String" resultType="com.asiainfo.abdinfo.po.NewLoginBean.Integral" statementType="CALLABLE">
+	   CALL integralLevel (#{staffCode})
+	</select>
+	
+	
+	<!-- 判断本月是否导入数据 若没有导入则前移 -->
+	<select id="selectJibenxinxi" resultType="String">
+	  SELECT 工号  FROM jibenxinxi 
+      WHERE 工号=#{staffCode} AND 年=SUBSTRING(#{yearMonth},1,4) AND 月=cast(SUBSTRING(#{yearMonth},6,2) as UNSIGNED INTEGER)
+	</select>
+
+	<!-- 根据用户是否为休息日来判断 -->
+	<select id="selectDayRest" resultType="com.asiainfo.abdinfo.po.DayRest">
+        SELECT STAND_DATE as standDate,
+		CASE WHEN IFNULL(NOTE,'') != '' or b.工号 is not null  THEN 1 ELSE 0 END AS readFeel
+		FROM  zxs_partitionofweek a 
+		LEFT JOIN (SELECT  工号, SUBSTRING(休息日1, 3, 1)休息日1,SUBSTRING(休息日2, 3, 1)休息日2  
+		FROM jibenxinxi 
+		WHERE 工号=#{staffCode} AND 年=SUBSTRING(#{yearDay},1,4) AND 月=cast(SUBSTRING(#{yearDay},6,2) as UNSIGNED INTEGER)) b on  
+		mathToChar(WEEKDAY(STAND_DATE)+1) =b.休息日1 or mathToChar(WEEKDAY(STAND_DATE)+1) =休息日2
+		<if test="status=='dateLike'">
+		WHERE STAND_DATE like concat(SUBSTRING(#{yearMonth},1,7) ,'%') 
+		</if>
+		<if test="status=='dateEqul'">
+		WHERE STAND_DATE=#{yearMonth}
+		</if>
+		AND CASE WHEN IFNULL(NOTE,'') != '' or b.工号 is not null  THEN 1 ELSE 0 END=1
+	    UNION 
+	    SELECT clockDate as standDate,
+		CASE IFNULL(ReadingFeeling,'') WHEN '' THEN 2 ELSE 0 END AS readFeel
+		FROM  reading_plancontent 
+		where staffCode=#{staffCode}   AND clockDate like concat(SUBSTRING(#{yearMonth},1,7),'%')
+		AND clockDate&lt;SUBSTRING(NOW() ,1, 10) AND CASE IFNULL(ReadingFeeling,'') WHEN '' THEN 1 ELSE 0 END=1
+	</select>
+	
+	
+	 <!-- 查询日历的数据  没有注释的只查没有打卡的-->
+	<select id="selectCalendar"  resultType="com.asiainfo.abdinfo.po.DayRest">
+	<!-- select clockDate,CASE IFNULL(ReadingFeeling,'') WHEN '' THEN 1 ELSE 0 END AS readFeel
+		from reading_plancontent  
+		where staffCode=#{staffCode} AND clockDate like concat(#{yearMonth},'%')
+       ORDER BY clockDate -->
+		SELECT clockDate as standDate,
+		       CASE IFNULL(ReadingFeeling,'') WHEN '' THEN 2 ELSE 0 END AS readFeel
+		FROM  reading_plancontent 
+		where staffCode=#{staffCode}   AND clockDate like concat(SUBSTRING(#{yearMonth},1,7),'%')
+		AND clockDate&lt;SUBSTRING(NOW() ,1, 10) AND CASE IFNULL(ReadingFeeling,'') WHEN '' THEN 1 ELSE 0 END=1
+		ORDER BY clockDate 
+	</select>
+
+
+</mapper>
+
+
+
+
+

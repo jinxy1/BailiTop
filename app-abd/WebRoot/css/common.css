@@ -1,0 +1,133 @@
+.py-100 {
+	padding-top: 100px;
+	padding-bottom: 100px;
+}
+a.start-trial {
+	float: right;
+	margin: 18px 0;
+	padding: 5px 20px;
+	font-family:"Raleway-Bold";
+	color:#fff;
+	border-radius:50px;
+	background-color:#14cc70;
+}
+.signup-btn {
+	background-color: #14cc70;
+	color: #ffffff;
+	width: 270px;
+	border-radius: 50px;
+	padding: 15px;
+	text-transform: uppercase;
+}
+.bottom-line {
+	border-bottom: 1px solid #cccccc;
+	margin:20px 37%;
+}
+.signup-btn:hover, .start-trial:hover, .signup-btn:focus, .start-trial:focus {
+	color: #ffffff;
+}
+.navbar-default {
+	position: fixed;
+	z-index: 9999;
+	width: 100%;
+	background-color: #fff;
+	border: 0;
+	border-radius: 0;
+}
+.navbar-header {
+	margin-top: 20px;
+}
+.nav li, .nav li a {
+	display: inline-block;
+}
+.nav li a {
+	font-size: 12px;
+	text-transform: uppercase;
+	padding: 25px 15px;
+	color: #6c7380;
+	font-family: "Raleway-SemiBold";
+}
+.navbar-toggle {
+	margin-top: 0;
+}
+.navbar>.container .navbar-brand, .navbar>.container-fluid .navbar-brand {
+	margin-left: 10px;
+	vertical-align: middle;
+	display: inline-block;
+	float: none;
+	height: auto;
+	padding: 0;
+	line-height: inherit;
+}
+.navbar-default .navbar-brand>img, .navbar-inverse .navbar-brand>img {
+	top: auto;
+	width: 160px;
+	position: relative;
+}
+footer {
+	background-color:#1b1f26;
+	padding:30px 0;
+	padding-top: 45px;
+}
+.access-links li {
+	margin-bottom: 10px;
+}
+.access-links li a {
+	font-size:12px;
+	text-transform:uppercase;
+	font-family:Raleway-SemiBold;
+	color:#6c7380;
+}
+.signup-form {
+	background-image: url(/img/site/How_it_works_bg.png);
+	background-color: #ffffff;
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+}
+.signup-form input, .signup-form textarea{
+	background-color: transparent;
+}
+.signup-form input.form-control:focus, .signup-form textarea.form-control:focus{
+	background-color: transparent !important;
+	box-shadow: none !important;
+}
+.footer-logo {
+	margin-top:20px;
+	display:inline-block
+}
+.footer-list {
+	margin-top: 5px;
+}
+.footer-icon {
+	color: grey;
+}
+
+.trial .container{
+	
+	margin-top: 130px
+}
+.trial .container h2{
+	
+	margin-bottom: 80px;
+}
+.hahah{background-color: white;}
+
+@media (min-width: 768px) and (max-width: 992px){
+	.container {
+		width: 100% !important;
+	}
+	.nav li a{
+		padding: 25px 10px;
+	}
+}
+@media (max-width: 767px) {
+	.nav {
+		margin-bottom: 20px;
+	}
+	.nav li, .nav li a {
+		display: block;
+	}
+	a.start-trial {
+		float: none;
+	}
+}

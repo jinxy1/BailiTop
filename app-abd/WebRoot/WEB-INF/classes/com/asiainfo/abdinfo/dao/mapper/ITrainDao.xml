@@ -1,0 +1,29 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.asiainfo.abdinfo.dao.ITrainDao">
+
+	<resultMap type="com.asiainfo.abdinfo.po.Train" id="train">
+		<id column="id" property="id"></id>
+		
+		<collection property="resources" column="id" ofType="com.asiainfo.abdinfo.po.Resource" javaType="ArrayList">
+			
+		</collection>
+	</resultMap>
+	<!-- 查询培训内容 -->
+	<select id="findTrain" resultMap="train">
+		select w.resultsContent,k.knowledge_point,k.academy,p.id,p.expected_outcome,p.staffCode,p.start_time,p.end_time,t.resource_name,t.resource_type,t.links_resources from plan p 
+		inner join self_knowledge_graph s on p.s_k_g_ID=s.ID 
+		inner join knowledge_graph k on s.k_g_ID=k.ID
+		inner join knowledge_graph_type t on t.k_g_ID=k.ID
+		inner join plan_work w on w.p_ID=p.id
+		where s.staffCode=#{staffCode} and k.`status`='启用' and p.start_time is not null and p.result is null
+		and p.start_time &lt;= #{date} and p.end_time &gt;= #{date}
+		order by p.start_time;
+	</select>
+	<!-- 更新培训感想-->
+	<update id="updateTrain">
+		update plan_work pw inner join plan p on p.id=pw.p_ID set resultsContent=#{content} where p_ID=#{id} and staffCode=#{staffCode}
+	</update>
+	
+	
+</mapper>

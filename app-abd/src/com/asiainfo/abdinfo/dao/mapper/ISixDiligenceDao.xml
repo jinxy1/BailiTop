@@ -1,0 +1,217 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.asiainfo.abdinfo.dao.ISixDiligenceDao">
+	<!-- 查询全部感恩内容 -->
+	<resultMap type="com.asiainfo.abdinfo.po.SixDiligence" id="tips">
+		<id property="date" column="date" />
+		<collection property="menus" column="date"
+			ofType="com.asiainfo.abdinfo.po.Menus" javaType="ArrayList">
+			<result property="pers" column="owePerson" />
+			<result property="detail" column="oweDetails" />
+			<result property="id" column="id" />
+			<result property="new_id" column="new_id" />
+		</collection>
+	</resultMap>
+	<select id="findTips" parameterType="java.util.Map" resultMap="tips">
+		select date,staffCode,id,new_id,owePerson,IFNULL(oweDetails,'') as
+		oweDetails from owes_content
+		where staffCode=#{staffCode}
+		<if test="date!=null">
+			and date=#{date}
+		</if>
+		<if test="date==null||date==''">
+			order by date desc
+		</if>
+	</select>
+
+	<!-- 查询根据日期查询感恩内容 -->
+	<resultMap type="com.asiainfo.abdinfo.po.Menus" id="menus">
+		<result property="date" column="date" />
+		<result property="pers" column="owePerson" />
+		<result property="detail" column="oweDetails" />
+		<result property="id" column="id" />
+		<result property="new_id" column="new_id" />
+	</resultMap>
+	<select id="findMenus" parameterType="java.util.Map" resultMap="menus">
+		select date,staffCode,id,new_id,owePerson,oweDetails from owes_content
+		where staffCode=#{staffCode}
+		and date=#{date}
+	</select>
+
+	<!-- 查询六项精进"今日感想","今日反省","今日善行","感恩其他" -->
+	<resultMap type="com.asiainfo.abdinfo.po.SixDiligence" id="sixDiligence">
+		<result property="date" column="date" />
+		<result property="department" column="department" />
+		<result property="staffName" column="staffName" />
+		<collection property="types" column="types"
+			ofType="com.asiainfo.abdinfo.po.Types" javaType="ArrayList">
+			<result property="type" column="types" />
+			<result property="content" column="content" />
+		</collection>
+	</resultMap>
+	<select id="findSixDiligence" parameterType="java.util.Map"
+		resultMap="sixDiligence">
+		select r.id,r.department,r.types,(CASE when r.content is null then ''
+		else r.content end ) content,r.staffCode,r.date from
+		Reading_reflection r
+		where staffCode=#{staffCode}
+		<if test="date!=null">
+			and date=#{date}
+		</if>
+		<if test="date==null||date==''">
+			order by r.date desc
+		</if>
+	</select>
+	<!-- 用于判断感想等内容是插入还是删除 -->
+	<select id="types" resultType="Types">
+		select r.types as type,r.content from Reading_reflection r where staffCode=#{staffCode} and date=#{date}
+	</select>
+	<!-- 查询自主内容 -->
+	<resultMap type="com.asiainfo.abdinfo.po.Menus" id="Customcontent">
+		<id property="id" column="id" />
+		<result property="type" column="Customtype" />
+		<result property="content" column="Customcontent" />
+	</resultMap>
+	<select id="findCustomcontent" parameterType="java.util.Map"
+		resultMap="Customcontent">
+		select c.id,c.Customtype,
+		(CASE when c.Customcontent is null
+		then '' else c.Customcontent end ) Customcontent
+		from custom_reflection
+		c
+		where staffCode=#{staffCode} and date=#{date}
+	</select>
+
+	<!-- 查询六项精进读书感想 -->
+	<resultMap type="com.asiainfo.abdinfo.po.SixDiligence" id="sixDiligences">
+		<id property="id" column="id" />
+		<result property="ceshi" column="ReadingFeeling" />
+		<result property="chapters" column="clockDirectory" />
+		<result property="date" column="clockDate" />
+	</resultMap>
+	<select id="findReadFeeling" parameterType="java.util.Map"
+		resultMap="sixDiligences">
+
+		select d.clockDirectory,p.ReadingFeeling,p.clockDate,p.id,b.clockBook
+		as bookNames from reading_detail d
+		INNER JOIN reading_plancontent p on d.id=p.ChapterId INNER JOIN books b on
+		d.BookId=b.ID where staffCode=#{staffCode} and clockDate
+		&lt;=#{clockDate} and p.ReadingFeeling is not null and
+		p.ReadingFeeling&lt;&gt;""
+		<if test="date!=null">
+			and clockDate=#{date}
+		</if>
+		<if test="date==null||date==''">
+			order by clockDate desc
+		</if>
+	</select>
+	<!-- 查询六项精进行实践内容 -->
+	<resultMap type="com.asiainfo.abdinfo.po.SixDiligence" id="works">
+		<id property="date" column="date" />
+		<collection property="works" column="date"
+			ofType="com.asiainfo.abdinfo.po.Works" javaType="ArrayList">
+			<result property="work" column="actconcom" />
+			<result property="id" column="id" />
+			<result property="entry_name" column="entry_name" />
+			<result property="planTime" column="actualnum" />
+			<result property="projectType" column="projectType" />
+			<result property="stutas" column="stutas" />
+		</collection>
+	</resultMap>
+	<!-- 查找全部工作内容 -->
+	<select id="findWork" parameterType="java.util.Map" resultMap="works">
+		select id,actconcom ,date,projectType,entry_name,actualnum ,stutas from work_plan
+		where staffCode=#{staffCode}
+		<if test="date!=null">
+			and date=#{date}
+		</if>
+		<if test="date==null||date==''">
+			order by date desc
+		</if>
+	</select>
+
+	<!-- 根据时间查找工作内容 -->
+	<resultMap type="com.asiainfo.abdinfo.po.Works" id="work">
+		<result property="date" column="date" />
+		<result property="work" column="actconcom" />
+	</resultMap>
+	<select id="findworks" parameterType="java.util.Map" resultMap="work">
+		select actconcom ,date from work_plan
+		where staffCode=#{staffCode} and date=#{date}
+	</select>
+	
+	<!-- 封装日精进和日总结一起显示的信息 -->
+	<resultMap type="com.asiainfo.abdinfo.po.SixList" id="sixList">
+		<id property="staffCode" column="staffCode" />
+		<result property="date" column="date"/>
+		<collection property="custom_reflections" ofType="com.asiainfo.abdinfo.po.Custom_reflection" 
+			javaType="ArrayList">
+				<id property="department" column="type"></id>
+			<collection property="type" column="type" ofType="com.asiainfo.abdinfo.po.Type" 
+			javaType="ArrayList">
+				
+			</collection>
+		</collection>
+    </resultMap>
+	<select id="find" resultMap="sixList">
+	select date,staffCode,type,Customtype,Customcontent,stutas,department from
+		(
+		SELECT 5 num,'23:59:59' as date,'头像' as type,`姓名` as Customtype,头像 as Customcontent,人员编码 
+		as staffCode,1 as stutas,部门 as department  from datacenter_personnel p left JOIN usertable u on u.`员工编码`=p.`人员编码` 
+		UNION ALL
+		select 4 num,SUBSTRING(createDate,12,8) date,'总结' as type,actconcom ,entry_name,staffCode,stutas,department from 
+		work_plan where date=#{date}
+		UNION ALL
+		select 3 num,SUBSTRING(createTime,12,8) date,'精进' as type,r.types,(CASE  when  r.content is null 
+		then '' else r.content end ) content,staffCode,1 as stutas,department
+		from Reading_reflection r where date=#{date}
+		UNION ALL
+		select 2 num,SUBSTRING(createTime,12,8) date,'感恩' as type,owePerson,oweDetails,staffCode,1 as stutas,department from 
+		owes_content oc where oc.date=#{date}
+		UNION ALL
+		select 1 num,SUBSTRING(createTime,12,8) date,'自主' as type,c.Customtype,(CASE  when  c.Customcontent 
+		is null then '' else c.Customcontent end ) Customcontent ,staffCode,1 as stutas,department
+		from custom_reflection c where date=#{date}
+		) a where department =#{depement}
+		
+		<!-- and staffCode!=#{staffCodeMy} -->
+		order by num desc
+		
+	</select>
+	<!-- 根据人员编码查找部门或者事业部的所有人的人员编码 -->
+	<select id="findStaffCode" resultType="java.lang.String">
+		
+		<if test="bumen=='12'">
+			select 部门  from datacenter_personnel  where 人员编码=#{staffCodeMy}
+		</if>
+		<if test="bumen=='11'">
+			select 事业部  from datacenter_personnel  where 人员编码=#{staffCodeMy}
+		</if>
+		<if test="bumen!='11' and bumen!=12">
+			人员编码 =''
+		</if>
+	</select>
+	
+	<resultMap type="com.asiainfo.abdinfo.po.Custom_reflection" id="findMy_day">
+		<id property="department" column="type" />
+		<collection property="type" ofType="com.asiainfo.abdinfo.po.Type" javaType="ArrayList">
+			
+		</collection>
+    </resultMap>
+	<select id="findMyDay" resultMap="findMy_day">
+		select '总结' type,date,actconcom Customtype,entry_name Customcontent,4 num,stutas from work_plan 
+		where  staffCode=#{staffCode} and date=#{date}
+		union all
+		select '精进' type,date,types Customtype,content Customcontent,3 num,1 from Reading_reflection 
+		where staffCode=#{staffCode} and date=#{date} 
+		union all
+		SELECT '感恩' type,date,owePerson Customtype,oweDetails Customcontent,2 num,1 from owes_content 
+		where staffCode=#{staffCode} and date=#{date}
+		union all
+		SELECT '自主' type,date,Customtype Customtype,Customcontent Customcontent,1 num,1 from custom_reflection 
+		WHERE staffCode=#{staffCode} and date=#{date}
+	</select>
+	
+
+
+</mapper>

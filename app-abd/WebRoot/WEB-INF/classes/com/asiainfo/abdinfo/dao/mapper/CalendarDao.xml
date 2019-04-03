@@ -1,0 +1,92 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.asiainfo.abdinfo.dao.CalendarDao">
+
+	<resultMap type="com.asiainfo.abdinfo.po.Calendar" id="calendar">
+		<id column="project" property="project" />
+		<result column="icon" property="icon" />
+		<result column="stutas" property="stutas" />
+		<collection property="contents" ofType="string" javaType="ArrayList"
+			column="project">
+			<result column="content" />
+		</collection>
+	</resultMap>
+
+	<sql id="numberDate">
+		工号=#{staffCode} AND 日期=#{date}
+	</sql>
+
+	<sql id="numberDateNew">
+		staffCode=#{staffCode} AND date=#{date}
+	</sql>
+
+	<!-- 日历模块 -->
+	<select id="selectCalendarContent" resultMap="calendar">
+		SELECT pROJECT,CONTENT,ICON,stutas FROM CALENDAR_PROJECT WHERE
+		STAFF_CODE=#{staffCode} AND DATE=#{date}
+		UNION ALL
+		SELECT '【读书感悟】' as
+		project,ReadingFeeling as content, 'book' as icon ,CASE WHEN
+		ReadingFeeling is NULL OR ReadingFeeling='' THEN '' else '已读' END from
+		reading_plancontent WHERE staffCode=#{staffCode} and ClockDate=#{date}
+		UNION ALL
+		SELECT '【行之实践】' as project ,actconcom as content
+		,'conclusion' as icon,stutas FROM work_plan WHERE
+		<include refid="numberDateNew" />
+		UNION ALL
+		SELECT '【精进】' as
+		project,CONCAT("【",types,"】",char(10),content) AS content,'practice'
+		as icon,'' FROM Reading_reflection WHERE
+		<include refid="numberDateNew" />
+		AND content!=''
+		union ALL
+		SELECT '【今日感恩】' as project ,oweDetails as
+		content , 'gratitude' as icon,'' FROM owes_content WHERE
+		<include refid="numberDateNew" />
+		AND oweDetails!=''
+		UNION ALL
+		SELECT Customtype as project,Customcontent
+		as content ,'career' as icon,'' from custom_reflection WHERE
+		<include refid="numberDateNew" />
+
+	</select>
+
+
+
+	<!-- 将考勤模块单独拿出来 -->
+	 <select id="selectAttendance" resultType="String">
+		SELECT 时间 as content from dakajilu WHERE 工号=#{staffCode} AND 日期=#{date}
+		ORDER BY 时间
+	</select> 
+	
+
+	
+	<!-- 查询当前日期的前一天日期 -->
+	<select id="selectBefore" resultMap="calendar">
+	 SELECT
+	   CASE WHEN  MAX(时间)>='12:00:00' THEN  CONCAT(SUBSTRING(日期,9,10),'号下午打卡')  
+	   ELSE CONCAT(SUBSTRING(日期,9,10),'号上午打卡')   END  as project,MAX(时间) as content
+	from dakajilu  WHERE 工号=#{staffCode} AND 日期 =#{beforeDay}
+	</select>
+	
+	
+	
+
+	<!-- 判断指定日期是否有读书内容 -->
+	<select id="judgeRead" resultType="String">
+		SELECT IFNULL(ReadingFeeling,'')
+		from reading_plancontent
+		WHERE staffCode=#{staffCode} and ClockDate=#{date}
+	</select>
+
+
+
+
+
+
+
+
+
+</mapper>
+
+

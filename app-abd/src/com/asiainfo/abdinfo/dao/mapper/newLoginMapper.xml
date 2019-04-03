@@ -1,0 +1,126 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.asiainfo.abdinfo.dao.NewLoginPage">
+	
+	
+	<resultMap type="com.asiainfo.abdinfo.po.NewLoginBean.NewLogin" id="findUser">
+		<result property="staffCode" column="员工编码" />
+		<result property="openId" column="openId" />
+		
+    </resultMap>
+	<!-- 更加openId查询用户信息 -->
+	<select id="findUser" parameterType="java.util.Map"
+		 resultMap="findUser">
+		select * from USERTABLE where openId=#{openId}
+	</select>
+ 
+	<!-- 插入用户 -->
+	<insert id="insertUser" parameterType="java.util.Map">
+		INSERT into USERTABLE
+		(openid,微信名,性别,城市,省份,国家,头像)
+		values
+		(#{openId},#{nickName},#{gender},#{city},#{province},#{country},#{avatarUrl})
+	</insert>
+	<!-- 根据人员编码删除用户信息 -->
+	<delete id="deleteUser" parameterType="java.util.Map">
+	delete from USERTABLE where 员工编码=#{userId}; 
+	</delete>
+	<!-- 删除和当前openid不同的信息 -->
+	<delete id="deleteUserByOpenId" parameterType="java.util.Map">
+	delete from USERTABLE where 员工编码=#{userId} and openId&lt;&gt;#{openId}; 
+	</delete>
+	
+	<select id="selectUser" parameterType="java.util.Map" resultType="com.asiainfo.abdinfo.po.NewLoginBean.NewLogin">
+	select ID,openId,员工编码 as staffCode,
+		密码 as pwd,
+		微信名 as nickName,
+		性别 as
+		gender,
+		城市 as city,
+		省份 as province,
+		国家 as country,
+		头像 as avatarUrl  from USERTABLE where 员工编码=#{userId}; 
+	</select>
+	<!-- 更加openID更新用户信息-->
+	<update id="updateUser" parameterType="java.util.Map">
+		UPDATE USERTABLE set
+		员工编码=#{userId} , 密码=#{password},头像=#{avatarUrl} where openid=#{openId}
+	</update>
+	<!-- 更加openID更新用户的人员编码和密码 -->
+	<update id="updateUserNewe" parameterType="java.util.Map">
+		UPDATE USERTABLE set
+		员工编码=#{userId} , 密码=#{password} where openid=#{openId}
+	</update>
+	
+	
+	<!-- 根据openID查找用户信息 -->
+	<select id="findNewUser" parameterType="String"
+		resultType="com.asiainfo.abdinfo.po.NewLoginBean.NewLogin">
+		select
+		员工编码 as staffCode,
+		密码 as pwd,
+		微信名 as nickName,
+		性别 as
+		gender,
+		城市 as city,
+		省份 as province,
+		国家 as country,
+		头像 as avatarUrl
+		from
+		USERTABLE where openId=#{openId}
+	</select>
+   
+   
+   <!-- 查找首页的读书感悟、点赞等信息 -->
+	<select id="findAllFeeling" parameterType="java.util.Map" resultType="ListAllFeeling">
+	SELECT
+		rr.id,
+		rd.`姓名` as staffName, 
+		rd.`部门` as dept,
+		rr.staffCode,
+		rr.timeLength,
+		rr.ReadingFeeling,
+		rr.num,
+		dd.clockDirectory,
+		(select praise from praise where praiseID= rr.id and staffCode=#{staffCode}) as praise,
+		(select count(staffCode) from praise where praiseID= rr.id) as praiseNum,
+		(select fabulous from fabulous where fabulousID= rr.id and staffCode=#{staffCode}) as fabulous,
+		(select count(staffCode) from fabulous where fabulousID= rr.id) as fabulousNum,
+		(select enshrine from myenshrine where enshrineID= rr.id and staffCode=#{staffCode}) as enshrine,
+		(select count(staffCode) from myenshrine where enshrineID= rr.id) as enshrineNum,
+    	rr.actualReading,
+		uu.`微信名` as nickName,
+		uu.`头像` as avatarUrl
+		from reading_plancontent rr
+		LEFT JOIN usertable uu ON rr.staffCode=uu.`员工编码`
+		LEFT JOIN datacenter_personnel rd ON rr.staffCode=rd.`人员编码`
+		inner join reading_detail dd on rr.ChapterId=dd.id
+		WHERE rr.clockDate=curdate() AND rr.ReadingFeeling!=''
+		<if test="dep=='12'">
+		AND 部门 in (select 部门 from datacenter_personnel where 人员编码=#{staffCode})
+		</if>
+		<if test="dep=='11'">
+		AND 事业部 in (select 事业部 from datacenter_personnel where 人员编码=#{staffCode})
+		</if>
+		<if test="dep==null and dep==''">
+		AND rr.staffCode=#{staffCode}
+		</if>
+		order by rr.actualReading desc
+	</select>
+	<!-- 根据人员编码查找用户信息 -->
+	<select id="findbaseByCode" parameterType="java.util.Map"
+		resultType="ListAllFeeling">
+		select
+		uu.员工编码 as staffCode,
+		uu.`微信名` as nickName,
+		uu.`头像` as avatarUrl ,
+		dp.姓名 as staffName,
+		dp.部门 as dept
+		from usertable uu LEFT JOIN datacenter_personnel dp ON uu.员工编码 =dp.人员编码
+		where uu.员工编码=#{staffCode}
+	</select>
+</mapper>
+
+
+
+
+

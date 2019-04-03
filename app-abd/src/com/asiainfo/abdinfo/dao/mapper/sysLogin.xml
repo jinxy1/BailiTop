@@ -1,0 +1,42 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.asiainfo.abdinfo.dao.IUserUserDao">
+    
+    <resultMap type="com.asiainfo.abdinfo.po.User" id="user">
+       <result property="staffCode" column="人员编码" />
+       <result property="staffName" column="姓名" />
+       <result property="staffPwd" column="登录密码" />
+       <result property="DataLevel" column="数据级别"/>
+       <result property="department" column="部门"/>
+    </resultMap>
+
+	<!-- 根据人员编码和密码查询个人信息，用于登录页面 -->
+	<select id="findUserByIdAndName"  parameterType="java.util.Map"  resultMap="user" >   
+	   select 人员编码,姓名,登录密码 ,数据级别
+	   from datacenter_personnel 
+	   where 人员编码=#{staffCode} AND 登录密码 =#{staffPwd} 
+	</select>
+	<!-- 根据人员编码查询所在部门 -->
+	<select id="findDepartment" parameterType="java.util.Map" resultType="String">
+	  select 部门 from [PUBLICDATA].dbo.quanxian(#{staffCode})
+	</select>
+
+	<!-- 根据部门查询所有的人 -->
+	<select id="findDepartmentPeople"  parameterType="java.util.Map"  resultMap="user" >   
+	   SELECT 人员编码,姓名,登录密码 ,数据级别 ,部门
+	    FROM datacenter_personnel 
+	    WHERE 部门=#{department}
+	</select>
+  
+	<!--   查询公司所有的人 -->
+	<select id="findAll">
+	  select 人员编码,姓名,部门 from datacenter_personnel 
+	</select>
+  
+  
+   
+   
+</mapper>
+
+
+

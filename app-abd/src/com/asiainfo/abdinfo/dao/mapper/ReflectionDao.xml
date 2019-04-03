@@ -1,0 +1,10 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.asiainfo.abdinfo.dao.ReflectionDao">
+<select id="findbydayrc" resultType="com.asiainfo.abdinfo.po.Reflection">
+	select r.id,r.department,r.types,
+	(CASE  when  r.content is null then '' else r.content end ) content,r.staffCode,r.date,
+	DATE_FORMAT(r.createTime,'%H:%i:%S') as createTime
+	from Reading_reflection r where staffcode=#{staffcode} AND DATE=#{date}
+</select>
+</mapper>

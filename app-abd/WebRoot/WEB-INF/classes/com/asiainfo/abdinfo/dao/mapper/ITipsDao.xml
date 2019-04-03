@@ -1,0 +1,109 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.asiainfo.abdinfo.dao.ITipsDao">
+
+	<resultMap type="com.asiainfo.abdinfo.po.User" id="user">
+       <result property="staffCode" column="人员编码" />
+       <result property="staffName" column="姓名" />
+       <result property="department" column="部门"/>
+       <result property="DataLevel" column="数据级别"/>
+       <result property="BU" column="事业部"/>
+    </resultMap>
+	
+	<!-- 插入日感想 -->
+	<insert id="addTipsDailyfeeling" parameterType="java.util.Map">
+		insert into Reading_reflection(department,types,content,staffCode,date,createTime) 
+		values 
+		<foreach collection="listAddM" item="menu" separator=",">
+			(#{department},#{menu.type},#{menu.content},#{staffCode},#{time},now())
+		</foreach>
+	</insert>
+	
+	<!-- 更新感想、反省等信息 -->
+	<update id="updateTipsDailyfeeling" parameterType="java.util.Map">
+		update Reading_reflection set content=#{content},createTime=now()
+		where types=#{type} and date=#{time} and staffCode=#{staffCode}
+	</update>
+	
+	<!-- 更新自主内容 -->
+	<update id="updateCustomContent" parameterType="java.util.Map">
+		update custom_reflection set Customtype=#{customtype},Customcontent=#{customcontent},createtime=curdate()
+		where date=#{time} and staffCode=#{staffCode} 
+	</update>
+	
+	<!-- 根据id删除感恩人 -->
+	<delete id="deleteTipsOwes_content">
+		delete from owes_content where new_id=#{id}
+	</delete>
+	<!-- 感恩的具体人 -->
+	<insert id="addTipsOwes_content" parameterType="java.util.Map">
+		insert into owes_content (department,staffCode,date,owePerson,oweDetails,id,createTime) VALUES
+		<foreach collection="menu" item="menus" separator=",">
+			(#{department},#{staffCode},#{time},#{menus.pers},#{menus.detail},#{menus.id},now())
+		</foreach>
+	</insert>
+	<!-- 再次提交删除之前的感恩信息，添加当前的感恩信息 -->
+	<delete id="deleteOwes_content">
+		delete from owes_content where staffCode=#{staffCode} and date=#{date}
+	</delete>
+	<!-- 查询感恩人信息 -->
+	<select id="getOwes_content" resultType="com.asiainfo.abdinfo.po.Menus">
+		select owePerson pers,oweDetails detail from owes_content where staffCode=#{staffCode} and date=#{date}
+	</select>
+	<update id="updateOwes_content">
+		update owes_content set oweDetails=#{menu.detail} 
+		where staffCode=#{staffCode} and date=#{date} and owePerson=#{menu.pers}
+	</update>
+	
+	
+	
+	<!-- 查询个人信息 -->
+	<select id="findTips" parameterType="java.util.Map"  resultMap="user">
+		<if test="staffCode==null" >
+			select 人员编码,姓名,部门 ,数据级别 ,事业部 from datacenter_personnel
+		</if>
+		<if test="staffCode!=null">
+			select 人员编码,姓名,部门 ,数据级别 ,事业部  from datacenter_personnel where 人员编码=#{staffCode}
+		</if>
+	</select>
+	<!-- 插入工作计划 -->
+	<insert id="addWorkPlan">
+		INSERT INTO plan_record
+           (department,staffCode,staffName,planTime,planContent,currentTime,projectName,type,timeLong)
+     VALUES
+           (#{department},#{staffCode},'',#{date},#{work.work},now(),#{work.entry_name},#{work.projectType},#{work.planTime})
+	</insert>
+	<!-- 插入工作总结 -->
+	<insert id="addWorkSummary">
+		INSERT INTO work_plan
+           (department,staffCode,staffName,date,actconcom,createDate,entry_name,projectType,actualnum,stutas)
+     VALUES
+           (#{department},#{staffCode},'',#{date},#{work.work},now(),#{work.entry_name},#{work.projectType},#{work.planTime},"完成")
+	</insert>
+	<!-- 更新工作总结 -->
+	<update id="updateWorkSummary">
+		update work_plan set actconcom=#{work.work},entry_name=#{work.entry_name},projectType=#{work.projectType},
+		actualnum=#{work.planTime},update_date=now(),stutas="完成" where id=#{work.id}
+	</update>
+	<!-- 更新工作总结 -->
+	<update id="updateWorkStutas">
+		<if test="code==2">
+			update work_plan set stutas="完成" where id=#{id} 
+		</if>
+		<if test="code==1">
+			update work_plan set stutas="未完成" where id=#{id} 
+		</if>
+		<if test="code==3">
+			update work_plan set stutas="完成" where staffCode=#{staffCode} and date=#{date} 
+		</if>
+	</update>
+	<!-- 第二次插入之前删除上一次提交的数据 -->
+	<delete id="delwkl">
+		delete from work_plan where staffCode=#{staffCode} and date=#{date}
+	</delete>
+	
+	<!-- 删除单条工作总结 -->
+	<delete id="deleteById">
+		delete from work_plan where id=#{id}
+	</delete>
+</mapper>

@@ -1,0 +1,106 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.asiainfo.abdinfo.dao.CommunityDao">
+   
+    <select id="selectCommunityDep" resultType="String">
+       SELECT DISTINCT(部门) FROM department2 WHERE `是否启用`='是'
+    </select>
+    
+      <!-- 插入主表 -->
+     <insert id="insertCommunit" useGeneratedKeys="true" keyProperty="id">
+     INSERT INTO flow_info(typeName,infoTitle,infoContent,infoCurrentTime,infoSendStaffCode)
+     VALUES(#{type},#{title},#{content},NOW(),#{staffCode})
+    </insert>  
+    
+<!--      <select id="insertCommunit" resultType="String">
+     select typeName from flow_info WHERE id=174
+    </select>  -->
+    
+ 
+    
+     <!-- 插入谁可以看 -->
+     <insert id="insertInfoAccept" parameterType="java.util.List" >
+     INSERT INTO flow_info_accept (infoId,createTime,infoAcceptName)
+     VALUES 
+      <foreach collection ="list" item="flowInfoAccapt" separator =",">
+         (#{flowInfoAccapt.infoid},now(),#{flowInfoAccapt.infoAcceptName})
+      </foreach >
+     </insert>
+     
+     
+     <!-- 插入圖片 -->
+     <insert id="insertInfoImage">
+     INSERT INTO flow_info_img (infoId,infoImg)VALUES (#{infoId},#{infoImg});
+     </insert>
+     
+     
+      <!-- 查询类型名称 -->
+     <select id="selectTypeName" resultType="String">
+		select bb.typeName from flow_permisssion aa 
+		LEFT JOIN flow_type bb ON aa.foreign_flow_type=bb.id
+		WHERE aa.staffCode=#{staffCode}
+		ORDER BY aa.foreign_flow_type
+     </select>
+     
+      <!-- 插入其他 -->
+     <insert id="insertOtherType" parameterType="java.util.List">
+        INSERT INTO flow_info_type(infoId,infoTypeName,infoTypeContent,createTime)
+        VALUES
+        <foreach collection="list" item="otherAdd" separator=",">
+          (#{otherAdd.id},#{otherAdd.contentother},#{otherAdd.name},now())
+        </foreach>
+     </insert>
+     
+     
+     
+     <!-- 根据人员编码查出id 以及部门id -->
+     <select id="selectDepID" resultType="Integer">
+      SELECT id FROM datacenter_personnel  WHERE 人员编码=#{staffCode}
+     </select>
+     
+     
+ 
+     
+     <!-- 根据部门ID查询他的全部父级 -->
+
+   <select id="selectLevelID" resultType="java.util.Map">
+     select levelid ,部门  dep  from department2 where ID=#{id}
+   </select> 
+   
+   
+   <!-- 首先根据部门找到上一级部门id -->
+   <select id="selectOnid"  resultType="Integer">
+    select levelid from department2 WHERE `部门`=#{department}
+   </select>
+   
+   
+   <!-- 根据部门找到部门ID -->
+   <select id="selectDepdepId" resultType="Integer">
+   select ID from department2 WHERE `部门`=#{dep}
+   </select>
+   
+   
+   <!--根据部门id判断该部门是否是基层部门  -->
+   <select id="selectDepBoolean" resultType="String">
+   select 部门 from department2 WHERE levelid=#{depID}
+   </select>
+   
+
+   
+   
+
+
+     <!-- <select id="selectLevelID" resultMap="java.util.Map">
+     select levelID from department2 where ID=#{id}
+     </select>
+      -->
+      
+      <!-- 查询 权限-->
+      
+
+     
+     
+	
+	
+	
+</mapper>
