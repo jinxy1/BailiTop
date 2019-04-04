@@ -35,6 +35,13 @@ public class StutasServiceImpl implements IStutasService{
 		if (listAllFeeling.getPraise().equals("1")) {
 			if (!listPraise.contains(listAllFeeling.getId())) {
 				stutaDao.addPraise(listAllFeeling);
+				
+				//像新表中插入数据
+				stutaDao.insertLike(listAllFeeling);
+				System.out.println("++++++++++++++++++++++");
+				System.out.println(listAllFeeling.getId());
+				stutaDao.insertLikeAccept(listAllFeeling);
+				System.out.println("++++++++++++++++++++++");
 			}
 		}else {
 			stutaDao.deletePraise(listAllFeeling);

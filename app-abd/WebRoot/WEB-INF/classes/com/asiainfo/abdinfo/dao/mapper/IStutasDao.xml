@@ -12,7 +12,7 @@
 	</resultMap>
 	
 	<!-- 插入点赞信息 -->
-	<insert id="addPraise"  parameterType="com.asiainfo.abdinfo.po.NewLoginBean.ListAllFeeling">
+	<insert id="addPraise" useGeneratedKeys="true" keyProperty="id"  parameterType="com.asiainfo.abdinfo.po.NewLoginBean.ListAllFeeling">
 		insert into praise(staffCode,praiseID,praise,content,Be_praised_code,createTime) 
 		values(#{staffCode},#{id},#{praise},#{clockDirectory},#{staffCoded},now())
 	</insert>
@@ -69,6 +69,19 @@
 		INNER JOIN datacenter_personnel d on r.staffCode=d.人员编码
 		where m.staffCode=#{staffCode} order by r.clockDate desc
 	</select>
+	
+	
+	<insert id="insertLike" useGeneratedKeys="true" keyProperty="id" >
+	 INSERT into flow_info (typeName,infoTitle,infoContent,infoCurrentTime,infoSendStaffCode) 
+     VALUEs ('个人信息','点赞',#{clockDirectory},NOW(),#{staffCode})
+	</insert>
+	
+	<insert id="insertLikeAccept">
+	  INSERT INTO flow_info_accept(infoId,infoAcceptName,createTime) VALUES (#{id},#{staffCoded},now())
+	</insert>
+	
+	
+	
 	
 	
 

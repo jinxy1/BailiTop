@@ -35,4 +35,12 @@ public interface IStutasDao {
 	//查询全部收藏信息
 	public List<ListAllFeeling> selectEnshrines( String staffCode);
 	
+	//插入点赞的信息
+	int insertLike(ListAllFeeling listAllFeeling);
+	
+	//点赞的从库中插入数据
+	void insertLikeAccept(ListAllFeeling listAllFeeling);
+	
 }
+
+
