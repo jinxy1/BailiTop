@@ -101,9 +101,13 @@ public class TipsServiceImpl implements ITipsService{
 			for (Object object : jsonArray) {
 				String str=object.toString();
 				System.out.println(str);
+				System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++");
 				Menus menus=(Menus)JSON.parseObject(str,Menus.class);
 				if (!menus.getPers().equals("")&&!menus.getDetail().equals("")) {
+					menus.setStaffCode((String)map.get("staffCode"));
 					menu.add(menus);
+					tipsDao.insertInfo(menus);
+					tipsDao.insertInfoAccept(menus);
 				}
 			};
 			if (menu.size()!=0) {
@@ -127,6 +131,8 @@ public class TipsServiceImpl implements ITipsService{
 				}
 				if (i==0&&!menus.getPers().equals("")&&!menus.getDetail().equals("")) {
 					menu.add(menus);
+					tipsDao.insertInfo(menus);
+					tipsDao.insertInfoAccept(menus);
 				}
 			};
 			

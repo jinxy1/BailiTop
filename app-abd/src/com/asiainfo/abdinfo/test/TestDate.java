@@ -34,12 +34,22 @@ public class TestDate {
 		Set<String> urls = thml.getUrls(name, url, "a[href]"); // 全部的url
 		
 		System.out.println(urls);
-//		for(String s:urls){
-//			System.out.println(s);
-//		}
-		
+		for(String s:urls){
+			System.out.println(s);
+		}
 	
 	}
+	
+	@Test
+	public void test1() {
+		String url="http://industry.people.com.cn/n1/2019/0404/c413883-31013059.html";
+		SimpleDateFormat df = new SimpleDateFormat("yyyy/MMdd");//设置日期格式
+		String patt = ".*"+df.format(new Date())+"*.";
+		Boolean isMatch = Pattern.matches(patt, url);
+		
+		System.out.println(df.format(new Date()));// new Date()为获取当前系统时间
+		
+	}	
 	
 	
 

@@ -22,7 +22,7 @@ public class InsertController {
 
 	/* 每天凌晨3点执行一次 */
 	@Scheduled(cron = "0 0 5 * * ?")
-    //@Scheduled(cron="0 */1 * * * ?")
+//    @Scheduled(cron="0 */1 * * * ?")
 	public void insertNews() {
 		Html thml = new Html();
 		String url = "http://www.people.com.cn/";
@@ -59,6 +59,12 @@ public class InsertController {
 	public  void patternContent(String url, String patt, String name, Html thml) {
 		String pattern1 = ".*" + patt + ".*[0-9]{7,9}.html";
 		Boolean isMatch = Pattern.matches(pattern1, url);
+		
+		SimpleDateFormat df = new SimpleDateFormat("yyyy/MMdd");//设置日期格式
+		String pa1tt = ".*"+df.format(new Date())+"*.";
+		Boolean is1Match = Pattern.matches(pa1tt, url);
+		
+		
 		if (isMatch) {
 			Community co = thml.getContent(url.substring(url.lastIndexOf("-") - 1, url.lastIndexOf(".")), url, "div",
 					name);
@@ -69,7 +75,7 @@ public class InsertController {
 					String pattern = "http://.*";
 					for (int i = 0; i < co.getImages().size(); i++) {
 						boolean isMatch1 = Pattern.matches(pattern, co.getImages().get(i));
-						if (isMatch1) {
+						if (isMatch1&&is1Match) {
 							communityServi.insertInfoImage(co.getId(), co.getImages().get(i));
 						}
 					}

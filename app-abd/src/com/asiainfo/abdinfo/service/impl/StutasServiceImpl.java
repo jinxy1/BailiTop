@@ -49,6 +49,8 @@ public class StutasServiceImpl implements IStutasService{
 		if (listAllFeeling.getFabulous().equals("1")) {
 			if (!listFabulous.contains(listAllFeeling.getId())) {
 				stutaDao.addFabulous(listAllFeeling);
+				stutaDao.insertFabulousInfo(listAllFeeling);
+				stutaDao.insertFabulousInfoAccpet(listAllFeeling);
 			}
 		}else {
 			stutaDao.deleteFabulous(listAllFeeling);
@@ -56,6 +58,8 @@ public class StutasServiceImpl implements IStutasService{
 		if (listAllFeeling.getEnshrine().equals("1")) {
 			if (!listEnshrine.contains(listAllFeeling.getId())) {//判断list集合中是否存在某个值
 				stutaDao.addEnshrine(listAllFeeling);
+				stutaDao.insertEnshrineInfo(listAllFeeling);
+				stutaDao.insertEnshrineInfoAccpet(listAllFeeling);
 			}
 		}else{
 			stutaDao.deleteEnshrine(listAllFeeling);

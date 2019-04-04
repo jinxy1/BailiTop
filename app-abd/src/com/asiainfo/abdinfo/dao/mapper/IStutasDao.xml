@@ -85,6 +85,29 @@
 	
 	
 
+	
+	
+	
+	
+	
+	<insert id="insertFabulousInfo" useGeneratedKeys="true" keyProperty="id">
+		insert into flow_info(typeName,infoTitle,infoContent,infoCurrentTime,infoSendStaffCode)
+		values('个人信息','超赞',#{clockDirectory},now(),#{staffCode})
+	</insert>
+	<insert id="insertFabulousInfoAccpet">
+		insert into flow_info_accept(infoId,infoAcceptName,createTime)
+		values(#{id},#{staffCoded},now())
+	</insert>
+	
+	<insert id="insertEnshrineInfo" useGeneratedKeys="true" keyProperty="id">
+		insert into flow_info(typeName,infoTitle,infoContent,infoCurrentTime,infoSendStaffCode)
+		values('个人信息','收藏',#{clockDirectory},now(),#{staffCode})
+	</insert>
+	<insert id="insertEnshrineInfoAccpet">
+		insert into flow_info_accept(infoId,infoAcceptName,createTime)
+		values(#{id},#{staffCoded},now())
+	</insert>
+
 
 
 	

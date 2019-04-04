@@ -17,13 +17,14 @@ public class Menus implements Serializable{
 	private String content;
 	private Integer new_id;
 	private Date date;//时间
+	private String staffCode;
 	public Menus() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	
-	public Menus(Integer id, String pers, String detail, String staffCodeOther, String type, String content,
-			Integer new_id, Date date) {
+
+	Menus(Integer id, String pers, String detail, String staffCodeOther, String type, String content, Integer new_id,
+			Date date, String staffCode) {
 		super();
 		this.id = id;
 		this.pers = pers;
@@ -33,6 +34,15 @@ public class Menus implements Serializable{
 		this.content = content;
 		this.new_id = new_id;
 		this.date = date;
+		this.staffCode = staffCode;
+	}
+
+	public String getStaffCode() {
+		return staffCode;
+	}
+
+	public void setStaffCode(String staffCode) {
+		this.staffCode = staffCode;
 	}
 
 	public String getPers() {
@@ -107,6 +117,13 @@ public class Menus implements Serializable{
 
 	public void setStaffCodeOther(String staffCodeOther) {
 		this.staffCodeOther = staffCodeOther;
+	}
+
+	@Override
+	public String toString() {
+		return "Menus [id=" + id + ", pers=" + pers + ", detail=" + detail + ", staffCodeOther=" + staffCodeOther
+				+ ", type=" + type + ", content=" + content + ", new_id=" + new_id + ", date=" + date + ", staffCode="
+				+ staffCode + "]";
 	}
 	
 	

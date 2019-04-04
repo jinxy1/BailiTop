@@ -28,6 +28,9 @@ public interface ITipsDao {
 	public int updateWorkStutas(Map<String, Object> map);/**修改工作状态*/
 	public List<Menus> getOwes_content(Map<String, Object> map);/**查询当天是否插入感恩*/
 	public int updateOwes_content(Map<String, Object> map);/**更新感恩人信息*/
+	public int insertInfo(Menus menus);/**将感恩信息插入信息流 */
+	public int insertInfoAccept(Menus menus);/**将感恩信息插入信息流 */
+	
 	
 
 }
