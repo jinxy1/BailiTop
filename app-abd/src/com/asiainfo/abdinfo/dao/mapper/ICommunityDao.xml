@@ -84,6 +84,23 @@
 		GROUP BY typeName
 	</select>
 	
+	<!-- <select id="getUnlessMsgId">
+		SELECT fi.id from flow_info fi FORCE INDEX(typeName)
+		INNER JOIN flow_info_accept fia ON fi.id=fia.infoId 
+		INNER JOIN datacenter_personnel dp on fi.infoSendStaffCode=dp.人员编码 
+		where infoAcceptName in (#{user.staffCode},#{user.department} 
+		,#{user.BU},'公司') 
+		AND fi.typeName in (SELECT typeName from flow_type) 
+		and (SELECT status from flow_info_read fir where fir.infoId=fi.id and fir.staffCode=#{user.staffCode}) IS null 
+	</select>
+	
+	<insert id="addReadInfos">
+		insert into flow_info_read(infoId,status,staffCode,createTime) values
+		<foreach collection="ids" item="id" separator=",">
+			(#{id},1,#{staffCode},now())
+		</foreach>
+	</insert> -->
+	
 	<select id="getAuthority" resultType="String">
     	select role from authority where staffCode=#{staffCode}
     </select>
