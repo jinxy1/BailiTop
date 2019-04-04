@@ -42,6 +42,20 @@
 			(#{department},#{staffCode},#{time},#{menus.pers},#{menus.detail},#{menus.id},now())
 		</foreach>
 	</insert>
+	
+	
+	<!-- 将感恩信息插入信息流 -->
+	<insert id="insertInfo" useGeneratedKeys="true" keyProperty="id">
+		insert into flow_info(typeName,infoTitle,infoContent,infoCurrentTime,infoSendStaffCode)
+		values('个人信息','感恩',#{detail},now(),#{staffCode})
+	</insert>
+	<insert id="insertInfoAccept">
+		insert into flow_info_accept(infoId,infoAcceptName,createTime)
+		values(#{id},(select 人员编码 from datacenter_personnel where 姓名=#{pers}),now())
+	</insert>
+	
+	
+	
 	<!-- 再次提交删除之前的感恩信息，添加当前的感恩信息 -->
 	<delete id="deleteOwes_content">
 		delete from owes_content where staffCode=#{staffCode} and date=#{date}
