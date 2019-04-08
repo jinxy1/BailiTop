@@ -25,6 +25,7 @@ public class CommunityServiceImpl implements ICommunityService{
 	
 	@Override
 	public Map<String, Object> getCommunityMsType(User user,String typeName,PageBounds pb,String infoTitle) {
+		System.out.println(System.currentTimeMillis());
 		List<CommunityInfoType> communityInfoTypes=icommunityDao.getCommunityMsgType();
 		List<CommunityInfoType> unlessMsgCount =icommunityDao.getUnlessMsgCount(user);
 		String authority=icommunityDao.getAuthority(user.getStaffCode());
@@ -53,6 +54,7 @@ public class CommunityServiceImpl implements ICommunityService{
 		map.put("pageBean", pageBean);
 		map.put("unreadCount", unreadCount);
 		map.put("authority", authority);
+		System.out.println(System.currentTimeMillis());
 		return map;
 	}
 	/**更改未读信息的状态*/
@@ -79,6 +81,16 @@ public class CommunityServiceImpl implements ICommunityService{
 			unreadCount=unreadCount+communityInfoType.getUnreadCount();
 		}
 		return unreadCount;
+	}
+	
+	/**一键已读*/
+	@Override
+	public Integer infoRead(User user){
+		List<Integer> ids=icommunityDao.getUnlessMsgId(user);
+		if (ids.size()!=0) {
+			icommunityDao.addReadInfos(ids,user.getStaffCode());
+		}
+		return 1;
 	}
 
 }

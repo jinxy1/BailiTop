@@ -166,4 +166,15 @@ public class CommunityController {
 		return communityServiceImple.getDepID(staffCode);
 	}
 	
+	
+	/**一键已读*/
+	@RequestMapping(value="readInfo.do",method = RequestMethod.POST)
+	@ResponseBody
+	public Integer readInfo(String user){
+		User users=JSON.parseObject(user,User.class);
+		return iCommunityService.infoRead(users);
+	}
+	
+	
+	
 }
