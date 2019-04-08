@@ -19,4 +19,7 @@ public interface ICommunityService {
 	
 	/**获取未读信息数量*/
 	public Integer getunlessMsgCount(User user);
+	
+	/**一键已读*/
+	public Integer infoRead(User user);
 }

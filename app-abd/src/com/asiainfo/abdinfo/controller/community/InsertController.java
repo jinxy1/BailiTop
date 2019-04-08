@@ -25,7 +25,7 @@ public class InsertController {
 	private int z;
 	/* 每天凌晨3点执行一次 */
 //	@Scheduled(cron = "0 0 5 * * ?")
-   @Scheduled(cron="0 */1 * * * ?")
+   //@Scheduled(cron="0 */1 * * * ?")
 	public void insertNews() {
 		Html thml = new Html();
 		String url = "http://www.people.com.cn/";
