@@ -23,9 +23,6 @@
 		<if test="typeName!='全部'">
 			AND fi.typeName=#{typeName}
 		</if>
-		<if test="typeName=='全部'">
-			AND fi.typeName in (SELECT typeName from flow_type)
-		</if>
 		<if test="infoTitle!=''">
 			AND fi.infoTitle like #{pattern}
 		</if>
@@ -57,7 +54,6 @@
 	<!-- 查询每条信息流对应的图片信息 -->
 	<select id="getImg" resultType="String">
 		select infoImg infoImg from flow_info_img where infoId=#{id}
-		
 	</select>
 	
 	<!-- 更新阅读状态 -->
@@ -74,15 +70,30 @@
 	
 	<!-- 显示未读信息 -->
 	<select id="getUnlessMsgCount" resultType="com.asiainfo.abdinfo.po.community.CommunityInfoType">
-		SELECT COUNT(*) as unreadCount,typeName from flow_info fi FORCE INDEX(typeName)
+		SELECT COUNT(*) as unreadCount,typeName from flow_info fi
 		INNER JOIN flow_info_accept fia ON fi.id=fia.infoId 
-		INNER JOIN datacenter_personnel dp on fi.infoSendStaffCode=dp.人员编码 
+		LEFT JOIN flow_info_read fir on fir.infoId=fi.id 
 		where infoAcceptName in (#{user.staffCode},#{user.department} 
-		,#{user.BU},'公司') 
-		AND fi.typeName in (SELECT typeName from flow_type) 
-		and (SELECT status from flow_info_read fir where fir.infoId=fi.id and fir.staffCode=#{user.staffCode}) IS null 
+		,#{user.BU},'公司')
+		and fir.status  IS null
 		GROUP BY typeName
 	</select>
+	
+	<select id="getUnlessMsgId" resultType="int">
+		SELECT fi.id from flow_info fi
+		INNER JOIN flow_info_accept fia ON fi.id=fia.infoId 
+		LEFT JOIN flow_info_read fir on fir.infoId=fi.id 
+		where infoAcceptName in (#{user.staffCode},#{user.department} 
+		,#{user.BU},'公司')
+		and fir.status  IS null 
+	</select>
+	
+	<insert id="addReadInfos">
+		insert into flow_info_read(infoId,status,staffCode,createTime) values
+		<foreach collection="ids" item="id" separator=",">
+			(#{id},1,#{staffCode},now())
+		</foreach>
+	</insert>
 	
 	<select id="getAuthority" resultType="String">
     	select role from authority where staffCode=#{staffCode}

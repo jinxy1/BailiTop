@@ -25,6 +25,7 @@ public class CommunityServiceImpl implements ICommunityService{
 	
 	@Override
 	public Map<String, Object> getCommunityMsType(User user,String typeName,PageBounds pb,String infoTitle) {
+		
 		List<CommunityInfoType> communityInfoTypes=icommunityDao.getCommunityMsgType();
 		List<CommunityInfoType> unlessMsgCount =icommunityDao.getUnlessMsgCount(user);
 		String authority=icommunityDao.getAuthority(user.getStaffCode());

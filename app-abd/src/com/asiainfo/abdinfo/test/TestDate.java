@@ -32,11 +32,11 @@ public class TestDate {
 		String timeName = sdf.format(new Date());
 		String name = urlName + timeName;
 		Set<String> urls = thml.getUrls(name, url, "a[href]"); // 全部的url
-		
-		System.out.println(urls);
+
 		for(String s:urls){
 			System.out.println(s);
 		}
+		
 	
 	}
 	
