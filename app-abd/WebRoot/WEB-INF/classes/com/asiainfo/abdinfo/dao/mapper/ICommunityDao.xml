@@ -72,7 +72,7 @@
 	<select id="getUnlessMsgCount" resultType="com.asiainfo.abdinfo.po.community.CommunityInfoType">
 		SELECT COUNT(*) as unreadCount,typeName from flow_info fi
 		INNER JOIN flow_info_accept fia ON fi.id=fia.infoId 
-		LEFT JOIN flow_info_read fir on fir.infoId=fi.id 
+		LEFT JOIN flow_info_read fir on fir.infoId=fi.id and fir.staffCode=#{user.staffCode}
 		where infoAcceptName in (#{user.staffCode},#{user.department} 
 		,#{user.BU},'公司')
 		and fir.status  IS null
@@ -82,7 +82,7 @@
 	<select id="getUnlessMsgId" resultType="int">
 		SELECT fi.id from flow_info fi
 		INNER JOIN flow_info_accept fia ON fi.id=fia.infoId 
-		LEFT JOIN flow_info_read fir on fir.infoId=fi.id 
+		LEFT JOIN flow_info_read fir on fir.infoId=fi.id  and fir.staffCode=#{user.staffCode}
 		where infoAcceptName in (#{user.staffCode},#{user.department} 
 		,#{user.BU},'公司')
 		and fir.status  IS null 
