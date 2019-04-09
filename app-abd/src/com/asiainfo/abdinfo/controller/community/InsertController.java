@@ -6,13 +6,11 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import com.asiainfo.abdinfo.common.Html;
 import com.asiainfo.abdinfo.po.Community;
 import com.asiainfo.abdinfo.service.impl.CommunityServiceImple;
-import com.asiainfo.abdinfo.test.TestDate;
 
 @Component
 public class InsertController {
@@ -20,7 +18,7 @@ public class InsertController {
 	@Autowired
 	private  CommunityServiceImple communityServi;
 	
-	private int j;
+	private int j; 
 	private int y;
 	private int z;
 	/* 每天凌晨3点执行一次 */

@@ -1,11 +1,8 @@
 package com.asiainfo.abdinfo.test;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Set;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.junit.Test;
@@ -13,10 +10,9 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.asiainfo.abdinfo.common.Html;
-import com.asiainfo.abdinfo.po.Community;
 import com.asiainfo.abdinfo.service.impl.CommunityServiceImple;
 
-public class TestDate {
+public class TestDate { 
 
 	@Test
 	public void test() {
@@ -24,7 +20,9 @@ public class TestDate {
 		CommunityServiceImple mlcvp;
 		ApplicationContext ac = new ClassPathXmlApplicationContext("conf/spring-mvc.xml", "conf/spring-mybatis.xml");
 		mlcvp = ac.getBean("communityServiceImple", CommunityServiceImple.class);
-
+		System.out.println(t);
+		System.out.println(mlcvp);
+		System.out.println(ac);
 		Html thml = new Html();
 		String url = "http://www.people.com.cn/";
 		String urlName = url.substring(url.indexOf(".") + 1, url.indexOf(".", url.indexOf(".") + 1));
@@ -46,7 +44,7 @@ public class TestDate {
 		SimpleDateFormat df = new SimpleDateFormat("yyyy/MMdd");//设置日期格式
 		String patt = ".*"+df.format(new Date())+"*.";
 		Boolean isMatch = Pattern.matches(patt, url);
-		
+		System.out.println(isMatch);
 		System.out.println(df.format(new Date()));// new Date()为获取当前系统时间
 		
 	}	

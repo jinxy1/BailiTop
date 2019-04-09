@@ -12,7 +12,6 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.regex.Pattern;
 
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
@@ -21,9 +20,8 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import com.asiainfo.abdinfo.po.Community;
-import com.asiainfo.abdinfo.po.community.NewsType;
-
-public class Html {
+@SuppressWarnings("rawtypes")
+public class Html { 
 
 	// 根据url从网络获取网页文本
 	public Document getHtmlTextByUrl(String url) {
@@ -113,6 +111,7 @@ public class Html {
 	}
 
 	// 获取省 、市 、县等的信息
+	
 	public ArrayList getProvince(String name, String url, String type) {
 		ArrayList result = new ArrayList();
 		// "tr.provincetr"
@@ -136,8 +135,9 @@ public class Html {
 							// 身份名称
 							System.out.println(ec.children().first().ownText());
 							prv[1] = ec.children().first().ownText(); // a标签文本
-																		// 如:北京
+																// 如:北京
 							String ownurl = ec.children().first().attr("abs:href"); // 北京的url
+							System.out.println(ownurl);
 						}
 					}
 				}

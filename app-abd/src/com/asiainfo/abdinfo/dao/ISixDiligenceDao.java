@@ -20,7 +20,7 @@ public interface ISixDiligenceDao {
 	public List<Menus> findMenus(Map<String, Object> map);//根据时间查找找感恩人
 	public List<Works> findworks(Map<String, Object> map);//根据时间查找工作内容
 	public List<Menus> findCustomcontent(Map<String, Object> map);//根据时间查找自主内容
-	public String findStaffCode(Map<String, Object> map);//根据人员编码查找部门或者事业部的所有人的人员编码 
+	public List<String> findStaffCode(Map<String, Object> map);//根据人员编码查找部门或者事业部的所有人的人员编码 
 	
 	public List<SixList> find(Map<String, Object> map);//查询六项精进"今日感想","今日反省","今日善行","感恩其他"
 	

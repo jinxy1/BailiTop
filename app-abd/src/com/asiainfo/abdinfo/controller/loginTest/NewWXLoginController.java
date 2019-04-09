@@ -135,9 +135,6 @@ public class NewWXLoginController {
 	}
     
     
-    private void _3rd_session(){
-    	
-    }
     
     
     

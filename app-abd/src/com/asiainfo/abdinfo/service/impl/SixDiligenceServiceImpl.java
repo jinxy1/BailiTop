@@ -83,8 +83,8 @@ public class SixDiligenceServiceImpl implements ISixDiligenceService{
 		map.put("staffCodeMy", staffcode);
 		map.put("date", date);
 		map.put("bumen", bumen);
-		String depement=sixDiligenceDao.findStaffCode(map);
-		map.put("depement", depement);
+		List<String> staffCodes=sixDiligenceDao.findStaffCode(map);
+		map.put("staffCodes", staffCodes);
 		List<SixList> sixLists=sixDiligenceDao.find(map);
 		for (SixList sixList : sixLists) {
 			List<Custom_reflection> aCustom_reflections =sixList.getCustom_reflections();
