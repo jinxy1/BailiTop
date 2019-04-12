@@ -172,9 +172,12 @@
 		select 1 num,SUBSTRING(createTime,12,8) date,'自主' as type,c.Customtype,(CASE  when  c.Customcontent 
 		is null then '' else c.Customcontent end ) Customcontent ,staffCode,1 as stutas,department
 		from custom_reflection c where date=#{date}
-		) a where department =#{depement}
-		
-		<!-- and staffCode!=#{staffCodeMy} -->
+		) a 
+		where staffCode in (
+			<foreach collection="staffCodes" item="staffCoded" separator=",">
+				#{staffCoded}
+			</foreach>
+		)
 		order by num desc
 		
 	</select>
@@ -182,13 +185,10 @@
 	<select id="findStaffCode" resultType="java.lang.String">
 		
 		<if test="bumen=='12'">
-			select 部门  from datacenter_personnel  where 人员编码=#{staffCodeMy}
+			select 人员编码  from datacenter_personnel  where 部门=(select 部门 from datacenter_personnel where 人员编码=#{staffCodeMy})
 		</if>
 		<if test="bumen=='11'">
-			select 事业部  from datacenter_personnel  where 人员编码=#{staffCodeMy}
-		</if>
-		<if test="bumen!='11' and bumen!=12">
-			人员编码 =''
+			select 人员编码  from datacenter_personnel  where 事业部=(select 事业部 from datacenter_personnel where 人员编码=#{staffCodeMy})
 		</if>
 	</select>
 	

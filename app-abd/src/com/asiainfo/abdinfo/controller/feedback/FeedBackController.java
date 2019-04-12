@@ -2,7 +2,6 @@ package com.asiainfo.abdinfo.controller.feedback;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,14 +15,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.fastjson.JSON;
-import com.asiainfo.abdinfo.po.Community;
 import com.asiainfo.abdinfo.po.feedback.FeedBackInfo;
 import com.asiainfo.abdinfo.service.impl.CommunityServiceImple;
 
 
 @Controller
 public class FeedBackController {
-	
+	 
 	@Autowired
 	private CommunityServiceImple communityServiceImple;
 	

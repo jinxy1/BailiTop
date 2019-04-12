@@ -40,7 +40,6 @@ public class TimedTask {
 	@Autowired
 	private WX wx;
 	
-	//@Scheduled(cron = "0 0 4 * * ?")
 	public String getAccess_token() {
 		String access_token = "";
 		@SuppressWarnings("unused")
@@ -82,8 +81,9 @@ public class TimedTask {
 		String[] dates=new String[]{date,ref_date};
 		return dates;
 	}
-	@Scheduled(cron = "* * 4 * * ?")
+	@Scheduled(cron = "0 0 4 * * ?")
 	public void getData(){
+		System.out.println("没进来");
 		String[] urls=new String[]{
 				"getweanalysisappiddailyretaininfo",
 				"getweanalysisappiddailysummarytrend",

@@ -58,6 +58,7 @@ public class NewWXLoginController {
 		return map;
 	}
 
+
 	
 	//向服务器中要access_token
 	public static JSONObject accessToken() {
@@ -82,4 +83,14 @@ public class NewWXLoginController {
 	}
 	
 
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }

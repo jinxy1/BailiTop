@@ -1,15 +1,11 @@
 package com.asiainfo.abdinfo.service.impl;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import com.asiainfo.abdinfo.common.CurrentTime;
 import com.asiainfo.abdinfo.dao.CalendarDao;
@@ -21,7 +17,7 @@ import com.asiainfo.abdinfo.service.linkageHomeService;
 @Service("linkageHomeService")
 public class LinkageHomeImple implements linkageHomeService{
 	
-	/** 首页点击封面获取书单 */
+	/** 首页点击封面获取书单 */ 
 	@Autowired
 	private LinkageHomeDao linkageHomeDao;
 	

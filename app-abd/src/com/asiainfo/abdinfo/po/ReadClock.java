@@ -51,7 +51,9 @@ public class ReadClock implements Serializable {
 	
 	private int num;
 
-
+	private String audioURL;
+	private String videoURL;
+	
 
 	public int getNum() {
 		return num;
@@ -175,6 +177,22 @@ public class ReadClock implements Serializable {
 		this.struggleName = struggleName;
 	}
 
+	public String getAudioURL() {
+		return audioURL;
+	}
+
+	public void setAudioURL(String audioURL) {
+		this.audioURL = audioURL;
+	}
+
+	public String getVideoURL() {
+		return videoURL;
+	}
+
+	public void setVideoURL(String videoURL) {
+		this.videoURL = videoURL;
+	}
+
 	public Integer getStruggleId() {
 		return struggleId;
 	}
@@ -190,8 +208,40 @@ public class ReadClock implements Serializable {
 				+ clockDay + ", clockDirectory=" + clockDirectory + ", content=" + content + ", department="
 				+ department + ", ReadingTime=" + ReadingTime + ", ReadingFeeling=" + ReadingFeeling
 				+ ", actualReading=" + actualReading + ", struggleName=" + struggleName + ", struggleId=" + struggleId
-				+ ", num=" + num + "]";
+				+ ", num=" + num + ", audioURL=" + audioURL + ", videoURL=" + videoURL + "]";
 	}
+
+	ReadClock() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	ReadClock(String staffCode, String staffName, String staffJobs, String bookID, String clockBook, String clockDate,
+			String clockDay, String clockDirectory, String content, String department, String readingTime,
+			String readingFeeling, String actualReading, String struggleName, Integer struggleId, int num,
+			String audioURL, String videoURL) {
+		super();
+		this.staffCode = staffCode;
+		this.staffName = staffName;
+		this.staffJobs = staffJobs;
+		this.bookID = bookID;
+		this.clockBook = clockBook;
+		this.clockDate = clockDate;
+		this.clockDay = clockDay;
+		this.clockDirectory = clockDirectory;
+		this.content = content;
+		this.department = department;
+		ReadingTime = readingTime;
+		ReadingFeeling = readingFeeling;
+		this.actualReading = actualReading;
+		this.struggleName = struggleName;
+		this.struggleId = struggleId;
+		this.num = num;
+		this.audioURL = audioURL;
+		this.videoURL = videoURL;
+	}
+
+	
 
 	
 }

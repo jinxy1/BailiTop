@@ -44,8 +44,8 @@ public class PerServiceImpl implements PerService{
 		map.put("staffCode", staffcode);
 		map.put("date", date);
 		map.put("bumen", bumen);
-		String depement=ISixDiligenceDao.findStaffCode(map);
-		map.put("depement", depement);
+		List<String> staffCodes=ISixDiligenceDao.findStaffCode(map);
+		map.put("staffCodes", staffCodes);
 		List<SixList> sixLists=ISixDiligenceDao.find(map);
 		System.out.println(sixLists.size());
 		map.put("sixLists", sixLists);

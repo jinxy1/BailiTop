@@ -16,6 +16,8 @@
 		rp.clockDate,
 		rd.clockDay,
 		rd.clockDirectory,
+		rd.audioURL,
+		rd.videoURL,
 		REPLACE(REPLACE(content,CHAR(10),'\n'),CHAR(13),'\n') content,
 		dp.部门 as
 		department,
