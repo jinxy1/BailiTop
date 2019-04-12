@@ -75,15 +75,10 @@ public class WXRegController {
 	 */
 	 @RequestMapping(value = "/ClockInf.do")
 		public void readClockCon( HttpServletRequest request, HttpServletResponse response) {
-			String openId=request.getParameter("openId");
-			List<NewLogin>  nn=newLoginService.getNewUser(openId);
+			String staffCode=request.getParameter("staffCode");
 			String clockDate=request.getParameter("clockDate");
-			if(nn.size()!=0){
-				Map<String,Object> re=readClockService.getReadIndex(nn.get(0).getStaffCode(),clockDate);
+				Map<String,Object> re=readClockService.getReadIndex(staffCode,clockDate);
 				ResponseUtils.renderJson(response, JsonUtils.toJson(re));									
-			}else{
-				ResponseUtils.renderJson(response, JsonUtils.toJson(0));	
-			}
 		}
 	 
 	 /**根据openId查询用户信息*/

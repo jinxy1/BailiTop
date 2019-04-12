@@ -22,8 +22,6 @@ import com.asiainfo.abdinfo.utils.Login.HttpRequest;
 @Controller
 public class WXLoginController {
 	
-	//final Base64.Encoder encoder = Base64.getEncoder();
-	
 	@Autowired
 	private NewLoginService newLoginService;
 	
@@ -50,10 +48,8 @@ public class WXLoginController {
     String grant_type = "authorization_code";  
  
     //////////////// 1、向微信服务器 使用登录凭证 code 获取 session_key 和 openid  
-    //////////////// ////////////////  
     // 请求参数  
-    String params = "appid=" + wxspAppid + "&secret=" + wxspSecret + "&js_code=" + code + "&grant_type="  
-            + grant_type;  
+    String params = "appid=" + wxspAppid + "&secret=" + wxspSecret + "&js_code=" + code + "&grant_type=" + grant_type;  
     // 发送请求  
     String sr = HttpRequest.sendGet("https://api.weixin.qq.com/sns/jscode2session", params);  
   
@@ -61,10 +57,8 @@ public class WXLoginController {
     JSONObject json=null;
 	try {
 		json = new JSONObject(sr);
-		System.out.println(json);
 	
 	} catch (JSONException e1) {
-		// TODO Auto-generated catch block
 		e1.printStackTrace();
 	}  
     // 获取会话密钥（session_key）  
