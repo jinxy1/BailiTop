@@ -40,7 +40,7 @@ public class TimedTask {
 	@Autowired
 	private WX wx;
 	
-	//@Scheduled(cron = "0 0 4 * * ?")
+	@Scheduled(cron = "0 0 4 * * ?")
 	public String getAccess_token() {
 		String access_token = "";
 		@SuppressWarnings("unused")

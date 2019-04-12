@@ -112,8 +112,8 @@ public class ReadClockController {
 		map.put("staffCode", staffCode);
 		map.put("dep", dep);
 		PageBounds pb = new PageBounds(page,limit);
-		 PageBean<ListAllFeeling> list=newLoginService.getAllFeeling(map,pb);	
-		 System.out.println(list);
+		PageBean<ListAllFeeling> list=newLoginService.getAllFeeling(map,pb);	
+		System.out.println(list);
 		ResponseUtils.renderJson(response, JsonUtils.toJson(list));	
 	}
 	
