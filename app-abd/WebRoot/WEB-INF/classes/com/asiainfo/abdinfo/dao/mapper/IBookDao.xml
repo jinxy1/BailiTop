@@ -1,0 +1,74 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.asiainfo.abdinfo.dao.IBookDao">
+	<update id="updateComments">
+		update book_info set book_review=#{book_review} where book_id=#{book_id} and staffCode=#{staffCode}
+	</update>
+	<!-- 点击书籍插入一条信息判断是否度过该书 -->
+	<select id="findBookInfoCount" resultType='int'>
+		select count(*) from book_info where staffCode=#{staffCode} and book_id=#{bookId}
+	</select>
+	<insert id="addBookInfo">
+		insert into book_info(book_id,staffCode,createTime)
+		values(#{bookId},#{staffCode},now())
+	</insert>
+	<!-- 查询书籍书籍 -->
+	<select id="selectBooks" resultType="Books">
+		SELECT ((select count(*) from book_readed where book_id=book.id and staffCode=#{staffCode})
+		/(SELECT COUNT(*) FROM book b INNER JOIN book_chapter bc on b.id=bc.book_id where b.id=book.id))*100 
+		as percent,
+		(SELECT COUNT(*) FROM book_info where book_id=book.id and status=1) as readedPer,
+		(SELECT COUNT(*) FROM book_info where book_id=book.id) as allReadPer,
+		(SELECT status FROM book_info where staffCode=#{staffCode} and book_id=book.id) status,
+		book_name,book_img,book_overview,book_author,id FROM book
+		<if test="id!=-1">
+			where id=#{id}
+		</if>
+	</select>
+	<!-- 根据书籍id查询目录 -->
+	<select id="findBookChapter" resultType="BookChapter">
+		select bc.id,bc.book_id,bc.chapter,br.readChapterStatus from book_chapter bc 
+		LEFT JOIN book_readed br on bc.book_id= br.book_id and bc.id=br.chapter_id and br.staffCode=#{staffCode}
+		where bc.book_id=#{book_id} order by bc.id
+	</select>
+	<select id="findBookChapterById" resultType="String">
+		select content from book_chapter 
+		where id=#{id} order by id
+	</select>
+	<!-- 查询上次读书章节信息 -->
+	<select id="findLastTimeReadChapter" resultType="BookChapter" statementType="CALLABLE">
+		call lastReadChapter(#{staffCode},#{book_id})
+	</select>
+	
+	<!-- 查询书评内容 -->
+	<select id="findBookReview" resultType="BookInfo">
+		select bi.id,book_id,book_review,status,staffCode,createTime,头像 as headPortrait,姓名 as name,
+		(select COUNT(*) from book_comments_info where acceptStaffCode=#{staffCode} and 
+		 book_id=bi.book_id AND type='点赞') as praise ,
+		(select COUNT(*) from book_comments_info where acceptStaffCode=#{staffCode} and 
+		 book_id=bi.book_id AND type='超赞') as fabulous,
+		(select COUNT(*) from book_comments_info where acceptStaffCode=#{staffCode} and 
+		 book_id=bi.book_id AND type='收藏') as myenshrine
+		from book_info bi inner join usertable u on bi.staffCode=u.员工编码  
+		inner join datacenter_personnel d on bi.staffCode=d.人员编码
+		where book_id=#{book_id}
+	</select>
+	
+	<select id="findChapterStatus" resultType="int">
+		select count(*) from book_readed 
+		where staffCode=#{staffCode} and book_id=#{book_id} and chapter_id=#{chapter_id}
+	</select>
+	
+	<insert id="addReadChapterInfo">
+		insert into book_readed(book_id,chapter_id,staffCode,createtime)
+		values(#{book_id},#{chapter_id},#{staffCode},now())
+	</insert>
+	<update id="updateReadChapterInfo">
+		update book_readed set createTime=now() where book_id=#{book_id} and chapter_id=#{chapter_id} and staffCode=#{staffCode}
+	</update>
+	<!-- 更新所读图书为以读完 -->
+	<update id="updateReadAll">
+		update book_info set status=1 where book_id=#{book_id} and staffCode=#{staffCode}
+	</update>
+	
+</mapper>

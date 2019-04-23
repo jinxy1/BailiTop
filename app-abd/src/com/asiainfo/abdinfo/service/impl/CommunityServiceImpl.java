@@ -93,5 +93,11 @@ public class CommunityServiceImpl implements ICommunityService{
 		}
 		return 1;
 	}
+	/**更新积分状态*/
+	@Override
+	public Integer updateIntegralStatus(Integer infoId, String staffCode) {
+		// TODO Auto-generated method stub
+		return icommunityDao.updateIntegralStatus(infoId, staffCode);
+	}
 
 }

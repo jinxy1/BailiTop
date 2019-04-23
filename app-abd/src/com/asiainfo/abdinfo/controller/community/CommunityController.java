@@ -182,6 +182,15 @@ public class CommunityController  {
 	
 
 	
+	/**一键已读*/
+	@RequestMapping(value="updateintegralStatus.do",method = RequestMethod.POST)
+	@ResponseBody
+	public Integer updateintegralStatus(HttpServletRequest request){
+		String staffCode=request.getParameter("staffCode");
+		String infoIdStr=request.getParameter("infoId");
+		Integer infoId=Integer.parseInt(infoIdStr);
+		return iCommunityService.updateIntegralStatus(infoId, staffCode);
+	}
 	
 	
 }

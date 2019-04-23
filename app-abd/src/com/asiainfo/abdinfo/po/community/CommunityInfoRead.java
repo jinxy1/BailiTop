@@ -12,18 +12,23 @@ public class CommunityInfoRead implements Serializable{
 	private Integer status;
 	private String staffCode;
 	private String infoType;
+	private String integralStatus;
 	public CommunityInfoRead() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	CommunityInfoRead(Integer id, Integer infoId, Integer status, String staffCode, String infoType) {
+	
+	CommunityInfoRead(Integer id, Integer infoId, Integer status, String staffCode, String infoType,
+			String integralStatus) {
 		super();
 		this.id = id;
 		this.infoId = infoId;
 		this.status = status;
 		this.staffCode = staffCode;
 		this.infoType = infoType;
+		this.integralStatus = integralStatus;
 	}
+
 	public Integer getId() {
 		return id;
 	}
@@ -57,7 +62,7 @@ public class CommunityInfoRead implements Serializable{
 	@Override
 	public String toString() {
 		return "CommunityInfoRead [id=" + id + ", infoId=" + infoId + ", status=" + status + ", staffCode=" + staffCode
-				+ ", infoType=" + infoType + "]";
+				+ ", infoType=" + infoType + ", integralStatus=" + integralStatus + "]";
 	}
 	
 	
