@@ -18,7 +18,8 @@ public class AnoucemtServiceImpl implements AnoucemtService{
 	@Override
 	public List<Announcement> nowdaytitle(String nowday) {
 		// TODO Auto-generated method stub
-		return actd.nowdaytitle(nowday);
+		List<Announcement> list=actd.nowdaytitle(nowday);
+		return list;
 	}
 
 }

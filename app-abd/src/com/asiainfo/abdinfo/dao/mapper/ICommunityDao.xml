@@ -10,14 +10,23 @@
 	<!-- 根据条件获取社区信息 -->
 	<select id="getCommunityMsg"  resultMap="communityMsg">
 		<bind name="pattern" value="'%'+infoTitle+ '%'" />
-		SELECT ft.typeImg,fi.id,fi.infoTitle,fi.infoContent,fi.infoCurrentTime,fi.infoSendStaffCode,fi.typeName,
+		<!-- SELECT ft.typeImg,fi.id,fi.infoTitle,fi.infoContent,fi.infoCurrentTime,fi.infoSendStaffCode,fi.typeName,
 		(SELECT status from flow_info_read fir where fir.infoId=fi.id and fir.staffCode=#{user.staffCode}) status,
 		dp.姓名,dp.部门,dp.事业部,fit.infoTypeName,fit.infoTypeContent
 		from flow_info fi
 		INNER JOIN flow_info_accept fia ON fi.id=fia.infoId
 		INNER JOIN flow_type ft ON ft.typeName=fi.typeName
 		INNER JOIN datacenter_personnel dp on fi.infoSendStaffCode=dp.人员编码
-		LEFT JOIN flow_info_type fit on fit.infoId=fi.id
+		LEFT JOIN flow_info_type fit on fit.infoId=fi.id -->
+		SELECT ft.typeImg,fi.id,fi.infoTitle,fi.infoContent,fi.infoCurrentTime,fi.infoSendStaffCode,fi.typeName,
+	 	fir.status,fir.id firId,fir.infoId,fir.integralStatus,
+		dp.姓名,dp.部门,dp.事业部,fit.infoTypeName,fit.infoTypeContent
+		from flow_info fi
+		INNER JOIN flow_info_accept fia ON fi.id=fia.infoId
+		INNER JOIN flow_type ft ON ft.typeName=fi.typeName
+		INNER JOIN datacenter_personnel dp on fi.infoSendStaffCode=dp.人员编码
+		LEFT JOIN flow_info_type fit FORCE INDEX(ity) on fit.infoId=fi.id
+		LEFT JOIN flow_info_read fir on fi.id=fir.infoId and staffCode=#{user.staffCode}
 		where infoAcceptName in (#{user.staffCode},#{user.department} 
 		,#{user.BU},'公司')
 		<if test="typeName!='全部'">
@@ -78,7 +87,7 @@
 		and fir.status  IS null
 		GROUP BY typeName
 	</select>
-	
+	<!-- 获取未读信息id -->
 	<select id="getUnlessMsgId" resultType="int">
 		SELECT fi.id from flow_info fi
 		INNER JOIN flow_info_accept fia ON fi.id=fia.infoId 
@@ -89,7 +98,7 @@
 		,#{user.BU},'公司')
 		and fir.status  IS null 
 	</select>
-	
+	<!-- 一键已读 -->
 	<insert id="addReadInfos">
 		insert into flow_info_read(infoId,status,staffCode,createTime) values
 		<foreach collection="ids" item="id" separator=",">
@@ -100,4 +109,10 @@
 	<select id="getAuthority" resultType="String">
     	select role from authority where staffCode=#{staffCode}
     </select>
+    
+    
+    <!-- 更新积分状态 -->
+    <update id="updateIntegralStatus">
+    	update flow_info_read set integralStatus=1 where staffCode=#{staffCode} and infoId=#{infoId}
+    </update>
 </mapper>

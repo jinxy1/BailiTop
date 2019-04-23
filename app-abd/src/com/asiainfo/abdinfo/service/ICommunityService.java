@@ -22,4 +22,7 @@ public interface ICommunityService {
 	
 	/**一键已读*/
 	public Integer infoRead(User user);
+	
+	/**更新积分状态*/
+	public Integer updateIntegralStatus(Integer infoId,String staffCode);
 }
