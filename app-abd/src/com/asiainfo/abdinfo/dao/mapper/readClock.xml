@@ -25,8 +25,7 @@
 		rp.ReadingFeeling,
 		rp.actualReading,
 		rp.num,
-		sg.struggleName,
-        sg.struggleId
+		GROUP_CONCAT(DISTINCT sg.struggleImg) as struggleImg
 		from
 		Reading_plancontent rp
 		left join

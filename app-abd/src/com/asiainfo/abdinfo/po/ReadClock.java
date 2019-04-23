@@ -8,52 +8,85 @@ public class ReadClock implements Serializable {
 
 	// rp.人员编码,
 	private String staffCode;
-	
+
 	// dp.姓名,
 	private String staffName;
-	
+
 	// dp.岗位,
 	private String staffJobs;
-	
-	//书的id
+
+	// 书的id
 	private String bookID;
-	
+
 	// bb.书名,
 	private String clockBook;
-	
+
 	// rp.计划读书日期,
 	private String clockDate;
-	
+
 	// rd.打卡天数,
 	private String clockDay;
-	
+
 	// rd.章节名,
 	private String clockDirectory;
-	
+
 	// rd.内容,
 	private String content;
-	
+
 	// dp.部门
 	private String department;
-	
-	//rp.读书时间 as 
+
+	// rp.读书时间 as
 	private String ReadingTime;
-	
-	//rp.读书感悟 as ReadingFeeling,
+
+	// rp.读书感悟 as ReadingFeeling,
 	private String ReadingFeeling;
-	
-	//rp.读书时间 as actualReading
+
+	// rp.读书时间 as actualReading
 	private String actualReading;
-	
-	private String struggleName;
-	
-	private Integer struggleId;
-	
+
 	private int num;
 
 	private String audioURL;
 	private String videoURL;
-	
+
+	private String struggleImg;
+
+	ReadClock() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	ReadClock(String staffCode, String staffName, String staffJobs, String bookID, String clockBook, String clockDate,
+			String clockDay, String clockDirectory, String content, String department, String readingTime,
+			String readingFeeling, String actualReading, String struggleName, Integer struggleId, int num,
+			String audioURL, String videoURL) {
+		super();
+		this.staffCode = staffCode;
+		this.staffName = staffName;
+		this.staffJobs = staffJobs;
+		this.bookID = bookID;
+		this.clockBook = clockBook;
+		this.clockDate = clockDate;
+		this.clockDay = clockDay;
+		this.clockDirectory = clockDirectory;
+		this.content = content;
+		this.department = department;
+		ReadingTime = readingTime;
+		ReadingFeeling = readingFeeling;
+		this.actualReading = actualReading;
+		this.num = num;
+		this.audioURL = audioURL;
+		this.videoURL = videoURL;
+	}
+
+	public String getStruggleImg() {
+		return struggleImg;
+	}
+
+	public void setStruggleImg(String struggleImg) {
+		this.struggleImg = struggleImg;
+	}
 
 	public int getNum() {
 		return num;
@@ -166,16 +199,6 @@ public class ReadClock implements Serializable {
 	public void setBookID(String bookID) {
 		this.bookID = bookID;
 	}
-	
-	
-
-	public String getStruggleName() {
-		return struggleName;
-	}
-
-	public void setStruggleName(String struggleName) {
-		this.struggleName = struggleName;
-	}
 
 	public String getAudioURL() {
 		return audioURL;
@@ -193,59 +216,16 @@ public class ReadClock implements Serializable {
 		this.videoURL = videoURL;
 	}
 
-	public Integer getStruggleId() {
-		return struggleId;
-	}
-
-	public void setStruggleId(Integer struggleId) {
-		this.struggleId = struggleId;
-	}
-
 	@Override
 	public String toString() {
 		return "ReadClock [staffCode=" + staffCode + ", staffName=" + staffName + ", staffJobs=" + staffJobs
 				+ ", bookID=" + bookID + ", clockBook=" + clockBook + ", clockDate=" + clockDate + ", clockDay="
 				+ clockDay + ", clockDirectory=" + clockDirectory + ", content=" + content + ", department="
 				+ department + ", ReadingTime=" + ReadingTime + ", ReadingFeeling=" + ReadingFeeling
-				+ ", actualReading=" + actualReading + ", struggleName=" + struggleName + ", struggleId=" + struggleId
-				+ ", num=" + num + ", audioURL=" + audioURL + ", videoURL=" + videoURL + "]";
+				+ ", actualReading=" + actualReading + ", num=" + num + ", audioURL=" + audioURL + ", videoURL="
+				+ videoURL + ", struggleImg=" + struggleImg + "]";
 	}
-
-	ReadClock() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
-	ReadClock(String staffCode, String staffName, String staffJobs, String bookID, String clockBook, String clockDate,
-			String clockDay, String clockDirectory, String content, String department, String readingTime,
-			String readingFeeling, String actualReading, String struggleName, Integer struggleId, int num,
-			String audioURL, String videoURL) {
-		super();
-		this.staffCode = staffCode;
-		this.staffName = staffName;
-		this.staffJobs = staffJobs;
-		this.bookID = bookID;
-		this.clockBook = clockBook;
-		this.clockDate = clockDate;
-		this.clockDay = clockDay;
-		this.clockDirectory = clockDirectory;
-		this.content = content;
-		this.department = department;
-		ReadingTime = readingTime;
-		ReadingFeeling = readingFeeling;
-		this.actualReading = actualReading;
-		this.struggleName = struggleName;
-		this.struggleId = struggleId;
-		this.num = num;
-		this.audioURL = audioURL;
-		this.videoURL = videoURL;
-	}
-
+	
 	
 
-	
 }
-
-
-
-

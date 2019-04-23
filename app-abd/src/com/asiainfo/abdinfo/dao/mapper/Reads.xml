@@ -1,0 +1,9 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.asiainfo.abdinfo.dao.ReadBookDao">
+	
+	<select id="findBooked" resultType="com.asiainfo.abdinfo.po.reads.Readingbook">
+		SELECT bk.book_name as bookName,bk.book_img as bookImg, count(br.chapter_id)/count(bc.id)  as percentage FROM book_chapter  bc  LEFT JOIN book bk ON bc.book_id=bk.id LEFT JOIN book_readed br  ON bc.id=br.chapter_id GROUP BY bc.book_id
+	</select>
+	
+</mapper>

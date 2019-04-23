@@ -6,6 +6,9 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletContext;
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -25,7 +28,7 @@ import com.asiainfo.abdinfo.service.ICommunityService;
 import com.asiainfo.abdinfo.service.impl.CommunityServiceImple;
 import com.asiainfo.abdinfo.utils.mybatis.paginator.domain.PageBounds;
 @Controller
-public class CommunityController {
+public class CommunityController  {
 
 	@Autowired
 	private CommunityServiceImple communityServiceImple;
@@ -56,9 +59,7 @@ public class CommunityController {
 	@RequestMapping(value = "communityImgInsert.do", method = RequestMethod.POST)
 	public String communityInsert(HttpServletRequest request, HttpServletResponse response,
 			@RequestParam(value = "file", required = false) MultipartFile file,
-			@RequestParam(value = "infoId") Integer infoId) throws IllegalStateException, IOException {
-
-		System.out.println(infoId);
+			@RequestParam(value = "infoId") Integer infoId)  throws IllegalStateException, IOException  {
 
 		if (file != null) { // 判断文件是否为空
 			String path = ""; // 文件的路径
@@ -77,29 +78,33 @@ public class CommunityController {
 				if ("PNG".equals(type.toUpperCase()) || "GIF".equals(type.toUpperCase())
 						|| "JPG".equals(type.toUpperCase())) {
 					// 项目实际运行发布的路径
-					String realPath = request.getSession().getServletContext().getRealPath("/");
-					System.out.println(realPath);
+					String realPath1 = request.getSession().getServletContext().getRealPath("/");
+					
+					
+					File fileRealPath=new File(realPath1);
+					String realPath =fileRealPath.getParent();
+					
+					System.out.println(realPath1);
+					
 
-				
-
-					File fie = new File(realPath+  "onloadImg");
+					File fie = new File(realPath+  "/onloadimg");
 					if(!fie.exists()){
 						fie.mkdirs();
 					}
 				//	http://localhost:8080/app-abd/onloadImg/1234565.png
 					String trueFileName = String.valueOf(System.currentTimeMillis())+  fileName;
-					String host=request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+request.getServletContext().getContextPath()+"/"+"onloadImg"+"/"+trueFileName;
+				//	String host=request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+request.getServletContext().getContextPath()+"/"+"onloadimg"+"/"+trueFileName;
 					
+					String host=request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+"/"+"onloadimg"+"/"+trueFileName;
 					System.out.println(host);
 					// 自定义文件的名字
 				//	String hostTrueFile=host+File.separator+"onloadImg"+File.separator+trueFileName;
 
-					path = realPath + File.separator + "onloadImg"+  File.separator + trueFileName;
+					path = realPath + File.separator + "onloadimg"+  File.separator + trueFileName;
 					System.out.println("存放图片文件的路径:" + path);
 					// 转存文件到指定的路径
 					file.transferTo(new File(path));
 					communityServiceImple.insertInfoImage(infoId, host);
-
 				}
 			} else {
 				System.out.println("文件类型为空");
@@ -107,7 +112,6 @@ public class CommunityController {
 		} else {
 			System.out.println("文件为空");
 		}
-
 		return "001";
 	}
 
@@ -174,6 +178,9 @@ public class CommunityController {
 		User users=JSON.parseObject(user,User.class);
 		return iCommunityService.infoRead(users);
 	}
+
+	
+
 	
 	
 	
