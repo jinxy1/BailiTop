@@ -1,7 +1,5 @@
 package com.asiainfo.abdinfo.test;
 
-import java.util.Map;
-
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -24,10 +22,10 @@ public class TestDate {
 //		cts.setSendStaffCode("18060405");
 //		cts.setType("评论");
 //		mlcvp.addComments(cts);
-		Map<String, Object> map=mlcvp.findBookInfo("18060404", 1);
-		for (Map.Entry<String, Object> entry : map.entrySet()) {
-			System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
-		}
+//		Map<String, Object> map=mlcvp.findBookInfo("18060404", 1);
+//		for (Map.Entry<String, Object> entry : map.entrySet()) {
+//			System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
+//		}
 	}
 	
 //	@Test

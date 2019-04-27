@@ -12,44 +12,57 @@
 	</resultMap>
 	
 	<!-- 插入点赞信息 -->
-	<insert id="addPraise" useGeneratedKeys="true" keyProperty="id"  parameterType="com.asiainfo.abdinfo.po.NewLoginBean.ListAllFeeling">
-		insert into praise(staffCode,praiseID,praise,content,Be_praised_code,createTime) 
-		values(#{staffCode},#{id},#{praise},#{clockDirectory},#{staffCoded},now())
+	<insert id="addPraise" parameterType="com.asiainfo.abdinfo.po.NewLoginBean.ListAllFeeling">
+		<bind name="type" value="nickName==null?1:2"/>
+		insert into praise(staffCode,praiseID,content,Be_praised_code,createTime,type) 
+		values(#{staffCode},#{id},#{clockDirectory},#{staffCoded},now(),#{type})
 	</insert>
+	<select id="existPraise" resultType="int">
+		select count(*) from praise where staffCode=#{staffCode} and praiseID=#{id}
+	</select>
 	<!-- 删除点赞信息 -->
 	<delete id="deletePraise"  parameterType="com.asiainfo.abdinfo.po.NewLoginBean.ListAllFeeling">
 		delete from praise where praiseID=#{id} and staffCode=#{staffCode}
 	</delete>
-	<!-- 查询超赞信息是否存在-->
+	<!-- 查询点赞信息是否存在-->
 	<select id="selectPraise"  parameterType="com.asiainfo.abdinfo.po.NewLoginBean.ListAllFeeling" resultType="int">
 		select praiseID from praise where staffCode=#{staffCode}
 	</select>
+	
 	<!-- 查询超赞数量-->
 	<select id="selectFabulousNum"  parameterType="com.asiainfo.abdinfo.po.NewLoginBean.ListAllFeeling" resultType="int">
 		select count(1) from fabulous where staffCode=#{staffCode} and left(createTime,10)=CURDATE()
 	</select>
 	<!-- 插入超赞信息 -->
-	<insert id="addFabulous"  parameterType="com.asiainfo.abdinfo.po.NewLoginBean.ListAllFeeling">
-		insert into fabulous(staffCode,fabulousID,fabulous,content,Be_fabuloused_code,createTime) 
-		values(#{staffCode},#{id},#{fabulous},#{clockDirectory},#{staffCoded},now())
+	<insert id="addFabulous" parameterType="com.asiainfo.abdinfo.po.NewLoginBean.ListAllFeeling">
+		<bind name="type" value="nickName==null?1:2"/>
+		insert into fabulous(staffCode,fabulousID,content,Be_fabuloused_code,createTime,type) 
+		values(#{staffCode},#{id},#{clockDirectory},#{staffCoded},now(),#{type})
 	</insert>
 	<!-- 删除超赞信息 -->
 	<delete id="deleteFabulous"  parameterType="com.asiainfo.abdinfo.po.NewLoginBean.ListAllFeeling">
 		delete from fabulous where fabulousID=#{id} and staffCode=#{staffCode}
 	</delete>
+	<select id="existFabulous" resultType="int">
+		select count(*) from fabulous where staffCode=#{staffCode} and fabulousID=#{id}
+	</select>
 	<!-- 查询超赞信息是否存在-->
 	<select id="selectFabulous"  parameterType="com.asiainfo.abdinfo.po.NewLoginBean.ListAllFeeling" resultType="int">
 		select fabulousID from fabulous where staffCode=#{staffCode}
 	</select>
 	
 	<!-- 插入收藏信息 -->
-	<insert id="addEnshrine"  parameterType="com.asiainfo.abdinfo.po.NewLoginBean.ListAllFeeling">
-		insert into myenshrine(staffCode,enshrineID,enshrine,content,Be_enshrine_code,createTime) 
-		values(#{staffCode},#{id},#{enshrine},#{clockDirectory},#{staffCoded},now())
+	<insert id="addEnshrine" parameterType="com.asiainfo.abdinfo.po.NewLoginBean.ListAllFeeling">
+		<bind name="type" value="nickName==null?1:2"/>
+		insert into myenshrine(staffCode,enshrineID,content,Be_enshrine_code,createTime,type) 
+		values(#{staffCode},#{id},#{clockDirectory},#{staffCoded},now(),#{type})
 	</insert>
 	<!-- 查询收藏信息单个收藏信息是否存在-->
 	<select id="selectEnshrine"  parameterType="com.asiainfo.abdinfo.po.NewLoginBean.ListAllFeeling" resultType="int">
 		select enshrineID from myenshrine where staffCode=#{staffCode}
+	</select>
+	<select id="existEnshrine" resultType="int">
+		select count(*) from myenshrine where staffCode=#{staffCode} and enshrineID=#{id}
 	</select>
 	<!-- 删除收藏信息 -->
 	<delete id="deleteEnshrine"  parameterType="com.asiainfo.abdinfo.po.NewLoginBean.ListAllFeeling">
@@ -79,6 +92,12 @@
 	<insert id="insertLikeAccept">
 	  INSERT INTO flow_info_accept(infoId,infoAcceptName,createTime) VALUES (#{id},#{staffCoded},now())
 	</insert>
+	
+	<!-- 查询时否有相同信息 -->
+    <select id="existInfo" resultType="int">
+    	select count(*) from flow_info 
+    	where infoTitle=#{infoTitle} and infoContent=#{infoContent} and infoSendStaffCode=#{staffCode}
+    </select>
 	
 	
 	

@@ -36,33 +36,38 @@ public class StutasServiceImpl implements IStutasService{
 		if (listAllFeeling.getPraise().equals("1")) {
 			if (!listPraise.contains(listAllFeeling.getId())) {
 				stutaDao.addPraise(listAllFeeling);
-				
 				//像新表中插入数据
-				stutaDao.insertLike(listAllFeeling);
-				System.out.println("++++++++++++++++++++++");
-				System.out.println(listAllFeeling.getId());
-				stutaDao.insertLikeAccept(listAllFeeling);
-				System.out.println("++++++++++++++++++++++");
+				int existNum=stutaDao.existInfo(listAllFeeling.getStaffCode(),listAllFeeling.getClockDirectory(),"点赞");
+				if (existNum<=0) {
+					stutaDao.insertLike(listAllFeeling);
+					stutaDao.insertLikeAccept(listAllFeeling);
+				}
 			}
 		}else {
 			stutaDao.deletePraise(listAllFeeling);
 		}
 		if (listAllFeeling.getFabulous().equals("1")) {
+			listAllFeeling.setId(id);
 			if (!listFabulous.contains(listAllFeeling.getId())) {
-				listAllFeeling.setId(id);
 				stutaDao.addFabulous(listAllFeeling);
-				stutaDao.insertFabulousInfo(listAllFeeling);
-				stutaDao.insertFabulousInfoAccpet(listAllFeeling);
+				int existNum=stutaDao.existInfo(listAllFeeling.getStaffCode(),listAllFeeling.getClockDirectory(),"超赞");
+				if (existNum<=0) {
+					stutaDao.insertFabulousInfo(listAllFeeling);
+					stutaDao.insertFabulousInfoAccpet(listAllFeeling);
+				}
 			}
 		}else {
 			stutaDao.deleteFabulous(listAllFeeling);
 		}
 		if (listAllFeeling.getEnshrine().equals("1")) {
+			listAllFeeling.setId(id);
 			if (!listEnshrine.contains(listAllFeeling.getId())) {//判断list集合中是否存在某个值
-				listAllFeeling.setId(id);
 				stutaDao.addEnshrine(listAllFeeling);
-				stutaDao.insertEnshrineInfo(listAllFeeling);
-				stutaDao.insertEnshrineInfoAccpet(listAllFeeling);
+				int existNum=stutaDao.existInfo(listAllFeeling.getStaffCode(),listAllFeeling.getClockDirectory(),"收藏");
+				if (existNum<=0) {
+					stutaDao.insertEnshrineInfo(listAllFeeling);
+					stutaDao.insertEnshrineInfoAccpet(listAllFeeling);
+				}
 			}
 		}else{
 			stutaDao.deleteEnshrine(listAllFeeling);

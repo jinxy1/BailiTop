@@ -15,7 +15,7 @@ public class BookChapter implements Serializable{
 	private String radio_url;
 	private String video_url;
 	private Integer readChapterStatus;
-	BookChapter() {
+	public BookChapter() {
 		super();
 		// TODO Auto-generated constructor stub
 	}

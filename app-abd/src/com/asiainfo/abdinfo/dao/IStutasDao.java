@@ -3,6 +3,8 @@ package com.asiainfo.abdinfo.dao;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.asiainfo.abdinfo.po.NewLoginBean.ListAllFeeling;
 
 public interface IStutasDao {
@@ -48,6 +50,14 @@ public interface IStutasDao {
 	//将收藏信息加入信息流
 	public int insertEnshrineInfo(ListAllFeeling listAllFeeling);
 	public int insertEnshrineInfoAccpet(ListAllFeeling listAllFeeling);
+	public int existInfo(
+			@Param("staffCode") String staffCode,
+			@Param("infoContent") String infoContent,
+			@Param("infoTitle") String infoTitle
+	);
+	public Integer existPraise(@Param("staffCode") String staffCode,@Param("id") Integer id);
+	public Integer existFabulous(@Param("staffCode") String staffCode,@Param("id") Integer id);
+	public Integer existEnshrine(@Param("staffCode") String staffCode,@Param("id") Integer id);
 
 	
 }

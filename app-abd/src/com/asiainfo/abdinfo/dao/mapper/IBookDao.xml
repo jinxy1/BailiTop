@@ -1,8 +1,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.asiainfo.abdinfo.dao.IBookDao">
-	<update id="updateComments">
-		update book_info set book_review=#{book_review} where book_id=#{book_id} and staffCode=#{staffCode}
+	<update id="addComments">
+		insert into book_comments_info(book_id,sendStaffCode,createTime,type,content,acceptStaffCode)
+		values(#{book_id},#{sendStaffCode},now(),'评论',#{content},"")
 	</update>
 	<!-- 点击书籍插入一条信息判断是否度过该书 -->
 	<select id="findBookInfoCount" resultType='int'>
@@ -41,28 +42,35 @@
 	</select>
 	
 	<!-- 查询书评内容 -->
-	<select id="findBookReview" resultType="BookInfo">
-		select bi.id,book_id,book_review,status,staffCode,createTime,头像 as headPortrait,姓名 as name,
-		(select COUNT(*) from book_comments_info where acceptStaffCode=#{staffCode} and 
-		 book_id=bi.book_id AND type='点赞') as praise ,
-		(select COUNT(*) from book_comments_info where acceptStaffCode=#{staffCode} and 
-		 book_id=bi.book_id AND type='超赞') as fabulous,
-		(select COUNT(*) from book_comments_info where acceptStaffCode=#{staffCode} and 
-		 book_id=bi.book_id AND type='收藏') as myenshrine
-		from book_info bi inner join usertable u on bi.staffCode=u.员工编码  
-		inner join datacenter_personnel d on bi.staffCode=d.人员编码
+	<select id="findBookReview" resultType="BookCommentsInfo">
+	select bci.id,bci.book_id,bci.content,bci.sendStaffCode,date_format(bci.createTime, '%Y-%m-%d %H：%i：%s') as createTime,头像 as headPortrait,姓名 as name,
+		(select praise from praise where praiseID= bci.id and staffCode=#{staffCode} and type!=1) as praiseStatus,
+		(select count(staffCode) from praise where praiseID= bci.id and type!=1) as praise,
+		(select fabulous from fabulous where fabulousID= bci.id and staffCode=#{staffCode} and type!=1) as fabulousStatus,
+		(select count(staffCode) from fabulous where fabulousID= bci.id and type!=1) as fabulous,
+		(select enshrine from myenshrine where enshrineID= bci.id and staffCode=#{staffCode} and type!=1) as myenshrineStatus,
+		(select count(staffCode) from myenshrine where enshrineID= bci.id and type!=1) as myenshrine
+		from book_comments_info bci inner join usertable u on bci.sendStaffCode=u.员工编码  
+		inner join datacenter_personnel d on bci.sendStaffCode=d.人员编码
 		where book_id=#{book_id}
+		<if test="own==1">
+			and bci.sendStaffCode=#{staffCode}
+		</if>
+		<if test="own!=1">
+			order by (praise+fabulous*10+myenshrine*10) desc
+		</if>
 	</select>
-	
+	<!-- 查询章节是否已读 -->
 	<select id="findChapterStatus" resultType="int">
 		select count(*) from book_readed 
 		where staffCode=#{staffCode} and book_id=#{book_id} and chapter_id=#{chapter_id}
 	</select>
-	
+	<!-- 章节未读的话插入阅读章节信息-->
 	<insert id="addReadChapterInfo">
 		insert into book_readed(book_id,chapter_id,staffCode,createtime)
 		values(#{book_id},#{chapter_id},#{staffCode},now())
 	</insert>
+	<!-- 更新最后一次所读章节的时间 -->
 	<update id="updateReadChapterInfo">
 		update book_readed set createTime=now() where book_id=#{book_id} and chapter_id=#{chapter_id} and staffCode=#{staffCode}
 	</update>
@@ -71,4 +79,12 @@
 		update book_info set status=1 where book_id=#{book_id} and staffCode=#{staffCode}
 	</update>
 	
+	<!-- 更新读书感想 -->
+	<update id="updateReadFell">
+		update book_readed set 
+		reading_fell=#{feeling}, 
+		time_duration=#{timeLength}, 
+		reading_fell_num=#{num}
+		where book_id=#{book_id} and staffCode=#{staffCode} and chapter_id=#{chapter_id}
+	</update>
 </mapper>
