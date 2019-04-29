@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.asiainfo.abdinfo.common.CurrentTime;
+import com.asiainfo.abdinfo.common.GenerateUtils;
 import com.asiainfo.abdinfo.dao.ReadClockDao;
 import com.asiainfo.abdinfo.po.DayRest;
 import com.asiainfo.abdinfo.po.ReadClock;
@@ -43,12 +44,21 @@ public class ReadClockImple implements ReadClockService {
 		map.put("staffCode", staffCode);
 		map.put("clockDate", clockDate);
 		List<ReadClock> rc = readClockDao.findReadIndex(map);
+		
+		//将读书内容单独弄出来
+		String content="";
+		for(ReadClock r:rc){
+			content=r.getContent();
+		}
+		
+		List<Map> genList=GenerateUtils.generate(content);
 		ReadCount rr = readClockDao.findCount(map);
 		String r = readClockDao.findCountPeople(map);
 		Map<String,Object> m=new HashMap<String,Object>();
 		m.put("rc", rc);
 		m.put("rr", rr);
 		m.put("r", r);
+		m.put("contents", genList);
 		return m;
 	}
 

@@ -145,7 +145,6 @@ public class Html {
 		}
 		System.out.println(result);
 		return result; // 反回所有的省份信息集合，存数据库，字段类型为： baseurl name ownurl
-						// levelname（type） updatetime
 	}
 
 

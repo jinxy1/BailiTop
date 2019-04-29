@@ -72,8 +72,7 @@ public class CommunityController  {
 			System.out.println("原文件的名称为" + fileName);
 			// DSC_0154 - 副本.JPG
 			// 判断文件的类型
-			type = fileName.indexOf(".") != -1 ? fileName.substring(fileName.lastIndexOf(".")  +1, fileName.length())
-					: null;
+			type = fileName.indexOf(".") != -1 ? fileName.substring(fileName.lastIndexOf(".")  +1, fileName.length()): null;
 			if (type != null) {
 				if ("PNG".equals(type.toUpperCase()) || "GIF".equals(type.toUpperCase())
 						|| "JPG".equals(type.toUpperCase())) {

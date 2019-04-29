@@ -52,9 +52,6 @@ public class NewWXLoginController {
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		 System.out.println("++++++++++++++++++++++++++++++");
-		System.out.println(map);
-		System.out.println("++++++++++++++++++++++++++++++");
 		return map;
 	}
 
