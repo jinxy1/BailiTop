@@ -1,9 +1,14 @@
 package com.asiainfo.abdinfo.test;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.FutureTask;
+import java.util.regex.Pattern;
 
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
@@ -11,6 +16,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class TestDate { 
 
+	
 	@Test
 	public void test() {
 		ApplicationContext ac = new ClassPathXmlApplicationContext("conf/spring-mvc.xml", "conf/spring-mybatis.xml");
@@ -36,18 +42,34 @@ public class TestDate {
 //		for (Map.Entry<String, Object> entry : map.entrySet()) {
 //			System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
 //		}
+//		mlcvp = ac.getBean("IBookServiceImpl", IBookServiceImpl.class);
+//		String content=mlcvp.findBookChapterById(11);
+//		List<Map> a=generate( content);
+	
 	}
 	
-//	@Test
-//	public void test1() {
-//		String url="http://industry.people.com.cn/n1/2019/0404/c413883-31013059.html";
-//		SimpleDateFormat df = new SimpleDateFormat("yyyy/MMdd");//设置日期格式
-//		String patt = ".*"+df.format(new Date())+"*.";
-//		Boolean isMatch = Pattern.matches(patt, url);
-//		System.out.println(isMatch);
-//		System.out.println(df.format(new Date()));// new Date()为获取当前系统时间
-//		
-//	}	
+	public  List<Map> generate(String content){
+		String pattern="\\【|】";   //将字符串分割开的正则表达式
+		String imgPattern = ".+(.JPEG|.jpeg|.JPG|.jpg|.png)$";
+		String contents[]=content.split(pattern);
+		List<Map> lists=new ArrayList<Map>();
+		for(String con:contents){
+			Map<String,String> map=new HashMap<String,String>();
+			Boolean isMatch=Pattern.matches(imgPattern, con);
+			if(isMatch){
+				map.put("img", con);
+			}else{
+				map.put("test", con);
+			}
+			lists.add(map);
+		}
+		return lists;
+	}
+	
+	
+	
+
+	
 	
 	
 
