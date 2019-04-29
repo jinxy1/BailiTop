@@ -1,20 +1,30 @@
 package com.asiainfo.abdinfo.test;
 
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.FutureTask;
+
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-
-import com.asiainfo.abdinfo.service.IBookService;
-import com.asiainfo.abdinfo.service.impl.IBookServiceImpl;
 
 public class TestDate { 
 
 	@Test
 	public void test() {
-		IBookService mlcvp;
 		ApplicationContext ac = new ClassPathXmlApplicationContext("conf/spring-mvc.xml", "conf/spring-mybatis.xml");
-		mlcvp = ac.getBean("IBookServiceImpl", IBookServiceImpl.class);
-		
+		FutureTask<Integer> future=new FutureTask<>(new Callable<Integer>() {
+
+			@Override
+			public Integer call() throws Exception {
+				System.out.println(ac);
+				return null;
+			}
+		}) ;
+		new Thread(future).start();
+		ExecutorService eService=Executors.newFixedThreadPool(5);
+		eService.submit(future);
 //		Comments cts=new Comments();
 //		cts.setAcceptStaffCode("18060404");
 //		cts.setChapterId(1);
