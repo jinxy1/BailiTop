@@ -2,6 +2,7 @@ package com.asiainfo.abdinfo.controller.loginTest;
 
 
 import org.springframework.stereotype.Controller;
+
 import com.alibaba.fastjson.JSONObject;
 import com.asiainfo.abdinfo.utils.Login.HttpRequest;
 
@@ -26,6 +27,7 @@ public class WXQYController {
 	    
 	    System.out.println(sr);
 	    JSONObject json=null;
+	    System.out.println(json);
 //		try {
 //			json = new JSONObject(sr);
 //		} catch (Exception e1) {
