@@ -32,6 +32,7 @@ public class MassageController{
 	@RequestMapping(value="massageCount.do")
 	@ResponseBody
 	public void findMassageCount(String user,HttpServletRequest request, HttpServletResponse response,HttpSession session){
+		long start=System.currentTimeMillis();
 		String staffCode=request.getParameter("staffCode");
 		User users=JSON.parseObject(user,User.class);
 		Map<String, Object> map = new HashMap<String,Object>();
@@ -42,6 +43,8 @@ public class MassageController{
 		count.add(countMassage);
 		count.add(countFabulous);
 		ResponseUtils.renderJson(response, JsonUtils.toJson(count));
+		long end=System.currentTimeMillis();
+		System.out.println("公告时间是："+(end-start));
 	}
 	
 }

@@ -29,7 +29,12 @@ public class CommentsController {
 	@RequestMapping("findBooks.do")
 	@ResponseBody
 	public List<Books> books(String staffCode, Integer id) {
-		return bookService.selectBooks(staffCode, id);
+		long start=System.currentTimeMillis();
+		List<Books> list=bookService.selectBooks(staffCode, id);
+		long end=System.currentTimeMillis();
+		System.out.println("查找图书时间是："+(end-start));
+		return list;
+		
 	}
 
 	@RequestMapping("addBookInfo.do")
@@ -54,7 +59,7 @@ public class CommentsController {
 
 	@RequestMapping(value = "findBookChapterById.do", produces = "application/json;charset=utf-8")
 	@ResponseBody
-	public List<Map> findBookChapterById(Integer id) {
+	public List<Map<String,String>> findBookChapterById(Integer id) {
 		String contentString = bookService.findBookChapterById(id);
 		return GenerateUtils.generate(contentString);
 	}
@@ -81,6 +86,7 @@ public class CommentsController {
 		
 		return bookService.findBookReview(staffCode, bookId,1);
 	}
+
 	
 	
 	

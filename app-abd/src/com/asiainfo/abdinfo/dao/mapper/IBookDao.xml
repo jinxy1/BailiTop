@@ -28,7 +28,7 @@
 	</select>
 	<!-- 根据书籍id查询目录 -->
 	<select id="findBookChapter" resultType="BookChapter">
-		select bc.id,bc.book_id,bc.chapter,br.readChapterStatus from book_chapter bc 
+		select bc.id,bc.book_id,bc.chapter,br.readChapterStatus,br.reading_fell from book_chapter bc 
 		LEFT JOIN book_readed br on bc.book_id= br.book_id and bc.id=br.chapter_id and br.staffCode=#{staffCode}
 		where bc.book_id=#{book_id} order by bc.id
 	</select>
@@ -43,7 +43,7 @@
 	
 	<!-- 查询书评内容 -->
 	<select id="findBookReview" resultType="BookCommentsInfo">
-	select bci.id,bci.book_id,bci.content,bci.sendStaffCode,date_format(bci.createTime, '%Y-%m-%d %H：%i：%s') as createTime,头像 as headPortrait,姓名 as name,
+	select bci.id,bci.book_id,bci.content,bci.sendStaffCode,date_format(bci.createTime, '%Y-%m-%d %H:%i:%s') as createTime,头像 as headPortrait,姓名 as name,
 		(select praise from praise where praiseID= bci.id and staffCode=#{staffCode} and type!=1) as praiseStatus,
 		(select count(staffCode) from praise where praiseID= bci.id and type!=1) as praise,
 		(select fabulous from fabulous where fabulousID= bci.id and staffCode=#{staffCode} and type!=1) as fabulousStatus,
@@ -87,4 +87,7 @@
 		reading_fell_num=#{num}
 		where book_id=#{book_id} and staffCode=#{staffCode} and chapter_id=#{chapter_id}
 	</update>
+	<select id="findReadFell">
+		select reading_fell from book_readed where book
+	</select>
 </mapper>

@@ -13,6 +13,8 @@ import com.asiainfo.abdinfo.po.User;
 import com.asiainfo.abdinfo.po.community.CommunityInfo;
 import com.asiainfo.abdinfo.po.community.CommunityInfoRead;
 import com.asiainfo.abdinfo.po.community.CommunityInfoType;
+import com.asiainfo.abdinfo.po.community.CommunityLeaveWord;
+import com.asiainfo.abdinfo.po.community.FlowLeaveWordChild;
 import com.asiainfo.abdinfo.service.ICommunityService;
 import com.asiainfo.abdinfo.utils.mybatis.paginator.domain.PageBounds;
 import com.github.pagehelper.PageHelper;
@@ -25,8 +27,7 @@ public class CommunityServiceImpl implements ICommunityService{
 	
 	@Override
 	public Map<String, Object> getCommunityMsType(User user,String typeName,PageBounds pb,String infoTitle) {
-
-		System.out.println(System.currentTimeMillis());
+		long start=System.currentTimeMillis();
 		List<CommunityInfoType> communityInfoTypes=icommunityDao.getCommunityMsgType();
 		List<CommunityInfoType> unlessMsgCount =icommunityDao.getUnlessMsgCount(user);
 		String authority=icommunityDao.getAuthority(user.getStaffCode());
@@ -55,7 +56,8 @@ public class CommunityServiceImpl implements ICommunityService{
 		map.put("pageBean", pageBean);
 		map.put("unreadCount", unreadCount);
 		map.put("authority", authority);
-		System.out.println(System.currentTimeMillis());
+		long end=System.currentTimeMillis();
+		System.out.println("用时："+(end-start));
 		return map;
 	}
 	/**更改未读信息的状态*/
@@ -98,6 +100,21 @@ public class CommunityServiceImpl implements ICommunityService{
 	public Integer updateIntegralStatus(Integer infoId, String staffCode) {
 		// TODO Auto-generated method stub
 		return icommunityDao.updateIntegralStatus(infoId, staffCode);
+	}
+	@Override
+	public Integer addLeaveWord(CommunityLeaveWord cLeaveWord) {
+		// TODO Auto-generated method stub
+		return icommunityDao.addLeaveWord(cLeaveWord);
+	}
+	@Override
+	public List<CommunityLeaveWord> findLeaveWord(Integer infoId) {
+		// TODO Auto-generated method stub
+		return icommunityDao.findLeaveWord(infoId);
+	}
+	@Override
+	public Integer addRecoverStruct(FlowLeaveWordChild fLeaveWordChild) {
+		// TODO Auto-generated method stub
+		return icommunityDao.addRecoverStruct(fLeaveWordChild);
 	}
 
 }

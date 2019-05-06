@@ -51,7 +51,7 @@ public class ReadClockImple implements ReadClockService {
 			content=r.getContent();
 		}
 		
-		List<Map> genList=GenerateUtils.generate(content);
+		List<Map<String,String>> genList=GenerateUtils.generate(content);
 		ReadCount rr = readClockDao.findCount(map);
 		String r = readClockDao.findCountPeople(map);
 		Map<String,Object> m=new HashMap<String,Object>();

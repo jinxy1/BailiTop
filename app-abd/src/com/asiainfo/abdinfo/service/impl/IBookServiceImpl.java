@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.asiainfo.abdinfo.common.GenerateUtils;
 import com.asiainfo.abdinfo.dao.IBookDao;
 import com.asiainfo.abdinfo.dao.IStutasDao;
 import com.asiainfo.abdinfo.po.PageBean;
@@ -30,13 +31,6 @@ public class IBookServiceImpl implements IBookService{
 	
 	@Override
 	public Integer addComments(String sendStaffCode,Integer bookId,String content) {
-		try {
-			Thread.sleep(15000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
 		return bookDao.addComments(sendStaffCode,bookId,content);
 	}
 
@@ -110,8 +104,10 @@ public class IBookServiceImpl implements IBookService{
 
 	@Override
 	public BookChapter findLastTimeReadChapter(String staffCode, Integer bookId) {
-		// TODO Auto-generated method stub
-		return bookDao.findLastTimeReadChapter(staffCode, bookId);
+		BookChapter bChapter=bookDao.findLastTimeReadChapter(staffCode, bookId);
+		
+		bChapter.setContents(GenerateUtils.generate(bChapter.getContent()));
+		return bChapter;
 	}
 
 	@Override

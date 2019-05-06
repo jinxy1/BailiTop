@@ -73,22 +73,25 @@ public class WXRegController {
 	 * @param request
 	 * @param response
 	 */
-	 @RequestMapping(value = "/ClockInf.do")
-		public void readClockCon( HttpServletRequest request, HttpServletResponse response) {
-			String staffCode=request.getParameter("staffCode");
-			String clockDate=request.getParameter("clockDate");
-				Map<String,Object> re=readClockService.getReadIndex(staffCode,clockDate);
-				ResponseUtils.renderJson(response, JsonUtils.toJson(re));									
-		}
+	@RequestMapping(value = "/ClockInf.do")
+	public void readClockCon( HttpServletRequest request, HttpServletResponse response) {
+	 	long start=System.currentTimeMillis();
+		String staffCode=request.getParameter("staffCode");
+		String clockDate=request.getParameter("clockDate");
+		Map<String,Object> re=readClockService.getReadIndex(staffCode,clockDate);
+		ResponseUtils.renderJson(response, JsonUtils.toJson(re));	
+		long end=System.currentTimeMillis();
+		System.out.println("查询当天的读书内容时间是："+(end-start));
+	}
 	 
-	 /**根据openId查询用户信息*/
-	 @ResponseBody
-	 @RequestMapping(value = "/newUser.do")
-		public void getNewUser( HttpServletRequest request, HttpServletResponse response) {
-			String openId= request.getParameter("openId");
-			List<NewLogin>  nn=newLoginService.getNewUser(openId);
-			ResponseUtils.renderJson(response, JsonUtils.toJson(nn.get(0).getStaffCode()));	
-		}
+	/**根据openId查询用户信息*/
+	@ResponseBody
+	@RequestMapping(value = "/newUser.do")
+	public void getNewUser( HttpServletRequest request, HttpServletResponse response) {
+		String openId= request.getParameter("openId");
+		List<NewLogin>  nn=newLoginService.getNewUser(openId);
+		ResponseUtils.renderJson(response, JsonUtils.toJson(nn.get(0).getStaffCode()));	
+	}
 	 
 	 
 	 

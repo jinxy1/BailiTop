@@ -13,11 +13,11 @@ public class GenerateUtils {
 	 * @param content
 	 * @return
 	 */
-	public static List<Map> generate(String content){
+	public static List<Map<String,String>> generate(String content){
 		String pattern="\\【|】";   //将字符串分割开的正则表达式
 		String imgPattern = ".+(.JPEG|.jpeg|.JPG|.jpg|.png)$";
 		String contents[]=content.split(pattern);
-		List<Map> lists=new ArrayList<Map>();
+		List<Map<String,String>> lists=new ArrayList<Map<String,String>>();
 		for(String con:contents){
 			Map<String,String> map=new HashMap<String,String>();
 			Boolean isMatch=Pattern.matches(imgPattern, con);

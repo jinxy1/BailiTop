@@ -19,7 +19,10 @@ public class AnoucemtWeb {
 	private AnoucemtService actService;
 	@RequestMapping("findnowdaytitle.do")
 	public void findnowdaytitle(HttpServletRequest request,HttpServletResponse response,String nowday){
+		long start=System.currentTimeMillis();
 		ResponseUtils.renderJson(response, JsonUtils.toJson(actService.nowdaytitle(nowday)));
+		long end=System.currentTimeMillis();
+		System.out.println("公告时间是："+(end-start));
 	}
 	
 }

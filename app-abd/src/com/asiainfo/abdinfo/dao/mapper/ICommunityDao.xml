@@ -116,4 +116,34 @@
     	update flow_info_read set integralStatus=1 where staffCode=#{staffCode} and infoId=#{infoId}
     </update>
     
+    
+    <!-- 留言信息 -->
+    <insert id="addLeaveWord">
+    	insert into flow_leave_word(info_id,leave_word,create_time,staff_code) values(#{infoId},#{leaveWord},now(),#{staffCode})
+    </insert>
+    <!-- 查找留言信息 -->
+    <select id="findLeaveWord" resultMap="communityLeaveWord">
+    	select flw.id,flw.info_id,flw.leave_word,date_format(flw.create_time, '%Y-%m-%d %H:%i:%s') as create_time,flw.staff_code,u.`头像` as comment,dp.`姓名` as username from flow_leave_word flw 
+    	INNER JOIN datacenter_personnel dp on flw.staff_code=dp.`人员编码` 
+		INNER JOIN usertable u on u.`员工编码`=flw.staff_code 
+		where flw.info_id=#{infoId}
+    </select>
+    <resultMap type="CommunityLeaveWord" id="communityLeaveWord">
+    	<id property="id" column="id"></id>
+    	<collection property="fChild" column="id" ofType="FlowLeaveWordChild" select="findRecoverStruct"></collection>
+    </resultMap>
+    <!-- 留言信息附带的其他人的回复信息 -->
+    <select id="findRecoverStruct" resultType="FlowLeaveWordChild">
+    	select flwc.id,flwc.info_leave_word_id,flwc.staff_code,flwc.receive_staff_code,flwc.leave_word,flwc.create_time,
+    	(select 姓名 from datacenter_personnel where 人员编码=flwc.receive_staff_code) as comment,
+    	(select 姓名 from datacenter_personnel where 人员编码=flwc.staff_code) as username 
+    	from flow_leave_word_child flwc
+    	where info_leave_word_id=#{id}
+    </select>
+    <!-- 回复信息 -->
+    <insert id="addRecoverStruct">
+    	insert into flow_leave_word_child(info_leave_word_id,staff_code,receive_staff_code,create_time,leave_word) 
+    	values(#{infoLeaveWordId},#{staffCode},#{receiveStaffCode},now(),#{leaveWord})
+    </insert>
+    
 </mapper>

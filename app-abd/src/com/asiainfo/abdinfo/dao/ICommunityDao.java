@@ -9,6 +9,8 @@ import com.asiainfo.abdinfo.po.User;
 import com.asiainfo.abdinfo.po.community.CommunityInfo;
 import com.asiainfo.abdinfo.po.community.CommunityInfoRead;
 import com.asiainfo.abdinfo.po.community.CommunityInfoType;
+import com.asiainfo.abdinfo.po.community.CommunityLeaveWord;
+import com.asiainfo.abdinfo.po.community.FlowLeaveWordChild;
 
 public interface ICommunityDao {
 	
@@ -26,5 +28,9 @@ public interface ICommunityDao {
 	public List<Integer> getUnlessMsgId(@Param("user") User user);//未读信息id
 	public int addReadInfos(@Param("ids") List<Integer> ids,@Param("staffCode") String staffCode);//未读信息id
 	public int updateIntegralStatus(@Param("infoId") Integer infoId,@Param("staffCode") String staffCode);//未读信息id
+	public Integer addLeaveWord(CommunityLeaveWord cLeaveWord);//插入留言信息
+	public Integer addRecoverStruct(FlowLeaveWordChild fLeaveWordChild);//插入回复信息
+	public List<CommunityLeaveWord> findLeaveWord(@Param("infoId") Integer infoId);//留言信息
+	
 	
 }

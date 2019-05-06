@@ -70,12 +70,14 @@ public class TipsController {
 	@RequestMapping(value="/show.do")
 	@ResponseBody
 	public void show(HttpServletRequest request,HttpServletResponse response){
+		long start=System.currentTimeMillis();
 		String staffCode=(String)request.getParameter("staffCode");
 		Map<String,Object> map = new HashMap<String,Object>();
 		map.put("staffCode", staffCode);
 		List<User> b=tipsService.findTips(map);
 		ResponseUtils.renderJson(response, JsonUtils.toJson(b));
-		
+		long end=System.currentTimeMillis();
+		System.out.println("首页显示内容："+(end-start));
 	}
 	
 	/**删除感恩人信息*/
