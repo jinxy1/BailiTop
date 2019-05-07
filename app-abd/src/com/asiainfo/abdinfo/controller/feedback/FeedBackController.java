@@ -80,7 +80,6 @@ public class FeedBackController {
 				System.out.println("文件类型为空");
 			}
 		} else {
-			System.out.println("文件为空");
 		}
 
 		return "001";

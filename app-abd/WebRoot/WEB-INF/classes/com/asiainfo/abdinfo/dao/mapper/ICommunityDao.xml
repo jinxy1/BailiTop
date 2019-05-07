@@ -142,8 +142,8 @@
     </select>
     <!-- 回复信息 -->
     <insert id="addRecoverStruct">
-    	insert into flow_leave_word_child(info_leave_word_id,staff_code,receive_staff_code,create_time,leave_word) 
-    	values(#{infoLeaveWordId},#{staffCode},#{receiveStaffCode},now(),#{leaveWord})
+    	insert into flow_leave_word_child(info_leave_word_id,staff_code,receive_staff_code,type,create_time,leave_word) 
+    	values(#{infoLeaveWordId},#{staffCode},#{receiveStaffCode},#{type},now(),#{leaveWord})
     </insert>
     
 </mapper>

@@ -100,8 +100,6 @@ public class TipsServiceImpl implements ITipsService{
 		if (list.size()==0) {
 			for (Object object : jsonArray) {
 				String str=object.toString();
-				System.out.println(str);
-				System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++");
 				Menus menus=(Menus)JSON.parseObject(str,Menus.class);
 				if (!menus.getPers().equals("")&&!menus.getDetail().equals("")) {
 					menus.setStaffCode((String)map.get("staffCode"));
@@ -118,7 +116,6 @@ public class TipsServiceImpl implements ITipsService{
 			for (Object object : jsonArray) {
 				int i=0;
 				String str=object.toString();
-				System.out.println(str);
 				Menus menus=(Menus)JSON.parseObject(str,Menus.class);
 				for (Menus menuList : list) {
 					if (menuList.getPers().equals(menus.getPers())) {
@@ -170,7 +167,6 @@ public class TipsServiceImpl implements ITipsService{
 	public int addWorkSummary(Map<String, Object> map) {
 			Works works=(Works)JSON.parseObject(map.get("workList").toString(),Works.class);
 			map.put("work", works);
-			System.out.println(map.get("codeStr").toString());
 			if (map.get("codeStr").toString().equals("1")) {
 				tipsDao.addWorkPlan(map);
 			}else{

@@ -16,6 +16,7 @@ import com.asiainfo.abdinfo.po.PageBean;
 import com.asiainfo.abdinfo.po.NewLoginBean.ListAllFeeling;
 import com.asiainfo.abdinfo.po.book.BookChapter;
 import com.asiainfo.abdinfo.po.book.BookCommentsInfo;
+import com.asiainfo.abdinfo.po.book.BookReaded;
 import com.asiainfo.abdinfo.po.book.Books;
 import com.asiainfo.abdinfo.service.IBookService;
 import com.asiainfo.abdinfo.utils.mybatis.paginator.domain.PageBounds;
@@ -168,6 +169,13 @@ public class IBookServiceImpl implements IBookService{
 	public Integer updateReadFell(Map<String, Object> map) {
 		// TODO Auto-generated method stub
 		return bookDao.updateReadFell(map);
+	}
+	
+	/**查询章节感想和评论内容*/
+	@Override
+	public List<BookReaded> findReadFell(Integer bookId, String chapterId) {
+		// TODO Auto-generated method stub
+		return bookDao.findReadFell(bookId, chapterId);
 	}
 
 

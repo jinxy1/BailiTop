@@ -3,6 +3,7 @@ package com.asiainfo.abdinfo.filter;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.regex.Pattern;
+
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -37,20 +38,15 @@ public class SessionFilter implements Filter {
             setExcepUrlPattern(Pattern.compile(excepUrlRegex));
         }
         forwardUrl = cfg.getInitParameter("redirectUrl");
-        System.out.println(forwardUrl);
     }
  
     @Override
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
     
-        System.out.println("查看是否进去拦截器中");
         
         HttpServletRequest request = (HttpServletRequest) req;
-        System.out.println(request);
         HttpServletResponse response = (HttpServletResponse) res;
-        System.out.println(response);
         String servletPath = request.getServletPath();
-        System.out.println(servletPath);                              //                /loginUI.do
          
         if(servletPath.equals(forwardUrl)||servletPath.equals("/toLogin.do")){
         	chain.doFilter(req, res);

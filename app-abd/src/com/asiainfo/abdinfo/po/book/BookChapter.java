@@ -14,8 +14,8 @@ public class BookChapter implements Serializable{
 	private Integer bookId;
 	private String chapter;
 	private String content;
-	private String radio_url;
-	private String video_url;
+	private String radioUrl;
+	private String videoUrl;
 	private List<Map<String,String>> contents;
 	private Integer readChapterStatus;
 	private String readingFell;
@@ -23,15 +23,15 @@ public class BookChapter implements Serializable{
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	BookChapter(Integer id, Integer bookId, String chapter, String content, String radio_url, String video_url,
+	BookChapter(Integer id, Integer bookId, String chapter, String content, String radioUrl, String videoUrl,
 			List<Map<String, String>> contents, Integer readChapterStatus, String readingFell) {
 		super();
 		this.id = id;
 		this.bookId = bookId;
 		this.chapter = chapter;
 		this.content = content;
-		this.radio_url = radio_url;
-		this.video_url = video_url;
+		this.radioUrl = radioUrl;
+		this.videoUrl = videoUrl;
 		this.contents = contents;
 		this.readChapterStatus = readChapterStatus;
 		this.readingFell = readingFell;
@@ -40,7 +40,7 @@ public class BookChapter implements Serializable{
 	public String toString() {
 		final int maxLen = 10;
 		return "BookChapter [id=" + id + ", bookId=" + bookId + ", chapter=" + chapter + ", content=" + content
-				+ ", radio_url=" + radio_url + ", video_url=" + video_url + ", contents="
+				+ ", radioUrl=" + radioUrl + ", videoUrl=" + videoUrl + ", contents="
 				+ (contents != null ? contents.subList(0, Math.min(contents.size(), maxLen)) : null)
 				+ ", readChapterStatus=" + readChapterStatus + ", readingFell=" + readingFell + "]";
 	}
@@ -76,17 +76,17 @@ public class BookChapter implements Serializable{
 	public void setReadChapterStatus(Integer readChapterStatus) {
 		this.readChapterStatus = readChapterStatus;
 	}
-	public String getRadio_url() {
-		return radio_url;
+	public String getRadioUrl() {
+		return radioUrl;
 	}
-	public void setRadio_url(String radio_url) {
-		this.radio_url = radio_url;
+	public void setRadioUrl(String radioUrl) {
+		this.radioUrl = radioUrl;
 	}
-	public String getVideo_url() {
-		return video_url;
+	public String getVideoUrl() {
+		return videoUrl;
 	}
-	public void setVideo_url(String video_url) {
-		this.video_url = video_url;
+	public void setVideoUrl(String videoUrl) {
+		this.videoUrl = videoUrl;
 	}
 	public List<Map<String,String>> getContents() {
 		return contents;

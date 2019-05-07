@@ -12,6 +12,7 @@ import com.alibaba.fastjson.JSON;
 import com.asiainfo.abdinfo.common.GenerateUtils;
 import com.asiainfo.abdinfo.po.NewLoginBean.ListAllFeeling;
 import com.asiainfo.abdinfo.po.book.BookCommentsInfo;
+import com.asiainfo.abdinfo.po.book.BookReaded;
 import com.asiainfo.abdinfo.po.book.Books;
 import com.asiainfo.abdinfo.service.IBookService;
 import com.asiainfo.abdinfo.utils.mybatis.paginator.domain.PageBounds;
@@ -87,7 +88,13 @@ public class CommentsController {
 		return bookService.findBookReview(staffCode, bookId,1);
 	}
 
-	
+	/**查询章节感想和评论内容*/
+	@RequestMapping("findReadFell.do")
+	@ResponseBody
+	public List<BookReaded> findReadFell(Integer bookId, String chapterId){
+		
+		return bookService.findReadFell(bookId, chapterId);
+	}
 	
 	
 }

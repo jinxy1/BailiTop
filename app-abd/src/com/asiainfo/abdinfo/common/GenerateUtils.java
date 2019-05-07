@@ -21,8 +21,6 @@ public class GenerateUtils {
 		for(String con:contents){
 			Map<String,String> map=new HashMap<String,String>();
 			Boolean isMatch=Pattern.matches(imgPattern, con);
-			System.out.println(isMatch);
-			System.out.println(con);
 			if(isMatch){
 				map.put("img", con);
 			}else{

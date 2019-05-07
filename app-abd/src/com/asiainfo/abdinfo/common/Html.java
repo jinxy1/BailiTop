@@ -57,10 +57,8 @@ public class Html {
 		try {
 			doc = Jsoup.parse(input, "GBK");
 			if (!doc.children().isEmpty()) {
-				System.out.println("已经存在");
 			}
 		} catch (IOException e) {
-			System.out.println("文件未找到，正在从网络获取.......");
 			doc = this.getHtmlTextByUrl(url);
 			// 并且保存到本地
 //			this.Save_Html(url, name);
@@ -112,6 +110,7 @@ public class Html {
 
 	// 获取省 、市 、县等的信息
 	
+	@SuppressWarnings("unused")
 	public ArrayList getProvince(String name, String url, String type) {
 		ArrayList result = new ArrayList();
 		// "tr.provincetr"
@@ -133,17 +132,14 @@ public class Html {
 							// 原来的url
 							prv[0] = url; // 就是参数url
 							// 身份名称
-							System.out.println(ec.children().first().ownText());
 							prv[1] = ec.children().first().ownText(); // a标签文本
 																// 如:北京
 							String ownurl = ec.children().first().attr("abs:href"); // 北京的url
-							System.out.println(ownurl);
 						}
 					}
 				}
 			}
 		}
-		System.out.println(result);
 		return result; // 反回所有的省份信息集合，存数据库，字段类型为： baseurl name ownurl
 	}
 

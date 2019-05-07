@@ -39,7 +39,6 @@ public class LoginController {
 	public String login(HttpServletRequest request,HttpServletResponse resp, HttpSession session) throws Exception{
 		String userId=request.getParameter("userId");
 		String pwd=request.getParameter("pwd");
-		System.out.println(userId+pwd);
 		Map<String,Object> map=new HashMap<String,Object>();
 	    map.put("staffCode", userId);
 	    map.put("staffPwd", pwd);
@@ -64,8 +63,6 @@ public class LoginController {
 			@RequestParam(value="iv") String iv,
 			@RequestParam(value="code") String code) throws Exception{
 		
-		System.out.println(WXAppletUserInfo.getSessionKeyOropenid(code));
-		System.out.println(encryptedData+iv+code);
 		return WXAppletUserInfo.getSessionKeyOropenid(code);		
 	}
 	

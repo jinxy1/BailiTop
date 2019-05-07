@@ -3,8 +3,10 @@ package com.asiainfo.abdinfo.service.impl;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.asiainfo.abdinfo.dao.NewLoginPage;
 import com.asiainfo.abdinfo.po.PageBean;
 import com.asiainfo.abdinfo.po.NewLoginBean.ListAllFeeling;
@@ -55,7 +57,6 @@ public class NewLoginImple implements NewLoginService{
 	public PageBean<ListAllFeeling> getAllFeeling(Map<String,Object> map,PageBounds pb) {		
 	    PageHelper.startPage(pb.getPage(), pb.getLimit());
 		List<ListAllFeeling> list=newLoginPage.findAllFeeling(map);
-		System.out.println(list);
 		PageBean<ListAllFeeling>  pageBean  = new PageBean<ListAllFeeling>(list);
 		return pageBean;
 		

@@ -127,7 +127,6 @@ public class ReadClockImple implements ReadClockService {
 	public List<DayRest>  selectDayRest(String staffCode, String yearMonth,String yearDay,String status) {
 	    Long beginCurrent=System.currentTimeMillis();
 		String baseInfo = readClockDao.selectJibenxinxi(staffCode, yearDay);
-		System.out.println(baseInfo==null||baseInfo.isEmpty());
 		boolean flage=baseInfo==null||baseInfo.isEmpty();
 		int i=1;
 		while (flage) {

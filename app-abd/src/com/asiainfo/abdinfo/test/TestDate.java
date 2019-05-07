@@ -17,6 +17,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class TestDate { 
 
 	
+	@SuppressWarnings({ "unused", "resource" })
 	@Test
 	public void test() {
 		ApplicationContext ac = new ClassPathXmlApplicationContext("conf/spring-mvc.xml", "conf/spring-mybatis.xml");
@@ -24,7 +25,6 @@ public class TestDate {
 
 			@Override
 			public Integer call() throws Exception {
-				System.out.println(ac);
 				return null;
 			}
 		}) ;
@@ -40,7 +40,6 @@ public class TestDate {
 //		mlcvp.addComments(cts);
 //		Map<String, Object> map=mlcvp.findBookInfo("18060404", 1);
 //		for (Map.Entry<String, Object> entry : map.entrySet()) {
-//			System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
 //		}
 //		mlcvp = ac.getBean("IBookServiceImpl", IBookServiceImpl.class);
 //		String content=mlcvp.findBookChapterById(11);

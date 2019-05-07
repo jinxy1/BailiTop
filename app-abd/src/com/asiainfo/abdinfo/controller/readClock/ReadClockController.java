@@ -50,7 +50,6 @@ public class ReadClockController {
 	public void readClockCon( HttpServletRequest request, HttpServletResponse response) {
 		String staffCode=request.getParameter("staffCode");
 		String clockDate=request.getParameter("clockDate");
-		System.out.println(clockDate);
 		Map<String,Object> re=readClockService.getReadIndex(staffCode,clockDate);
 		ResponseUtils.renderJson(response, JsonUtils.toJson(re));
 	}
@@ -102,7 +101,6 @@ public class ReadClockController {
 			iBookService.updateReadFell(map);
 		}else {
 			readClockService.updateBook(map);
-			System.out.println("插入或修改成功");
 		}
 			
 	}
@@ -144,7 +142,6 @@ public class ReadClockController {
 		map.put("dep", dep);
 		PageBounds pb = new PageBounds(page,limit);
 		PageBean<ListAllFeeling> list=newLoginService.getAllFeeling(map,pb);	
-		System.out.println(list);
 		ResponseUtils.renderJson(response, JsonUtils.toJson(list));	
 		long end=System.currentTimeMillis();
 		System.out.println("公告时间是："+(end-start));

@@ -37,7 +37,6 @@ public class CommunityServiceImpl implements ICommunityService{
 					communityInfoType.setUnreadCount(InfoType.getUnreadCount());
 				}
 			}
-			System.out.println(communityInfoType);
 		}
 		int unreadCount=0;
 		for (CommunityInfoType communityInfoType : unlessMsgCount) {

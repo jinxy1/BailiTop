@@ -13,27 +13,35 @@ public class FlowLeaveWordChild extends Personnel implements Serializable{
 	private Integer infoLeaveWordId;
 	private String staffCode;
 	private String receiveStaffCode;
+	private String type;
 	private String leaveWord;
 	private String createTime;
 	FlowLeaveWordChild() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	FlowLeaveWordChild(Integer id, Integer infoLeaveWordId, String staffCode, String receiveStaffCode, String leaveWord,
-			String createTime) {
+	FlowLeaveWordChild(Integer id, Integer infoLeaveWordId, String staffCode, String receiveStaffCode, String type,
+			String leaveWord, String createTime) {
 		super();
 		this.id = id;
 		this.infoLeaveWordId = infoLeaveWordId;
 		this.staffCode = staffCode;
 		this.receiveStaffCode = receiveStaffCode;
+		this.type = type;
 		this.leaveWord = leaveWord;
 		this.createTime = createTime;
 	}
 	@Override
 	public String toString() {
 		return "FlowLeaveWordChild [id=" + id + ", infoLeaveWordId=" + infoLeaveWordId + ", staffCode=" + staffCode
-				+ ", receiveStaffCode=" + receiveStaffCode + ", leaveWord=" + leaveWord + ", createTime=" + createTime
-				+ "]";
+				+ ", receiveStaffCode=" + receiveStaffCode + ", type=" + type + ", leaveWord=" + leaveWord
+				+ ", createTime=" + createTime + "]";
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
 	}
 	public Integer getId() {
 		return id;

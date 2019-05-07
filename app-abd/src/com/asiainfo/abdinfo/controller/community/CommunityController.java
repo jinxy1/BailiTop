@@ -48,10 +48,8 @@ public class CommunityController  {
 	public int communityDataDep(HttpServletRequest request, HttpServletResponse response,
 			@RequestParam(value = "staffCode") String staffCode, @RequestParam(value = "community") String community) {
 		Community con = JSON.parseObject(community, Community.class);
-		System.out.println(con);
 		con.setStaffCode(staffCode);
 		communityServiceImple.insertCommunits(con);
-		System.out.println(con.getId());
 		return con.getId(); // 返回主鍵
 	}
 

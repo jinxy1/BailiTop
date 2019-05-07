@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.asiainfo.abdinfo.po.book.BookChapter;
 import com.asiainfo.abdinfo.po.book.BookCommentsInfo;
+import com.asiainfo.abdinfo.po.book.BookReaded;
 import com.asiainfo.abdinfo.po.book.Books;
 /**公告内容的dao接口*/
 public interface IBookDao {
@@ -76,6 +77,11 @@ public interface IBookDao {
 	);
 	/**更新读书感想*/
 	public Integer updateReadFell(Map<String, Object> map);
+	/**查询章节的所有读书感想和评论*/
+	public List<BookReaded> findReadFell(
+			@Param("bookId") Integer bookId,
+			@Param("chapterId") String chapterId
+	);
 	
 	
 	
