@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.fastjson.JSON;
 import com.asiainfo.abdinfo.po.Community;
+import com.asiainfo.abdinfo.po.PageBean;
 import com.asiainfo.abdinfo.po.User;
 import com.asiainfo.abdinfo.po.community.CommunityInfoRead;
 import com.asiainfo.abdinfo.po.community.CommunityLeaveWord;
@@ -205,8 +206,9 @@ public class CommunityController  {
 	/**查询留言信息*/
 	@RequestMapping("findLeaveWord.do")
 	@ResponseBody
-	public List<CommunityLeaveWord> findLeaveWord(Integer infoId){
-		return iCommunityService.findLeaveWord(infoId);
+	public PageBean<CommunityLeaveWord> findLeaveWord(Integer infoId,Integer limit,Integer page){
+		PageBounds pb = new PageBounds(page,limit);
+		return iCommunityService.findLeaveWord(infoId,pb);
 	}
 	
 	

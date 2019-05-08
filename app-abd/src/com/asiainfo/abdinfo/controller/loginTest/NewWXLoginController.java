@@ -2,6 +2,7 @@ package com.asiainfo.abdinfo.controller.loginTest;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.asiainfo.abdinfo.utils.Login.HttpRequest;
 
 @Controller
@@ -60,9 +62,9 @@ public class NewWXLoginController {
 	//向服务器中要access_token
 	public static JSONObject accessToken() {
 		// 小程序唯一标识 (在微信小程序管理后台获取)
-		String wxqyCorpid = "wx020f56c2a048cd2a";
+		String wxqyCorpid = "ww1dc17f7e79437d0d";
 		// 小程序的 app secret (在微信小程序管理后台获取)
-		String wxqycorpsecret = "vilT_1Heb2l6brubKiwGFf9oxOqkAhNpbCKSOyxmoEo";
+		String wxqycorpsecret = "3OAjtDypA3FqL-6wDz9CY_tWipVXpfmqfDMFHfD2rEk";
 		// https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=wx020f56c2a048cd2a&corpsecret=vilT_1Heb2l6brubKiwGFf9oxOqkAhNpbCKSOyxmoEo
 		String params = "corpid=" + wxqyCorpid + "&corpsecret=" + wxqycorpsecret;
 		// 发送请求

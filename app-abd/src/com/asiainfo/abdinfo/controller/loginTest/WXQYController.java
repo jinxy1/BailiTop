@@ -13,9 +13,9 @@ public class WXQYController {
 	public void decodeQYUserInfo() {
 		//step1 获取access_token
 		//企业ID
-		String wxQYcorpid="wx020f56c2a048cd2a";
+		String wxQYcorpid="ww1dc17f7e79437d0d";
 		//应用的凭证密钥
-		String wxQYcorpsecret="vilT_1Heb2l6brubKiwGFf9oxOqkAhNpbCKSOyxmoEo";
+		String wxQYcorpsecret="3OAjtDypA3FqL-6wDz9CY_tWipVXpfmqfDMFHfD2rEk";
 		
 		//https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=ID&corpsecret=SECRECT
 

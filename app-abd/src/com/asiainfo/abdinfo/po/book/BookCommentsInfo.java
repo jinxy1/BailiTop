@@ -1,6 +1,9 @@
 package com.asiainfo.abdinfo.po.book;
 
 import java.io.Serializable;
+import java.util.List;
+
+import com.asiainfo.abdinfo.po.community.FlowLeaveWordChild;
 
 public class BookCommentsInfo implements Serializable{
 	/**
@@ -23,23 +26,26 @@ public class BookCommentsInfo implements Serializable{
 	private Integer myenshrineStatus;
 	private String headPortrait;
 	private String name;
+	private List<FlowLeaveWordChild> leaveWordChild;
 	public BookCommentsInfo() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	
 	@Override
 	public String toString() {
+		final int maxLen = 10;
 		return "BookCommentsInfo [id=" + id + ", sendStaffCode=" + sendStaffCode + ", type=" + type + ", content="
 				+ content + ", createTime=" + createTime + ", acceptStaffCode=" + acceptStaffCode + ", bookId=" + bookId
 				+ ", praise=" + praise + ", fabulous=" + fabulous + ", myenshrine=" + myenshrine + ", praiseStatus="
 				+ praiseStatus + ", fabulousStatus=" + fabulousStatus + ", myenshrineStatus=" + myenshrineStatus
-				+ ", headPortrait=" + headPortrait + ", name=" + name + "]";
+				+ ", headPortrait=" + headPortrait + ", name=" + name + ", leaveWordChild="
+				+ (leaveWordChild != null ? leaveWordChild.subList(0, Math.min(leaveWordChild.size(), maxLen)) : null)
+				+ "]";
 	}
-
 	BookCommentsInfo(Integer id, String sendStaffCode, String type, String content, String createTime,
 			String acceptStaffCode, Integer bookId, Integer praise, Integer fabulous, Integer myenshrine,
-			Integer praiseStatus, Integer fabulousStatus, Integer myenshrineStatus, String headPortrait, String name) {
+			Integer praiseStatus, Integer fabulousStatus, Integer myenshrineStatus, String headPortrait, String name,
+			List<FlowLeaveWordChild> leaveWordChild) {
 		super();
 		this.id = id;
 		this.sendStaffCode = sendStaffCode;
@@ -56,8 +62,8 @@ public class BookCommentsInfo implements Serializable{
 		this.myenshrineStatus = myenshrineStatus;
 		this.headPortrait = headPortrait;
 		this.name = name;
+		this.leaveWordChild = leaveWordChild;
 	}
-
 	public Integer getId() {
 		return id;
 	}
@@ -159,6 +165,12 @@ public class BookCommentsInfo implements Serializable{
 
 	public void setMyenshrineStatus(Integer myenshrineStatus) {
 		this.myenshrineStatus = myenshrineStatus;
+	}
+	public List<FlowLeaveWordChild> getLeaveWordChild() {
+		return leaveWordChild;
+	}
+	public void setLeaveWordChild(List<FlowLeaveWordChild> leaveWordChild) {
+		this.leaveWordChild = leaveWordChild;
 	}
 	
 }

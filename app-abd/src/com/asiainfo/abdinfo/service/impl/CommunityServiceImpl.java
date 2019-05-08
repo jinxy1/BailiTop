@@ -106,9 +106,12 @@ public class CommunityServiceImpl implements ICommunityService{
 		return icommunityDao.addLeaveWord(cLeaveWord);
 	}
 	@Override
-	public List<CommunityLeaveWord> findLeaveWord(Integer infoId) {
+	public PageBean<CommunityLeaveWord> findLeaveWord(Integer infoId,PageBounds pb) {
 		// TODO Auto-generated method stub
-		return icommunityDao.findLeaveWord(infoId);
+		PageHelper.startPage(pb.getPage(), pb.getLimit());
+		List<CommunityLeaveWord> list=icommunityDao.findLeaveWord(infoId);
+		PageBean<CommunityLeaveWord>  pageBean=new PageBean<CommunityLeaveWord>(list);
+		return pageBean;
 	}
 	@Override
 	public Integer addRecoverStruct(FlowLeaveWordChild fLeaveWordChild) {

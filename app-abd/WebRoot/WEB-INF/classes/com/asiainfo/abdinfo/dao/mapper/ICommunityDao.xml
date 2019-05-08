@@ -138,7 +138,7 @@
     	(select 姓名 from datacenter_personnel where 人员编码=flwc.receive_staff_code) as comment,
     	(select 姓名 from datacenter_personnel where 人员编码=flwc.staff_code) as username 
     	from flow_leave_word_child flwc
-    	where info_leave_word_id=#{id}
+    	where info_leave_word_id=#{id} and flwc.type='信息流'
     </select>
     <!-- 回复信息 -->
     <insert id="addRecoverStruct">

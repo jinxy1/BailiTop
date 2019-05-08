@@ -1,8 +1,8 @@
 package com.asiainfo.abdinfo.service;
 
-import java.util.List;
 import java.util.Map;
 
+import com.asiainfo.abdinfo.po.PageBean;
 import com.asiainfo.abdinfo.po.User;
 import com.asiainfo.abdinfo.po.community.CommunityInfoRead;
 import com.asiainfo.abdinfo.po.community.CommunityLeaveWord;
@@ -32,5 +32,5 @@ public interface ICommunityService {
 	public Integer addLeaveWord(CommunityLeaveWord cLeaveWord);//留言信息
 	public Integer addRecoverStruct(FlowLeaveWordChild fLeaveWordChild);//留言信息
 	
-	public List<CommunityLeaveWord> findLeaveWord(Integer infoId);//查询留言信息
+	public PageBean<CommunityLeaveWord> findLeaveWord(Integer infoId,PageBounds pb);//查询留言信息
 }
