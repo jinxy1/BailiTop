@@ -6,9 +6,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.ServletContext;
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -28,7 +25,7 @@ import com.asiainfo.abdinfo.service.ICommunityService;
 import com.asiainfo.abdinfo.service.impl.CommunityServiceImple;
 import com.asiainfo.abdinfo.utils.mybatis.paginator.domain.PageBounds;
 @Controller
-public class CommunityController  {
+public class CommunityController  { 
 
 	@Autowired
 	private CommunityServiceImple communityServiceImple;

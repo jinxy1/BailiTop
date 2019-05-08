@@ -11,12 +11,10 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.asiainfo.abdinfo.dao.ISixDiligenceDao;
-import com.asiainfo.abdinfo.po.Custom_reflection;
 import com.asiainfo.abdinfo.po.Menus;
 import com.asiainfo.abdinfo.po.PageBean;
 import com.asiainfo.abdinfo.po.SixDiligence;
 import com.asiainfo.abdinfo.po.SixList;
-import com.asiainfo.abdinfo.po.Type;
 import com.asiainfo.abdinfo.service.ISixDiligenceService;
 import com.asiainfo.abdinfo.utils.mybatis.paginator.domain.PageBounds;
 import com.github.pagehelper.PageHelper;
@@ -86,16 +84,6 @@ public class SixDiligenceServiceImpl implements ISixDiligenceService{
 		List<String> staffCodes=sixDiligenceDao.findStaffCode(map);
 		map.put("staffCodes", staffCodes);
 		List<SixList> sixLists=sixDiligenceDao.find(map);
-		for (SixList sixList : sixLists) {
-			List<Custom_reflection> aCustom_reflections =sixList.getCustom_reflections();
-			for (Custom_reflection custom_reflection : aCustom_reflections) {
-				List<Type> types=custom_reflection.getType();
-				for (Type type : types) {
-					System.out.println(type.toString());
-				}
-				System.out.println("-----------------------------------------------------------");
-			}
-		}
 		System.out.println(sixLists.size());
 		map.put("sixLists", sixLists);
 		return map;

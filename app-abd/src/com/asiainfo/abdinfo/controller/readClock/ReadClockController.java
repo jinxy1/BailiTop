@@ -20,6 +20,7 @@ import com.asiainfo.abdinfo.po.PageBean;
 import com.asiainfo.abdinfo.po.ReadClock;
 import com.asiainfo.abdinfo.po.NewLoginBean.ListAllFeeling;
 import com.asiainfo.abdinfo.po.NewLoginBean.NewLogin;
+import com.asiainfo.abdinfo.service.IBookService;
 import com.asiainfo.abdinfo.service.NewLoginService;
 import com.asiainfo.abdinfo.service.ReadClockService;
 import com.asiainfo.abdinfo.utils.mybatis.paginator.domain.PageBounds;
@@ -36,6 +37,9 @@ public class ReadClockController {
 	
 	@Autowired
 	private NewLoginService newLoginService;
+	
+	@Autowired
+	private IBookService iBookService;
 	
 	/**
 	 * 在readclock页面和"我的"页面查询读书感悟
@@ -63,7 +67,26 @@ public class ReadClockController {
 		String timeLength=request.getParameter("timeLength");  //读书时长
 		String feeling=EmojiUtil.onlyEmojiToUnicode(request.getParameter("bookTips"));  //读书感悟
 		String clockDate=request.getParameter("clockDate");   
-		String reedNum=request.getParameter("num");      //读书的字数
+		String reedNumStr=request.getParameter("num");      //读书的字数
+		String typeStr=request.getParameter("type");
+		String book_id_str=request.getParameter("book_id");
+		String chapter_id_str=request.getParameter("chapter_id");
+		int type=-1;
+		int book_id=-1;
+		int chapter_id=-1;
+		int reedNum=-1;
+		if (reedNumStr!=null&&!reedNumStr.equals("undefined")) {
+			reedNum=Integer.parseInt(reedNumStr);
+		}
+		if (typeStr!=null&&!typeStr.equals("undefined")) {
+			type=Integer.parseInt(typeStr);
+		}
+		if (book_id_str!=null&&!book_id_str.equals("undefined")) {
+			book_id=Integer.parseInt(book_id_str);
+		}
+		if (chapter_id_str!=null&&!chapter_id_str.equals("undefined")) {
+			chapter_id=Integer.parseInt(chapter_id_str);
+		}
 		if(clockDate.equals("undefined")||clockDate==null){
 			clockDate=CurrentTime.getCurrentTime();
 		}
@@ -73,8 +96,15 @@ public class ReadClockController {
 		map.put("feeling", feeling);
 		map.put("clockDate", clockDate);
 		map.put("num", reedNum);
-		readClockService.updateBook(map);
-		System.out.println("插入或修改成功");	
+		map.put("book_id", book_id);
+		map.put("chapter_id", chapter_id);
+		if (type>=1) {
+			iBookService.updateReadFell(map);
+		}else {
+			readClockService.updateBook(map);
+			System.out.println("插入或修改成功");
+		}
+			
 	}
 	
 	/**

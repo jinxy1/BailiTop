@@ -2,6 +2,8 @@ package com.asiainfo.abdinfo.po;
 
 import java.io.Serializable;
 
+import com.asiainfo.abdinfo.common.AudioTime;
+
 public class ReadClock implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -48,13 +50,17 @@ public class ReadClock implements Serializable {
 	private int num;
 
 	private String audioURL;
+	
 	private String videoURL;
 
 	private String struggleImg;
+	
+	private String timeLength;
+	
+	private String audioTotalTimeName;
 
 	ReadClock() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	ReadClock(String staffCode, String staffName, String staffJobs, String bookID, String clockBook, String clockDate,
@@ -216,6 +222,23 @@ public class ReadClock implements Serializable {
 		this.videoURL = videoURL;
 	}
 
+	public String getTimeLength() {
+		return timeLength;
+	}
+
+	public void setTimeLength(String timeLength) {
+		this.timeLength = timeLength;
+	}
+
+	public String getAudioTotalTimeName() {
+		return audioTotalTimeName;
+	}
+
+	public void setAudioTotalTimeName(String audioTotalTimeName) {
+	
+		this.audioTotalTimeName = 	AudioTime.secondToTime(AudioTime.getDuration(audioTotalTimeName));
+	}
+
 	@Override
 	public String toString() {
 		return "ReadClock [staffCode=" + staffCode + ", staffName=" + staffName + ", staffJobs=" + staffJobs
@@ -223,8 +246,13 @@ public class ReadClock implements Serializable {
 				+ clockDay + ", clockDirectory=" + clockDirectory + ", content=" + content + ", department="
 				+ department + ", ReadingTime=" + ReadingTime + ", ReadingFeeling=" + ReadingFeeling
 				+ ", actualReading=" + actualReading + ", num=" + num + ", audioURL=" + audioURL + ", videoURL="
-				+ videoURL + ", struggleImg=" + struggleImg + "]";
+				+ videoURL + ", struggleImg=" + struggleImg + ", timeLength=" + timeLength + ", audioTotalTimeName="
+				+ audioTotalTimeName + "]";
 	}
+
+	
+
+	
 	
 	
 

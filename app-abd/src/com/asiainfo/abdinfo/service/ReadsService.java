@@ -5,7 +5,10 @@ import com.asiainfo.abdinfo.po.reads.Readingbook;
 
 
 public interface ReadsService {
+	
 	List<Readingbook> bookRead();
+	
+	String getTotalTime(String staffCode);
 	
 
 }

@@ -115,4 +115,5 @@
     <update id="updateIntegralStatus">
     	update flow_info_read set integralStatus=1 where staffCode=#{staffCode} and infoId=#{infoId}
     </update>
+    
 </mapper>

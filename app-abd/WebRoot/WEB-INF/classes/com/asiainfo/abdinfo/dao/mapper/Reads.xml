@@ -6,4 +6,9 @@
 		SELECT bk.book_name as bookName,bk.book_img as bookImg, count(br.chapter_id)/count(bc.id)  as percentage FROM book_chapter  bc  LEFT JOIN book bk ON bc.book_id=bk.id LEFT JOIN book_readed br  ON bc.id=br.chapter_id GROUP BY bc.book_id
 	</select>
 	
+	<!-- 计算读书总时长 -->
+	<select id="selectTotalTime" resultType="String">
+	SELECT SUM(SUBSTRING_INDEX(timeLength,":",1)*60*60+SUBSTRING_INDEX(SUBSTRING_INDEX(timeLength,":",2),":",-1)*60+SUBSTRING_INDEX(timeLength,":",-1)) as total FROM reading_plancontent WHERE staffCode=#{staffCode}
+	</select>
+	
 </mapper>

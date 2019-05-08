@@ -20,4 +20,10 @@ public class ReadsServiceImple implements ReadsService{
 		return readBookDao.findBooked();
 	}
 
+	@Override
+	public String getTotalTime(String staffCode) {
+		
+		return readBookDao.selectTotalTime(staffCode);
+	}
+
 }

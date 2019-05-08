@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSON;
@@ -80,7 +81,7 @@ public class TimedTask {
 		String[] dates=new String[]{date,ref_date};
 		return dates;
 	}
-	//@Scheduled(cron = "0 0 4 * * ?")
+	@Scheduled(cron = "0 0 4 * * ?")
 	//@Scheduled(cron = "0/10 * * * * ?")
 	public void getData(){
 		System.out.println("没进来");

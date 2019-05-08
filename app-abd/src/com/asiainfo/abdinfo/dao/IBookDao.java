@@ -1,19 +1,20 @@
 package com.asiainfo.abdinfo.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
 import com.asiainfo.abdinfo.po.book.BookChapter;
-import com.asiainfo.abdinfo.po.book.BookInfo;
+import com.asiainfo.abdinfo.po.book.BookCommentsInfo;
 import com.asiainfo.abdinfo.po.book.Books;
 /**公告内容的dao接口*/
 public interface IBookDao {
 	/**添加书评*/
-	public Integer updateComments(
-			@Param("staffCode") String staffCode,
+	public Integer addComments(
+			@Param("sendStaffCode") String sendStaffCode,
 			@Param("book_id") Integer bookId,
-			@Param("book_review") String bookReview
+			@Param("content") String content
 	);
 	/**查询所有读书内容*/
 	public List<Books> selectBooks(@Param("staffCode") String staffCode,@Param("id") Integer id);
@@ -39,9 +40,10 @@ public interface IBookDao {
 			@Param("book_id") Integer bookId
 	);
 	/**查询书评内容*/
-	public List<BookInfo> findBookReview(
+	public List<BookCommentsInfo> findBookReview(
 			@Param("staffCode") String staffCode,
-			@Param("book_id") Integer bookId
+			@Param("book_id") Integer bookId,
+			@Param("own") int own
 	);
 	
 	/**查询章节是否已读*/
@@ -57,12 +59,13 @@ public interface IBookDao {
 			@Param("book_id") Integer bookId,
 			@Param("chapter_id") String chapter_id
 	);
+	/**更新最后一次所读章节的时间*/
 	public Integer updateReadChapterInfo(
 			@Param("staffCode") String staffCode,
 			@Param("book_id") Integer bookId,
 			@Param("chapter_id") String chapter_id
 	);
-	/**章节未读的话插入阅读章节信息*/
+	/**更新所读书籍为以读完*/
 	public Integer updateReadAll(
 			@Param("staffCode") String staffCode,
 			@Param("book_id") Integer bookId
@@ -71,4 +74,14 @@ public interface IBookDao {
 	public String findBookChapterById(
 			@Param("id") Integer id
 	);
+	/**更新读书感想*/
+	public Integer updateReadFell(Map<String, Object> map);
+	
+	
+	
+	
+	
+	
+	
+	
 }
