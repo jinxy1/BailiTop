@@ -1,20 +1,16 @@
 package com.asiainfo.abdinfo.controller.book;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Pattern;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.alibaba.fastjson.JSON;
 import com.asiainfo.abdinfo.common.GenerateUtils;
 import com.asiainfo.abdinfo.po.NewLoginBean.ListAllFeeling;
 import com.asiainfo.abdinfo.po.book.BookCommentsInfo;
+import com.asiainfo.abdinfo.po.book.BookReaded;
 import com.asiainfo.abdinfo.po.book.Books;
 import com.asiainfo.abdinfo.service.IBookService;
 import com.asiainfo.abdinfo.utils.mybatis.paginator.domain.PageBounds;
@@ -29,11 +25,15 @@ public class CommentsController {
 	public Integer addComments(String staffCode,Integer bookId,String content){
 		return bookService.addComments(staffCode,bookId,content);
 	}
-
 	@RequestMapping("findBooks.do")
 	@ResponseBody
 	public List<Books> books(String staffCode, Integer id) {
-		return bookService.selectBooks(staffCode, id);
+		long start=System.currentTimeMillis();
+		List<Books> list=bookService.selectBooks(staffCode, id);
+		long end=System.currentTimeMillis();
+		System.out.println("查找图书时间是："+(end-start));
+		return list;
+		
 	}
 
 	@RequestMapping("addBookInfo.do")
@@ -55,13 +55,13 @@ public class CommentsController {
 		return bookService.addReadChapterInfo(staffCode, bookId, chapter_id);
 	}
 	/**根据id查询读书内容*/
-	@RequestMapping(value="findBookChapterById.do",produces="application/json;charset=utf-8")
+
+	@RequestMapping(value = "findBookChapterById.do", produces = "application/json;charset=utf-8")
 	@ResponseBody
-	public List<Map> findBookChapterById(Integer id) {
+	public List<Map<String,String>> findBookChapterById(Integer id) {
 		String contentString = bookService.findBookChapterById(id);
 		return GenerateUtils.generate(contentString);
 	}
-	
 	
 
 
@@ -91,7 +91,19 @@ public class CommentsController {
 		
 		return bookService.findBookReview(staffCode, bookId,1);
 	}
+
+	/**查询章节感想和评论内容*/
+	@RequestMapping("findReadFell.do")
+	@ResponseBody
+	public List<BookReaded> findReadFell(Integer bookId, String chapterId){
+		
+		return bookService.findReadFell(bookId, chapterId);
+	}
+	
+	
+}	
+
+
 	
 	
 	
-}

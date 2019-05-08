@@ -28,13 +28,11 @@ public class StutasController {
 	public void stutas(HttpServletRequest request,HttpServletResponse response){
 		String stutas=request.getParameter("stutas");
 		JSONArray jsonArray=JSONArray.parseArray(stutas);
-		System.out.println(jsonArray.size());
 		String result="";
 		if (jsonArray!=null) {
 			for (Object object : jsonArray) {
 				String str=object.toString();
 				ListAllFeeling listAllFeeling=JSON.parseObject(str,ListAllFeeling.class);
-				System.out.println(listAllFeeling+"这是获取的数据");
 				stutasService.addStutas(listAllFeeling);
 			}
 		}
@@ -45,7 +43,6 @@ public class StutasController {
 	@ResponseBody 
 	public List<ListAllFeeling> enshrines(HttpServletRequest request,HttpServletResponse response){
 		String staffCode=request.getParameter("staffCode");
-		System.out.println(staffCode);
 		List<ListAllFeeling> list=stutasService.selectEnshrines(staffCode);
 		/*JSONArray jsonArray=JSONArray.;
 		ResponseUtils.renderJson(response, );*/

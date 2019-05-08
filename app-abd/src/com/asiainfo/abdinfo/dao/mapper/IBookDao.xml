@@ -28,7 +28,7 @@
 	</select>
 	<!-- 根据书籍id查询目录 -->
 	<select id="findBookChapter" resultType="BookChapter">
-		select bc.id,bc.book_id,bc.chapter,br.readChapterStatus from book_chapter bc 
+		select bc.id,bc.book_id,bc.chapter,bc.radio_url,bc.video_url,br.readChapterStatus,br.reading_fell from book_chapter bc 
 		LEFT JOIN book_readed br on bc.book_id= br.book_id and bc.id=br.chapter_id and br.staffCode=#{staffCode}
 		where bc.book_id=#{book_id} order by bc.id
 	</select>
@@ -42,8 +42,8 @@
 	</select>
 	
 	<!-- 查询书评内容 -->
-	<select id="findBookReview" resultType="BookCommentsInfo">
-	select bci.id,bci.book_id,bci.content,bci.sendStaffCode,date_format(bci.createTime, '%Y-%m-%d %H：%i：%s') as createTime,头像 as headPortrait,姓名 as name,
+	<select id="findBookReview" resultMap="bookCommentsInfo">
+	select bci.id,bci.book_id,bci.content,bci.sendStaffCode,date_format(bci.createTime, '%Y-%m-%d %H:%i:%s') as createTime,头像 as headPortrait,姓名 as name,
 		(select praise from praise where praiseID= bci.id and staffCode=#{staffCode} and type!=1) as praiseStatus,
 		(select count(staffCode) from praise where praiseID= bci.id and type!=1) as praise,
 		(select fabulous from fabulous where fabulousID= bci.id and staffCode=#{staffCode} and type!=1) as fabulousStatus,
@@ -60,6 +60,18 @@
 			order by (praise+fabulous*10+myenshrine*10) desc
 		</if>
 	</select>
+	<resultMap type="BookCommentsInfo" id="bookCommentsInfo">
+    	<id property="id" column="id"></id>
+    	<collection property="leaveWordChild" column="id" ofType="FlowLeaveWordChild" select="findRecoverStructs"></collection>
+    </resultMap>
+	<select id="findRecoverStructs" resultType="FlowLeaveWordChild">
+    	select flwc.id,flwc.info_leave_word_id,flwc.staff_code,flwc.receive_staff_code,flwc.leave_word,flwc.create_time,
+    	(select 姓名 from datacenter_personnel where 人员编码=flwc.receive_staff_code) as comment,
+    	(select 姓名 from datacenter_personnel where 人员编码=flwc.staff_code) as username 
+    	from flow_leave_word_child flwc
+    	where info_leave_word_id=#{id} and flwc.type='书籍'
+    </select>
+	
 	<!-- 查询章节是否已读 -->
 	<select id="findChapterStatus" resultType="int">
 		select count(*) from book_readed 
@@ -72,7 +84,7 @@
 	</insert>
 	<!-- 更新最后一次所读章节的时间 -->
 	<update id="updateReadChapterInfo">
-		update book_readed set createTime=now() where book_id=#{book_id} and chapter_id=#{chapter_id} and staffCode=#{staffCode}
+		update book_readed set createtime=now() where book_id=#{book_id} and chapter_id=#{chapter_id} and staffCode=#{staffCode}
 	</update>
 	<!-- 更新所读图书为以读完 -->
 	<update id="updateReadAll">
@@ -87,4 +99,22 @@
 		reading_fell_num=#{num}
 		where book_id=#{book_id} and staffCode=#{staffCode} and chapter_id=#{chapter_id}
 	</update>
+	<!-- 查询章节读书感想 -->
+	<select id="findReadFell" resultMap="bookReaded">
+		select br.staffCode,br.id,reading_fell,createtime,姓名 as staffName,头像 as avatarUrl from book_readed br 
+		inner join datacenter_personnel dp on br.staffCode=dp.人员编码
+		inner join usertable u on br.staffCode=u.员工编码 
+		where book_id=#{bookId} and chapter_id=#{chapterId}
+	</select>
+	<resultMap type="BookReaded" id="bookReaded">
+    	<id property="id" column="id"></id>
+    	<collection property="leaveWordChild" column="id" ofType="FlowLeaveWordChild" select="findRecoverStruct"></collection>
+    </resultMap>
+	<select id="findRecoverStruct" resultType="FlowLeaveWordChild">
+    	select flwc.id,flwc.info_leave_word_id,flwc.staff_code,flwc.receive_staff_code,flwc.leave_word,flwc.create_time,
+    	(select 姓名 from datacenter_personnel where 人员编码=flwc.receive_staff_code) as comment,
+    	(select 姓名 from datacenter_personnel where 人员编码=flwc.staff_code) as username 
+    	from flow_leave_word_child flwc
+    	where info_leave_word_id=#{id} and flwc.type='章节'
+    </select>
 </mapper>

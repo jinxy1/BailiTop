@@ -28,7 +28,6 @@ public class SixDiligenceServiceImpl implements ISixDiligenceService{
 	/**获取个人当天工作总结和感想、感恩、善行、反省*/
 	@Override
 	public Map<String, Object> findSixDiligence(Map<String, Object> map) {
-		System.out.println(map);
 		List<SixDiligence> sixDiligence=sixDiligenceDao.findSixDiligence(map);  //今日反思 n
 		List<SixDiligence> tips=sixDiligenceDao.findTips(map);        //感恩的人n
 		List<SixDiligence> readFeeling=sixDiligenceDao.findReadFeeling(map);  //读书感悟1
@@ -84,7 +83,6 @@ public class SixDiligenceServiceImpl implements ISixDiligenceService{
 		List<String> staffCodes=sixDiligenceDao.findStaffCode(map);
 		map.put("staffCodes", staffCodes);
 		List<SixList> sixLists=sixDiligenceDao.find(map);
-		System.out.println(sixLists.size());
 		map.put("sixLists", sixLists);
 		return map;
 	}

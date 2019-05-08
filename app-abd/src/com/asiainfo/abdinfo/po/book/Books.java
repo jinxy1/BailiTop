@@ -19,7 +19,7 @@ public class Books implements Serializable{
 	private Integer allReadPer;
 	private String bookAuthor;
 	private Integer status;
-	Books() {
+	public Books() {
 		super();
 		// TODO Auto-generated constructor stub
 	}

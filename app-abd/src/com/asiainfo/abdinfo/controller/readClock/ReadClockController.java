@@ -50,7 +50,6 @@ public class ReadClockController {
 	public void readClockCon( HttpServletRequest request, HttpServletResponse response) {
 		String staffCode=request.getParameter("staffCode");
 		String clockDate=request.getParameter("clockDate");
-		System.out.println(clockDate);
 		Map<String,Object> re=readClockService.getReadIndex(staffCode,clockDate);
 		ResponseUtils.renderJson(response, JsonUtils.toJson(re));
 	}
@@ -102,7 +101,6 @@ public class ReadClockController {
 			iBookService.updateReadFell(map);
 		}else {
 			readClockService.updateBook(map);
-			System.out.println("插入或修改成功");
 		}
 			
 	}
@@ -134,6 +132,7 @@ public class ReadClockController {
 	@ResponseBody
 	@RequestMapping(value="/listAllFeeling.do")
 	public void findAllFeeling(HttpServletRequest request,HttpServletResponse response){
+		long start=System.currentTimeMillis();
 		String staffCode=request.getParameter("staffCode");
 		String dep= request.getParameter("dep");
 		int page=Integer.valueOf(request.getParameter("page"));
@@ -143,16 +142,20 @@ public class ReadClockController {
 		map.put("dep", dep);
 		PageBounds pb = new PageBounds(page,limit);
 		PageBean<ListAllFeeling> list=newLoginService.getAllFeeling(map,pb);	
-		System.out.println(list);
 		ResponseUtils.renderJson(response, JsonUtils.toJson(list));	
+		long end=System.currentTimeMillis();
+		System.out.println("公告时间是："+(end-start));
 	}
 	
 	/**在my页面查询头像、姓名和部门*/
 	@ResponseBody
 	@RequestMapping(value="/findbaseByCode.do")
 	public void findbaseByCode(HttpServletRequest request,HttpServletResponse response){
+		long start=System.currentTimeMillis();
 		String staffCode=request.getParameter("staffCode");
 		ResponseUtils.renderJson(response, JsonUtils.toJson( newLoginService.findbaseByCode(staffCode)));
+		long end=System.currentTimeMillis();
+		System.out.println("公告时间是："+(end-start));
 	}
 	
 	

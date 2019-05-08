@@ -26,6 +26,7 @@ public class TrainController {
 	@RequestMapping(value="train.do")
 	@ResponseBody
 	public void findTrian(HttpServletRequest request,HttpServletResponse response){
+		long start=System.currentTimeMillis();
 		String date=request.getParameter("date");
 		String staffCode=request.getParameter("staffCode");
 		Map<String, Object> map = new HashMap<String,Object>();
@@ -33,6 +34,8 @@ public class TrainController {
 		map.put("date", date);
 		List<Train> trains=trianService.findTrain(map);
 		ResponseUtils.renderJson(response, JsonUtils.toJson(trains));
+		long end=System.currentTimeMillis();
+		System.out.println("培训模块时间是："+(end-start));
 	}
 	
 	/**更新培训感想*/

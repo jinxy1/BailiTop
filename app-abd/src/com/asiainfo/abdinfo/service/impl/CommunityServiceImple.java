@@ -31,13 +31,11 @@ public class CommunityServiceImple implements CommunityService {
 
 	@Override
 	public void insertCommunits(Community community) {
-		System.out.println(community);
 	
 		// 插入主表
 		communityDao.insertCommunit(community);
 		
 		// 插入谁可以看
-//		System.out.println(community.getArrData());
 
 		// 將List集合中的接收信息
 		List<FlowInfoAccapt> list = new ArrayList<FlowInfoAccapt>();
@@ -54,7 +52,6 @@ public class CommunityServiceImple implements CommunityService {
 		if (community.getArrType() != null) {
 			for (int i = 0; i < community.getArrType().size(); i++) {
 				community.getArrType().get(i).setId(community.getId());
-				System.out.println(community);
 				communityDao.insertOtherType(community.getArrType());
 			}
 		}

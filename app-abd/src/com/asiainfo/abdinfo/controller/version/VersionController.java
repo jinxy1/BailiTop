@@ -17,6 +17,10 @@ public class VersionController {
 	@RequestMapping(value="version.do")
 	@ResponseBody
 	public int findVersion(){
-		return iVersionService.findVersion();
+		long start=System.currentTimeMillis();
+		int i=iVersionService.findVersion();
+		long end=System.currentTimeMillis();
+		System.out.println("公告时间是："+(end-start));
+		return i;
 	}
 }

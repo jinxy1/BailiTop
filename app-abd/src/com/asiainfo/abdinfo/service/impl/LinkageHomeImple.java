@@ -42,15 +42,14 @@ public class LinkageHomeImple implements linkageHomeService{
 	/**
 	 * 考勤表
 	 */
+	@SuppressWarnings("unused")
 	@Override
 	public List<Calendar> getAttendance(String staffCode, String date) {
 		long startTime=System.currentTimeMillis();
 		String beforeDay=CurrentTime.getSpecifiedDayBefore(date);
 		Calendar  beforeCalendar=calendarDao.selectBefore(staffCode,beforeDay);  //查询出前一天的日期
 		
-		System.out.println(beforeCalendar);
 		
-		System.out.println();
 		
 		List<String> downWorkListfdf=new ArrayList<String>();
 		if(beforeCalendar==null){
@@ -60,7 +59,6 @@ public class LinkageHomeImple implements linkageHomeService{
 		}
 
 		List<String>  calendarTime=calendarDao.selectAttendance(staffCode, date);     //打卡(按指纹)记录        若空未打卡    若不为空打卡
-		System.out.println(calendarTime.size());
 		List<Calendar>  calendar=new ArrayList<Calendar>();    //存放上下班的集合
 		Calendar goWork=new Calendar();          //存放上班的对象
 		Calendar downWork=new Calendar();          //存放下班的对象
@@ -92,11 +90,9 @@ public class LinkageHomeImple implements linkageHomeService{
 						maxDate=calendarTime.get(i);
 					}
 				}else{
-					System.out.println(calendarTime.get(i).compareTo("12:00:00"));
 					
 					//若有多条打卡记录
 					if(calendarTime.get(i).compareTo("12:00:00")<0){   //上午
-						System.out.println(calendarTime.get(i));
 						if(calendarTime.get(i).compareTo(minDate)<=0){
 							 minDate=calendarTime.get(i);  //最小 minDate
 							 if(maxDate.compareTo("12:00:00")<0){
@@ -126,16 +122,13 @@ public class LinkageHomeImple implements linkageHomeService{
 		
 		goWork.setContents(goWorkList);
 		downWork.setContents(downWorkList);
-		System.out.println(calendar);
 		List<Calendar> cal=calendarDao.selectCalendarContent( staffCode,  date);
 		cal.add(0,goWork);
 		cal.add(downWork);
 		cal.add(0,beforeCalendar);
 
 
-	    System.out.println(cal);
 	    long begtinTime=System.currentTimeMillis();
-	    System.out.println("--------------考勤所用时间-------------------"+(begtinTime-startTime));
 	    return cal;
 	}
 

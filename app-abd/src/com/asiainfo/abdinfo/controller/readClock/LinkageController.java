@@ -39,7 +39,6 @@ public class LinkageController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("staffCode", staffCode);
 		List<ReadClock> re = inkageHomeService.getLinkage(map);
-		System.out.println(re);
 		ResponseUtils.renderJson(response, JsonUtils.toJson(re));
 	}
 	
@@ -69,7 +68,6 @@ public class LinkageController {
 		JSONArray planArray=JSONArray.parseArray(planContentArray);
 		List<PlanRecord> list=new ArrayList<PlanRecord>();
 		for(Object object:planArray){
-			System.out.println(object);
 			String str=object.toString();
 			PlanRecord planRecord=(PlanRecord)JSON.parseObject(str,PlanRecord.class);
 			list.add(planRecord);
@@ -79,7 +77,6 @@ public class LinkageController {
 			ResponseUtils.renderJson(response, JsonUtils.toJson('1'));
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println("数据插入错误");
 		}
 	}
 	

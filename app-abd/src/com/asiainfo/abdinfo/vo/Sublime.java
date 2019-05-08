@@ -9,8 +9,8 @@ public class Sublime {
 	
 	public static void main(String[] args) {
 		String data="454frgfrgrgtr";
+		@SuppressWarnings("unused")
 		String str=data.trim().substring(0,6);
-		System.out.println(str);
 	}
 
 }

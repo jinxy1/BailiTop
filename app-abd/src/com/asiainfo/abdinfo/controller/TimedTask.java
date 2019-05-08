@@ -84,7 +84,6 @@ public class TimedTask {
 	@Scheduled(cron = "0 0 4 * * ?")
 	//@Scheduled(cron = "0/10 * * * * ?")
 	public void getData(){
-		System.out.println("没进来");
 		String[] urls=new String[]{
 				"getweanalysisappiddailyretaininfo",
 				"getweanalysisappiddailysummarytrend",
@@ -109,7 +108,6 @@ public class TimedTask {
 					request = HttpRequest.post(url).charset(encoding).bodyText(jsonString);
 					HttpResponse response = request.send();
 					content = new String(response.bodyBytes(), encoding);
-					System.out.println(content);
 					switch (i) {
 					case 0:
 						AccessRecord demo=JSON.parseObject(content, AccessRecord.class);
@@ -125,7 +123,6 @@ public class TimedTask {
 							visit_uv_new=demo22.getValue();
 						}
 						wx.add1(ref_date, visit_uv_new, visit_uv);
-						System.out.println(demo.toString());
 						break;
 					case 1:
 						AccessProfileTatal aTatal=JSON.parseObject(content,AccessProfileTatal.class);

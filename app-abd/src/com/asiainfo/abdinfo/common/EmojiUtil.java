@@ -3,7 +3,9 @@ package com.asiainfo.abdinfo.common;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import org.apache.commons.lang.StringUtils;
+
 import com.vdurmont.emoji.EmojiParser;
 
 /**
@@ -30,7 +32,6 @@ public class EmojiUtil extends EmojiParser{
 			 else
 				 sbf.append(c);
 		}
-		System.out.println(sbf.toString());
 		return sbf.toString();
 	}
 	

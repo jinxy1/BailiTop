@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,8 +20,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.fastjson.JSON;
 import com.asiainfo.abdinfo.po.Community;
+import com.asiainfo.abdinfo.po.PageBean;
 import com.asiainfo.abdinfo.po.User;
 import com.asiainfo.abdinfo.po.community.CommunityInfoRead;
+import com.asiainfo.abdinfo.po.community.CommunityLeaveWord;
+import com.asiainfo.abdinfo.po.community.FlowLeaveWordChild;
 import com.asiainfo.abdinfo.service.ICommunityService;
 import com.asiainfo.abdinfo.service.impl.CommunityServiceImple;
 import com.asiainfo.abdinfo.utils.mybatis.paginator.domain.PageBounds;
@@ -45,10 +49,8 @@ public class CommunityController  {
 	public int communityDataDep(HttpServletRequest request, HttpServletResponse response,
 			@RequestParam(value = "staffCode") String staffCode, @RequestParam(value = "community") String community) {
 		Community con = JSON.parseObject(community, Community.class);
-		System.out.println(con);
 		con.setStaffCode(staffCode);
 		communityServiceImple.insertCommunits(con);
-		System.out.println(con.getId());
 		return con.getId(); // 返回主鍵
 	}
 
@@ -186,6 +188,27 @@ public class CommunityController  {
 		String infoIdStr=request.getParameter("infoId");
 		Integer infoId=Integer.parseInt(infoIdStr);
 		return iCommunityService.updateIntegralStatus(infoId, staffCode);
+	}
+	
+	
+	/**添加留言信息*/
+	@RequestMapping(value="addLeaveWord.do",method = RequestMethod.POST)
+	@ResponseBody
+	public Integer addLeaveWord(@RequestBody CommunityLeaveWord cLeaveWord){
+		return iCommunityService.addLeaveWord(cLeaveWord);
+	}
+	/**添加回复信息*/
+	@RequestMapping(value="fLeaveWordChild.do",method = RequestMethod.POST)
+	@ResponseBody
+	public Integer addRecoverStruct(@RequestBody FlowLeaveWordChild fLeaveWordChild){
+		return iCommunityService.addRecoverStruct(fLeaveWordChild);
+	}
+	/**查询留言信息*/
+	@RequestMapping("findLeaveWord.do")
+	@ResponseBody
+	public PageBean<CommunityLeaveWord> findLeaveWord(Integer infoId,Integer limit,Integer page){
+		PageBounds pb = new PageBounds(page,limit);
+		return iCommunityService.findLeaveWord(infoId,pb);
 	}
 	
 	

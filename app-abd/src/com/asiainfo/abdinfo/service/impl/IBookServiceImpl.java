@@ -9,12 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.asiainfo.abdinfo.common.GenerateUtils;
 import com.asiainfo.abdinfo.dao.IBookDao;
 import com.asiainfo.abdinfo.dao.IStutasDao;
 import com.asiainfo.abdinfo.po.PageBean;
 import com.asiainfo.abdinfo.po.NewLoginBean.ListAllFeeling;
 import com.asiainfo.abdinfo.po.book.BookChapter;
 import com.asiainfo.abdinfo.po.book.BookCommentsInfo;
+import com.asiainfo.abdinfo.po.book.BookReaded;
 import com.asiainfo.abdinfo.po.book.Books;
 import com.asiainfo.abdinfo.service.IBookService;
 import com.asiainfo.abdinfo.utils.mybatis.paginator.domain.PageBounds;
@@ -30,13 +32,6 @@ public class IBookServiceImpl implements IBookService{
 	
 	@Override
 	public Integer addComments(String sendStaffCode,Integer bookId,String content) {
-		try {
-			Thread.sleep(15000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
 		return bookDao.addComments(sendStaffCode,bookId,content);
 	}
 
@@ -110,8 +105,10 @@ public class IBookServiceImpl implements IBookService{
 
 	@Override
 	public BookChapter findLastTimeReadChapter(String staffCode, Integer bookId) {
-		// TODO Auto-generated method stub
-		return bookDao.findLastTimeReadChapter(staffCode, bookId);
+		BookChapter bChapter=bookDao.findLastTimeReadChapter(staffCode, bookId);
+		
+		bChapter.setContents(GenerateUtils.generate(bChapter.getContent()));
+		return bChapter;
 	}
 
 	@Override
@@ -172,6 +169,13 @@ public class IBookServiceImpl implements IBookService{
 	public Integer updateReadFell(Map<String, Object> map) {
 		// TODO Auto-generated method stub
 		return bookDao.updateReadFell(map);
+	}
+	
+	/**查询章节感想和评论内容*/
+	@Override
+	public List<BookReaded> findReadFell(Integer bookId, String chapterId) {
+		// TODO Auto-generated method stub
+		return bookDao.findReadFell(bookId, chapterId);
 	}
 
 

@@ -51,7 +51,7 @@ public class ReadClockImple implements ReadClockService {
 			content=r.getContent();
 		}
 		
-		List<Map> genList=GenerateUtils.generate(content);
+		List<Map<String,String>> genList=GenerateUtils.generate(content);
 		ReadCount rr = readClockDao.findCount(map);
 		String r = readClockDao.findCountPeople(map);
 		Map<String,Object> m=new HashMap<String,Object>();
@@ -127,7 +127,6 @@ public class ReadClockImple implements ReadClockService {
 	public List<DayRest>  selectDayRest(String staffCode, String yearMonth,String yearDay,String status) {
 	    Long beginCurrent=System.currentTimeMillis();
 		String baseInfo = readClockDao.selectJibenxinxi(staffCode, yearDay);
-		System.out.println(baseInfo==null||baseInfo.isEmpty());
 		boolean flage=baseInfo==null||baseInfo.isEmpty();
 		int i=1;
 		while (flage) {

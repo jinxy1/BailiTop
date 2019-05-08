@@ -6,6 +6,7 @@ import java.util.Map;
 import com.asiainfo.abdinfo.po.NewLoginBean.ListAllFeeling;
 import com.asiainfo.abdinfo.po.book.BookChapter;
 import com.asiainfo.abdinfo.po.book.BookCommentsInfo;
+import com.asiainfo.abdinfo.po.book.BookReaded;
 import com.asiainfo.abdinfo.po.book.Books;
 import com.asiainfo.abdinfo.utils.mybatis.paginator.domain.PageBounds;
 
@@ -33,4 +34,6 @@ public interface IBookService {
 	
 	/**更新读书感想*/
 	public Integer updateReadFell(Map<String, Object> map);
+	/**查询章节的所有读书感想和评论*/
+	public List<BookReaded> findReadFell(Integer bookId,String chapter_id);
 }

@@ -2,8 +2,11 @@ package com.asiainfo.abdinfo.service;
 
 import java.util.Map;
 
+import com.asiainfo.abdinfo.po.PageBean;
 import com.asiainfo.abdinfo.po.User;
 import com.asiainfo.abdinfo.po.community.CommunityInfoRead;
+import com.asiainfo.abdinfo.po.community.CommunityLeaveWord;
+import com.asiainfo.abdinfo.po.community.FlowLeaveWordChild;
 import com.asiainfo.abdinfo.utils.mybatis.paginator.domain.PageBounds;
 
 public interface ICommunityService {
@@ -25,4 +28,9 @@ public interface ICommunityService {
 	
 	/**更新积分状态*/
 	public Integer updateIntegralStatus(Integer infoId,String staffCode);
+	
+	public Integer addLeaveWord(CommunityLeaveWord cLeaveWord);//留言信息
+	public Integer addRecoverStruct(FlowLeaveWordChild fLeaveWordChild);//留言信息
+	
+	public PageBean<CommunityLeaveWord> findLeaveWord(Integer infoId,PageBounds pb);//查询留言信息
 }
